@@ -1,0 +1,38 @@
+@startuml
+actor Actor as User
+boundary FrontEnd as FrontEnd
+control IOController as IOController
+queue Queue as Queue
+entity Session as Session
+entity DataAccessObject as DataAccessObject
+database UserBase as UserBase
+database SessionBase as SessionBase
+
+
+
+User -> FrontEnd : Creates new multiplayer game
+User -> FrontEnd : Adds new user
+
+FrontEnd -> IOController : Request to initialize session
+IOController -> FrontEnd : Provides data based on request
+
+FrontEnd -> IOController: Request to create new user
+
+
+IOController -> Queue : Adds request to Queue
+
+Queue -> Session : Creates a new game session
+Queue -> DataAccessObject : Adds a new user directly
+Session -> IOController: Returns data based on request in queue
+Session -> DataAccessObject : Request to add new session to SessionBase
+
+
+DataAccessObject -> UserBase : Adds user to UserBase
+DataAccessObject -> SessionBase : Adds session SessionBase
+
+DataAccessObject -> IOController : Returns details of session
+DataAccessObject -> IOController : Returns deatils of user
+
+
+
+@enduml
