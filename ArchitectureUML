@@ -3,105 +3,72 @@ top to bottom direction
 skinparam linetype ortho
 
  
-
-
 class Player{
 + Username: String
++ UserID: UUID
 + Rank: Rank
 + Level: Integer
+
++ joinGame(Game)
++ leaveGame(Game)
+}
+
+abstract class DataAccessObject{
++ GetGameData(RequestType, RequestData)
++ GetPlayerData(RequestType, RequestData)
++ CreatePlayer(Username)
+}
+
+class IOController {
+- DataAccessObject: DataAccessObject
+
++ CreateSession(RequestData)
++ InteractWithGame(RequestType, RequestData)
++ CreateUser(Username)
++ RemoveUser(UUID)
+
+}
+
+class Session{
++ SessionID: UUID
+- ApiInfo: Object
+- DataAccessObject: DataAccessObject
++ Creator: Player
++ CreationTimeStamp: DateTime
++ Game: Game
++ Users: ArrayList<Player>
+
++ AddPlayer(Player)
++ RemovePlayer(Player)
++ GetQuizData(RequestType, RequestData)
++ SetPlayerResponse(Player, RequestType, RequestData)
++ DisposeSession(this)
+
 }
  
-abstract class Game{
+interface Game{
++ StartGame(Session)
++ EndGame(Session)
++ GetWinner(Session)
++ AddPlayer(UUID)
++ RemovePlayer(UUID)
+}
+
+
+class MultiPlayerGame implements Game{
 + Players: ArrayList<Players>
-+ GameType: Enum
++ Session: Session
++ DataAccessObject: DataAccessObject
+
++ ValidatePlayerSession(Session)
++ GetQuizData(Players)
 }
+MultiPlayerGame o-- Player
 
+IOController -- Session
+IOController ..> DataAccessObject
 
-abstract class MultiPlayerGame{
-   + GameType: Game
-   + add(self, item: Any): 
-   + remove(self, item: Any): 
-   + contains(self, item: Any): 
-   + is_empty(self): 
-   + count(self, item: Any): 
-   + size(self): 
-}
-
- 
-
- 
-
-class ArrayListMultiSet {
-   - _list: List
-   + add(self, item: Any): 
-   + remove(self, item: Any): 
-   + contains(self, item: Any): 
-   + is_empty(self): 
-   + count(self, item: Any): 
-   + size(self): 
-}
-class LinkedListMultiSet {
-   - _size: int
-   - _front: _Node
-   + add(self, item: Any): 
-   + remove(self, item: Any): 
-   + contains(self, item: Any): 
-   + is_empty(self): 
-   + count(self, item: Any): 
-   + size(self): 
-}
-class TreeMultiSet {
-   - _tree: Tree
-   + add(self, item: Any): 
-   + remove(self, item: Any): 
-   + contains(self, item: Any): 
-   + is_empty(self): 
-   + count(self, item: Any): 
-   + size(self): 
-}
-
- 
-
-class Tree {
-   - _root: Any 
-   - _subtrees: List[Tree] 
-   + is_empty(self): 
-   + __len__(self): 
-   + count(self, item: Any): 
-   + __str__(self): 
-   + _str_indented(self, depth: int = 0): 
-   + average(self): 
-   - _average_helper(self): 
-   + __eq__(self, other: Tree): 
-   + __contains__(self, item: Any): 
-   + leaves(self): 
-   + delete_item(self, item: Any): 
-   - _delete_root(self): 
-   - _extract_leaf(self): 
-   + insert(self, item: Any): 
-   + insert_child(self, item: Any, parent: Any): 
-}
-
- 
-
-class _Node {
-   + next: _Node | none
-   + item: Any
-}
-
- 
-
-MultiSet<|-- LinkedListMultiSet
-MultiSet<|-- ArrayListMultiSet
-MultiSet<|-- TreeMultiSet
-
- 
-
-_Node -- LinkedListMultiSet
-Tree -- TreeMultiSet
-
- 
-
- 
+Session <..> MultiPlayerGame
+Session ..> DataAccessObject
 
 @enduml
