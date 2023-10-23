@@ -1,0 +1,107 @@
+@startuml
+top to bottom direction
+skinparam linetype ortho
+
+ 
+
+
+class Player{
++ Username: String
++ Rank: Rank
++ Level: Integer
+}
+ 
+abstract class Game{
++ Players: ArrayList<Players>
++ GameType: Enum
+}
+
+
+abstract class MultiPlayerGame{
+   + GameType: Game
+   + add(self, item: Any): 
+   + remove(self, item: Any): 
+   + contains(self, item: Any): 
+   + is_empty(self): 
+   + count(self, item: Any): 
+   + size(self): 
+}
+
+ 
+
+ 
+
+class ArrayListMultiSet {
+   - _list: List
+   + add(self, item: Any): 
+   + remove(self, item: Any): 
+   + contains(self, item: Any): 
+   + is_empty(self): 
+   + count(self, item: Any): 
+   + size(self): 
+}
+class LinkedListMultiSet {
+   - _size: int
+   - _front: _Node
+   + add(self, item: Any): 
+   + remove(self, item: Any): 
+   + contains(self, item: Any): 
+   + is_empty(self): 
+   + count(self, item: Any): 
+   + size(self): 
+}
+class TreeMultiSet {
+   - _tree: Tree
+   + add(self, item: Any): 
+   + remove(self, item: Any): 
+   + contains(self, item: Any): 
+   + is_empty(self): 
+   + count(self, item: Any): 
+   + size(self): 
+}
+
+ 
+
+class Tree {
+   - _root: Any 
+   - _subtrees: List[Tree] 
+   + is_empty(self): 
+   + __len__(self): 
+   + count(self, item: Any): 
+   + __str__(self): 
+   + _str_indented(self, depth: int = 0): 
+   + average(self): 
+   - _average_helper(self): 
+   + __eq__(self, other: Tree): 
+   + __contains__(self, item: Any): 
+   + leaves(self): 
+   + delete_item(self, item: Any): 
+   - _delete_root(self): 
+   - _extract_leaf(self): 
+   + insert(self, item: Any): 
+   + insert_child(self, item: Any, parent: Any): 
+}
+
+ 
+
+class _Node {
+   + next: _Node | none
+   + item: Any
+}
+
+ 
+
+MultiSet<|-- LinkedListMultiSet
+MultiSet<|-- ArrayListMultiSet
+MultiSet<|-- TreeMultiSet
+
+ 
+
+_Node -- LinkedListMultiSet
+Tree -- TreeMultiSet
+
+ 
+
+ 
+
+@enduml
