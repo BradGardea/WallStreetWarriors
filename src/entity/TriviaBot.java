@@ -1,5 +1,5 @@
 package entity;
 
-public class TriviaBot implements Bot {
+public class TriviaBot {
     // TODO
 }
