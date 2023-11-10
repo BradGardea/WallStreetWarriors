@@ -1,6 +1,9 @@
 package app;
 
+import interface_adapters.CompletedContests.CompletedContestController;
+import interface_adapters.CompletedContests.CompletedContestViewModel;
 import interface_adapters.Contests.ContestViewModel;
+import view.CompletedContests.CompletedContestView;
 import view.ContestView;
 
 public class ContestUseCaseFactory {
@@ -9,8 +12,11 @@ public class ContestUseCaseFactory {
     private ContestUseCaseFactory(){};
 
     public static ContestView create(ContestViewModel contestViewModel){
-        ContestView contestView = new ContestView(contestViewModel);
-        return contestView;
+        return new ContestView(contestViewModel);
+    }
+
+    public static CompletedContestView createCompletedContestView(CompletedContestViewModel completedContestViewModel, CompletedContestController completedContestController){
+        return new CompletedContestView(completedContestController,completedContestViewModel);
     }
 
 }
