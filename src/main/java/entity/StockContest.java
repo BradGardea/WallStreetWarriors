@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class StockContest implements Contest, IFirebaseEntity {
+public abstract class StockContest implements Contest, IFirebaseEntity {
 
     private final String contestId = UUID.randomUUID().toString();
     private String title;
@@ -38,8 +38,6 @@ public class StockContest implements Contest, IFirebaseEntity {
     public String getContestId(){ return this.contestId; }
 
     public String getContestIndustry(){ return this.industry; }
-
-
 
     //TODO: Implement Method Later when API call logic is finished
     public User getWinner(){ return null; }
