@@ -57,7 +57,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
 
         // Creating Bottom Panel which houses a table and a list
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2, 10, 10));
 
         // Table Panel
         JPanel tablePanel = new JPanel(new BorderLayout());
@@ -79,7 +79,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         verticalScrollPane.setBorder(new EmptyBorder(0, 10, 10, 10));
         // adding the table panel to the bottom panel.
         tablePanel.add(verticalScrollPane);
-        bottomPanel.add(tablePanel);
+        centerPanel.add(tablePanel);
 
         // Creating A List Panel for the leaderboard
         JPanel listPanel = new JPanel(new BorderLayout());
@@ -104,14 +104,24 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         // Making the JList Scrollable
         JScrollPane listScrollPane = new JScrollPane(leaderboardData);
         listPanel.add(listScrollPane);
-        bottomPanel.add(listPanel);
+        centerPanel.add(listPanel);
 
+        // Creating Bottom Panel to Hold Profit and Placement
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 10, 10));
 
+        JLabel profit = new JLabel("Profit: $1000.00");
+        JLabel placement = new JLabel("Placement: 1st");
 
+        bottomPanel.add(profit);
+        bottomPanel.add(placement);
+        bottomPanel.setBorder(new EmptyBorder(10, 10, 30, 10));
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
+        centerPanel.setPreferredSize( new Dimension(800, 300));
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         mainPanel.setPreferredSize( new Dimension(800, 600));
+
         this.add(mainPanel);
     }
 
