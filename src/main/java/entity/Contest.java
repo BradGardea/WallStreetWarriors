@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class StockContest implements Contest, IFirebaseEntity {
+public abstract class Contest implements IContest, IFirebaseEntity {
 
     private final String contestId = UUID.randomUUID().toString();
     private String title;
@@ -44,8 +44,8 @@ public class StockContest implements Contest, IFirebaseEntity {
     //TODO: Implement Method Later when API call logic is finished
     public User getWinner(){ return null; }
 
-    public StockContest(String title, String description, ArrayList<String> members,
-                        String industry, LocalDateTime startTime, LocalDateTime endTime){
+    public Contest(String title, String description, ArrayList<String> members,
+                   String industry, LocalDateTime startTime, LocalDateTime endTime){
 //        this.contestId = contestId;
         this.title = title;
         this.description = description;
@@ -56,18 +56,4 @@ public class StockContest implements Contest, IFirebaseEntity {
 
     }
 
-    @Override
-    public void GetDocument(String collection, String iD) {
-
-    }
-
-    @Override
-    public void SetOrUpdateDocument(String collection, String iD, IFirebaseEntity currObject) {
-
-    }
-
-    @Override
-    public void DeleteDocument(String collection, String iD) {
-
-    }
 }

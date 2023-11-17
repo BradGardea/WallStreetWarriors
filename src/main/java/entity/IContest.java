@@ -2,7 +2,7 @@ package entity;
 
 import java.util.ArrayList;
 
-public interface Contest {
+public interface IContest {
 
     String getTitle();
 
