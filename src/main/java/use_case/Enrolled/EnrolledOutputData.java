@@ -12,33 +12,32 @@ import java.util.*;
  */
 public class EnrolledOutputData {
 
-    private final String opponent;
-    // TODO figure out how stock prices are gonna work - Stock Entity?
-    private final Map<K, V> userStocks; // LinkedHashMap
-    private final Map<K, V> opponentStocks; // LinkedHashMap
-    private final String startDate; // TODO figure out time objects and how to do the clock thing
-    private final String endDate; // TODO
+    private final List<String> opponents;
+    private final Map<String, Float> userStocks; // LinkedHashMap
+    private final Map<String, Map<String, Float>> opponentStocks; // LinkedHashMap
+    private final String startDate;
+    private final String endDate;
 
 
-    public EnrolledOutputData(String opponent, Map<K, V> userStocks, Map<K, V> opponentStocks, String startDate, String endDate) {
-        this.opponent = opponent;
+    public EnrolledOutputData(List<String> opponents, Map<String, Float> userStocks, Map<String, Map<String, Float>> opponentStocks, String startDate, String endDate) {
+        this.opponents = opponents;
         this.userStocks = userStocks;
         this.opponentStocks = opponentStocks;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    // TODO Update getters if necessary
+    // Getters
 
-    public String getOpponent() {
-        return opponent;
+    public List<String> getOpponents() {
+        return opponents;
     }
 
-    public Map<K, V> getUserStocks() {
+    public Map<String, Float> getUserStocks() {
         return userStocks;
     }
 
-    public Map<K, V> getOpponentStocks() {
+    public Map<String, Map<String, Float>> getOpponentStocks() {
         return opponentStocks;
     }
 

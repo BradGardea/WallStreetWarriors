@@ -32,9 +32,11 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
      */
     @Override
     public void execute(EnrolledInputData enrolledInputData) {
-        // TODO Retrieve contest by UUID
+        // Get Contest by ID
+        String uuid = enrolledInputData.getUuid();
+        Contest enrolledContest = userDataAccessObject.getEntity(EnrolledContest, "contests", uuid);
 
-        // TODO Send contest by OutputData to presenter, prepareSuccessView
+
     }
 
 }
