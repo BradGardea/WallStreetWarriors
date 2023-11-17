@@ -22,7 +22,7 @@ class Main{
         Firestore db;
         //Initialization for firebase.
         try{
-            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-9cad46c515.json");
+            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-a1c2e7ac43.json");
             File file = new File(url.getPath());
 
             FileInputStream serviceAccount =

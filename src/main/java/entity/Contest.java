@@ -1,18 +1,59 @@
 package entity;
 
+import FirebaseDataAccess.FirebaseDataAccess;
+import FirebaseDataAccess.IFirebaseEntity;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
-public interface Contest {
+public abstract class Contest implements IContest {
 
-    String getTitle();
+    private String contestId;
+    private String title;
 
-    String getDescription();
+    private String description;
 
-    ArrayList<User> getMembers();
+    private ArrayList<String> members;
 
-    String getContestId();
+    private String industry;
 
-    String getContestIndustry();
+    private LocalDateTime startTime;
 
-    User getWinner();
+    private LocalDateTime endTime;
+
+    public String getTitle(){ return this.title; }
+
+    public String getDescription(){ return this.description; }
+
+    public ArrayList<User> getMembers(){
+        var users = new ArrayList<User>();
+        var dataAccess = FirebaseDataAccess.getInstance();
+        for(var userId: this.members){
+            users.add(dataAccess.getEntity(User.class, "Users", userId));
+        }
+        return users;
+    }
+
+    public String getContestId(){ return this.contestId; }
+
+    public String getContestIndustry(){ return this.industry; }
+
+
+
+    //TODO: Implement Method Later when API call logic is finished
+    public User getWinner(){ return null; }
+
+    public Contest(String contestId, String title, String description, ArrayList<String> members,
+                   String industry, LocalDateTime startTime, LocalDateTime endTime){
+        this.contestId = contestId;
+        this.title = title;
+        this.description = description;
+        this.members = members;
+        this.industry = industry;
+        this.startTime = startTime;
+        this.endTime = endTime;
+
+    }
+
 }
