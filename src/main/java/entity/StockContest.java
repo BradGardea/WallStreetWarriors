@@ -54,17 +54,17 @@ public abstract class StockContest implements Contest, IFirebaseEntity {
     }
 
     @Override
-    public void GetDocument(String collection, String iD) {
+    public void getDocument(String collection, String iD) {
 
     }
 
     @Override
-    public void SetOrUpdateDocument(String collection, String iD, IFirebaseEntity currObject) {
+    public void setOrUpdateDocument(String collection, String iD, IFirebaseEntity currObject) {
 
     }
 
     @Override
-    public void DeleteDocument(String collection, String iD) {
+    public void deleteDocument(String collection, String iD) {
 
     }
 }

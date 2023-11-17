@@ -14,7 +14,6 @@ public class ContestView extends JPanel implements ActionListener, PropertyChang
     public final String viewName = "contest view";
 
     private final ContestViewModel contestViewModel;
-
     public ContestView(ContestViewModel contestViewModel){
         this.contestViewModel = contestViewModel;
 
