@@ -1,7 +1,7 @@
 package view;
 
-import interface_adapters.enrolled.EnrolledController;
-import interface_adapters.enrolled.EnrolledViewModel;
+import main.java.interface_adapters.Enrolled.EnrolledController;
+import main.java.interface_adapters.Enrolled.EnrolledViewModel;
 // import interface_adapters.MAINVIEWPACKAGE.MAINVIEWState; TODO CHANGE THIS
 
 import javax.swing.*;

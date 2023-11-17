@@ -1,4 +1,4 @@
-package use_case.enrolled;
+package main.java.use_case.Enrolled;
 
 /**
  * Houses the UUID of a certain selected StockContest object from the user's page view.

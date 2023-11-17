@@ -1,6 +1,4 @@
-package use_case.enrolled;
-
-import entity.StockContest;
+package main.java.use_case.Enrolled;
 
 /**
  * The Use Case Interactor for the Enrolled contest.

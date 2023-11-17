@@ -1,4 +1,4 @@
-package interface_adapters.enrolled;
+package main.java.interface_adapters.Enrolled;
 
 /**
  *

@@ -1,4 +1,4 @@
-package use_case.enrolled;
+package main.java.use_case.Enrolled;
 
 /**
  * A boundary between Controller and Enrolled UCI.
