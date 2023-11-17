@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public abstract class Contest implements IContest, IFirebaseEntity {
+public abstract class Contest implements IContest {
 
-    private final String contestId = UUID.randomUUID().toString();
+    private String contestId;
     private String title;
 
     private String description;
@@ -44,9 +44,9 @@ public abstract class Contest implements IContest, IFirebaseEntity {
     //TODO: Implement Method Later when API call logic is finished
     public User getWinner(){ return null; }
 
-    public Contest(String title, String description, ArrayList<String> members,
+    public Contest(String contestId, String title, String description, ArrayList<String> members,
                    String industry, LocalDateTime startTime, LocalDateTime endTime){
-//        this.contestId = contestId;
+        this.contestId = contestId;
         this.title = title;
         this.description = description;
         this.members = members;
