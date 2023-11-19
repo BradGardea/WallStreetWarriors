@@ -1,14 +1,40 @@
 package entity;
 
-public interface User {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
-    String getName();
+public class User implements IUser{
 
-    String getPassword();
+    private UUID id;
+    private String username;
+    private String password;
+    private HashMap<UUID, Contest> contests;
 
-    String getEmail();
+    public User(UUID id, String username, String password, HashMap<UUID, Contest> contests){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.contests = contests;
+    }
 
-//    Add when contest entity is created.
-//    ArrayList<Contest> getContests();
+    @Override
+    public String getUserName() {
+        return this.username;
+    }
 
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUUID() {
+        return this.id.toString();
+    }
+
+    @Override
+    public HashMap<UUID, Contest> getContests() {
+        return this.contests;
+    }
 }

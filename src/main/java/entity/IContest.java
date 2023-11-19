@@ -8,11 +8,11 @@ public interface IContest {
 
     String getDescription();
 
-    ArrayList<User> getMembers();
+    ArrayList<IUser> getMembers();
 
     String getContestId();
 
     String getContestIndustry();
 
-    User getWinner();
+    IUser getWinner();
 }

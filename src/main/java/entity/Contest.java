@@ -1,11 +1,9 @@
 package entity;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import FirebaseDataAccess.IFirebaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public abstract class Contest implements IContest {
 
@@ -26,11 +24,11 @@ public abstract class Contest implements IContest {
 
     public String getDescription(){ return this.description; }
 
-    public ArrayList<User> getMembers(){
-        var users = new ArrayList<User>();
+    public ArrayList<IUser> getMembers(){
+        var users = new ArrayList<IUser>();
         var dataAccess = FirebaseDataAccess.getInstance();
         for(var userId: this.members){
-            users.add(dataAccess.getEntity(User.class, "Users", userId));
+            users.add(dataAccess.getEntity(IUser.class, "users", userId));
         }
         return users;
     }
@@ -42,7 +40,7 @@ public abstract class Contest implements IContest {
 
 
     //TODO: Implement Method Later when API call logic is finished
-    public User getWinner(){ return null; }
+    public IUser getWinner(){ return null; }
 
     public Contest(String contestId, String title, String description, ArrayList<String> members,
                    String industry, LocalDateTime startTime, LocalDateTime endTime){

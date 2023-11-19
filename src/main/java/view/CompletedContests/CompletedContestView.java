@@ -28,24 +28,29 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         this.completedContestViewModel = viewModel;
         this.completedContestViewModel.addPropertyChangeListener(this);
 
-//        // Java Swing Code
+         // Java Swing Code
 
         // this panel holds all the sub panels
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-//        mainPanel.setLayout(new GridLayout(2, 1, 10, 10));
 
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
         // Creating JLabels for the topPanel
         // TODO: Make it so these update with data from firebase through the view model.
-        JLabel contestName = new JLabel("Contest Name");
-        JLabel startDate = new JLabel("Start Date: 2023-01-01", SwingConstants.CENTER);
-        JLabel contestIndustry = new JLabel("Contest Industry");
-        JLabel endDate = new JLabel("End Date: 2023-02-01", SwingConstants.CENTER);
-        JLabel yourPortfolio = new JLabel("Your Portfolio");
-        JLabel leaderboard = new JLabel("Leaderboard", SwingConstants.CENTER);
+        JLabel contestName = new JLabel(CompletedContestViewModel.contestName);
+
+        // TODO: Find a way to make the date only show the date and not time.
+        String startDateLabel = "Start Date: " + CompletedContestViewModel.startDate.toString();
+        JLabel startDate = new JLabel(startDateLabel, SwingConstants.CENTER);
+        JLabel contestIndustry = new JLabel(CompletedContestViewModel.industry);
+
+        // TODO: Same as above
+        String endDateLabel = "End Date: " + CompletedContestViewModel.endDate.toString();
+        JLabel endDate = new JLabel(endDateLabel, SwingConstants.CENTER);
+        JLabel yourPortfolio = new JLabel(CompletedContestViewModel.YOUR_PORTFOLIO);
+        JLabel leaderboard = new JLabel(CompletedContestViewModel.LEADERBOARD_LABEL, SwingConstants.CENTER);
 
         // Adding the JLabels to the Top Panel
         topPanel.add(contestName);
@@ -65,10 +70,12 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
         // Column Names For Table
         String[] columns = {"Ticker", "Quantity", "Purchase Price", "End Price", "Value"};
-        Object[][] data = {
-                {"AAPL", "10", "150.00", "155.00", "1550.00"},
-                {"MSFT", "10", "200.00", "210.00", "2100.00"}
-        };
+//        Object[][] data = {
+//                {"AAPL", "10", "150.00", "155.00", "1550.00"},
+//                {"MSFT", "10", "200.00", "210.00", "2100.00"}
+//        };
+
+        Object[][] data = CompletedContestViewModel.portfolio;
 
         DefaultTableModel model = new DefaultTableModel(data, columns);
         JTable table = new JTable(model);
@@ -86,19 +93,19 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
         // Mock Data
         // TODO: Replace with real data from firebase
-        String[] usernames = {
-                "StockMaster83",
-                "BullishTrader",
-                "MarketGuru007",
-                "EquityExplorer",
-                "PortfolioPro22",
-                "TradeWhiz",
-                "InvestNinja",
-                "WealthHarbor",
-                "StockSavvy2023",
-                "FinanceWizardX"
-        };
-
+//        String[] usernames = {
+//                "StockMaster83",
+//                "BullishTrader",
+//                "MarketGuru007",
+//                "EquityExplorer",
+//                "PortfolioPro22",
+//                "TradeWhiz",
+//                "InvestNinja",
+//                "WealthHarbor",
+//                "StockSavvy2023",
+//                "FinanceWizardX"
+//        };
+        String[] usernames = CompletedContestViewModel.leaderboard;
         JList<String> leaderboardData = new JList<>(usernames);
 
         // Making the JList Scrollable
@@ -109,8 +116,10 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         // Creating Bottom Panel to Hold Profit and Placement
         JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 10, 10));
 
-        JLabel profit = new JLabel("Profit: $1000.00");
-        JLabel placement = new JLabel("Placement: 1st");
+        String profitLabel = "Profit" + CompletedContestViewModel.profit;
+        String placementLabel = "Placement: " + CompletedContestViewModel.placement;
+        JLabel profit = new JLabel(profitLabel);
+        JLabel placement = new JLabel(placementLabel);
 
         bottomPanel.add(profit);
         bottomPanel.add(placement);
