@@ -9,4 +9,5 @@ public class CompletedContests extends Contest{
     public CompletedContests(String contestId, String title, String description, ArrayList<String> members, String industry, LocalDateTime startTime, LocalDateTime endTime) {
         super(contestId, title, description, members, industry, startTime, endTime);
     }
+
 }

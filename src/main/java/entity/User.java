@@ -9,9 +9,9 @@ public class User implements IUser{
     private UUID id;
     private String username;
     private String password;
-    private HashMap<UUID, Contest> contests;
+    private HashMap<String, Contest> contests;
 
-    public User(UUID id, String username, String password, HashMap<UUID, Contest> contests){
+    public User(UUID id, String username, String password, HashMap<String, Contest> contests){
         this.id = id;
         this.username = username;
         this.password = password;
@@ -34,7 +34,7 @@ public class User implements IUser{
     }
 
     @Override
-    public HashMap<UUID, Contest> getContests() {
+    public HashMap<String, Contest> getContests() {
         return this.contests;
     }
 }

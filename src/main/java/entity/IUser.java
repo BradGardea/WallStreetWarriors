@@ -11,5 +11,5 @@ public interface IUser {
 
     String getUUID();
 
-    HashMap<UUID, Contest> getContests();
+    HashMap<String, Contest> getContests();
 }

@@ -8,7 +8,7 @@ public interface IContest {
 
     String getDescription();
 
-    ArrayList<IUser> getMembers();
+    ArrayList<User> getMembers();
 
     String getContestId();
 
