@@ -43,7 +43,7 @@ class Main{
             firebaseDataAccess.getEntity(Message.class, "Messages", "123");
             Message m = new Message("too", "loo");
 
-            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
+            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "123456");
 
 
             JFrame app = new JFrame("Wall Street Warriors");

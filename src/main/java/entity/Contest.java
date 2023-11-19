@@ -8,6 +8,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
+
+@IgnoreExtraProperties
 public abstract class Contest implements IContest {
 
     private String contestId;
@@ -23,7 +25,7 @@ public abstract class Contest implements IContest {
 
     private LocalDateTime endTime;
 
-    private ArrayList<User> users;
+    @Exclude private ArrayList<User> concreteMembers;
 
     public String getTitle(){ return this.title; }
 
@@ -38,11 +40,18 @@ public abstract class Contest implements IContest {
         return users;
     }
 
+    public void setMembers(ArrayList<String> members){
+        this.members = members;
+        this.concreteMembers = getMembers();
+    }
+
     public String getContestId(){ return this.contestId; }
 
     public String getContestIndustry(){ return this.industry; }
 
-
+    public ArrayList<User> getConcreteMembers(){
+        return this.concreteMembers;
+    }
 
     //TODO: Implement Method Later when API call logic is finished
     public User getWinner(){ return null; }
