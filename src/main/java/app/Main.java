@@ -7,8 +7,13 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import interface_adapters.Contests.ContestViewModel;
+import interface_adapters.SignUpLogIn.LoginViewModel;
+import interface_adapters.SignUpLogIn.SignupViewModel;
 import interface_adapters.ViewModelManager;
 import view.ContestView;
+import view.LogInSignUp.LoginView;
+import view.LogInSignUp.SignupView;
+import view.LogInSignUp.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,13 +60,16 @@ class Main{
             app.add(views);
 
             ViewModelManager viewModelManager = new ViewModelManager();
+            new ViewManager(views, cardLayout, viewModelManager);
 
-            ContestViewModel contestViewModel = new ContestViewModel();
-            ContestView contestView = ContestUseCaseFactory.create(contestViewModel);
+            SignupViewModel signupViewModel = new SignupViewModel();
+            LoginViewModel loginViewModel = new LoginViewModel();
 
-            views.add(contestView, contestView.viewName);
+            SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel);
+            views.add(signupView, signupView.viewName);
 
-            viewModelManager.setActiveView(contestView.viewName);
+
+            viewModelManager.setActiveView(signupView.viewName);
             viewModelManager.firePropertyChanged();
 
             app.pack();
