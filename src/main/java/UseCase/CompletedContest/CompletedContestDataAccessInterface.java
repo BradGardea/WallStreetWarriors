@@ -1,4 +1,10 @@
 package UseCase.CompletedContest;
 
-public class CompletedContestDataAccessInterface {
+import entity.Contest;
+
+public interface CompletedContestDataAccessInterface {
+
+    Contest getContest();
+
+
 }
