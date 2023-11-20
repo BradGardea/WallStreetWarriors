@@ -27,7 +27,7 @@ class Main{
         Firestore db;
         //Initialization for firebase.
         try{
-            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-9cad46c515.json");
+            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-a1c2e7ac43.json");
             File file = new File(url.getPath());
 
             FileInputStream serviceAccount =
@@ -48,7 +48,7 @@ class Main{
             firebaseDataAccess.getEntity(Message.class, "Messages", "123");
             Message m = new Message("too", "loo");
 
-            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
+            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "123456");
 
 
             JFrame app = new JFrame("Wall Street Warriors");
