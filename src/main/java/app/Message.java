@@ -4,6 +4,9 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import entity.User;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 /**
  * Sample class for testing firestore functionality
  */
@@ -29,6 +32,9 @@ class Message {
     public void setAuthor(String author){
         this.author = author;
         System.out.println("the setter was called");
+        User user1 = new User(UUID.randomUUID().toString(), "dhruv", "1000", new ArrayList<>(), new ArrayList<>());
+        this.user = user1;
+        System.out.println(this.user.getUsername());
     }
 
     public String getText() {
