@@ -7,8 +7,11 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import interface_adapters.Contests.ContestViewModel;
+import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
+import io.opencensus.stats.ViewManager;
 import view.ContestView;
+import view.HomePage.HomePageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,12 +59,14 @@ class Main{
 
             ViewModelManager viewModelManager = new ViewModelManager();
 
-            ContestViewModel contestViewModel = new ContestViewModel();
-            ContestView contestView = ContestUseCaseFactory.create(contestViewModel);
 
-            views.add(contestView, contestView.viewName);
+            HomePageViewModel homepageViewModel = new HomePageViewModel();
+            HomePageView homepageView = HomePageUseCaseFactory.create(homepageViewModel);
 
-            viewModelManager.setActiveView(contestView.viewName);
+
+            views.add(homepageView, homepageView.viewName);
+
+            viewModelManager.setActiveView(homepageView.viewName);
             viewModelManager.firePropertyChanged();
 
             app.pack();
