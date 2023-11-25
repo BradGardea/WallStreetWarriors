@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.ArrayList;
+import com.google.type.DateTime;
 
 public interface IContest {
 
@@ -15,4 +16,11 @@ public interface IContest {
     String getContestIndustry();
 
     IUser getWinner();
+
+    DateTime getStartTime();
+    DateTime getEndTime();
+
+
+
+
 }

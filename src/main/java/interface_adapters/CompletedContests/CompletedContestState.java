@@ -2,6 +2,9 @@ package interface_adapters.CompletedContests;
 
 import com.google.type.DateTime;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class CompletedContestState {
 
     public String contestName;
@@ -12,9 +15,9 @@ public class CompletedContestState {
 
     public DateTime endDate;
 
-    public Object[][] portfolio;
+    public HashMap<String, String[]> portfolio;
 
-    public String[] leaderboard;
+    public ArrayList<String> leaderboard;
 
     public String profit;
 
@@ -68,19 +71,19 @@ public class CompletedContestState {
         this.endDate = endDate;
     }
 
-    public Object[][] getPortfolio() {
+    public HashMap<String, String[]> getPortfolio() {
         return portfolio;
     }
 
-    public void setPortfolio(Object[][] portfolio) {
+    public void setPortfolio(HashMap<String, String[]> portfolio) {
         this.portfolio = portfolio;
     }
 
-    public String[] getLeaderboard() {
+    public ArrayList<String> getLeaderboard() {
         return leaderboard;
     }
 
-    public void setLeaderboard(String[] leaderboard) {
+    public void setLeaderboard(ArrayList<String> leaderboard) {
         this.leaderboard = leaderboard;
     }
 

@@ -7,6 +7,7 @@ import view.CompletedContests.CompletedContestView;
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
 
 public class CompletedContestViewModel extends ViewModel {
 
@@ -22,7 +23,7 @@ public class CompletedContestViewModel extends ViewModel {
 
     public static final String LEADERBOARD_LABEL = "Leaderboard";
 
-    public static Object[][] portfolio;
+    public static HashMap<String, String[]> portfolio;
 
     public static String[] leaderboard;
 

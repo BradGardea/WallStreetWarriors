@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Array;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.zip.GZIPInputStream;
 
 public class CompletedContestView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -75,9 +77,11 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 //                {"MSFT", "10", "200.00", "210.00", "2100.00"}
 //        };
 
-        Object[][] data = CompletedContestViewModel.portfolio;
 
-        DefaultTableModel model = new DefaultTableModel(data, columns);
+        HashMap<String, String[]> data = CompletedContestViewModel.portfolio;
+
+        Object[][] dataArray = convertHashMapDataToArray(data);
+        DefaultTableModel model = new DefaultTableModel(dataArray, columns);
         JTable table = new JTable(model);
 
         // Adding the table to a scroll pane to allow for scroll functionality.
@@ -153,6 +157,25 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
+    }
+
+    private Object[][] convertHashMapDataToArray(HashMap<String, String[]> data){
+
+        int length = data.size();
+        Object[][] arrayData = new Object[length][5];
+        for (int i = 0; i < 5; i++){
+            Object[] row = new Object[5];
+            row[0] = data.get("Ticker")[i];
+            row[1] = data.get("Quantity")[i];
+            row[2] = data.get("Purchase Price")[i];
+            row[3] = data.get("End Price")[i];
+            row[4] = data.get("Value")[i];
+
+            arrayData[i] = row;
+        }
+
+        return arrayData;
 
     }
 }

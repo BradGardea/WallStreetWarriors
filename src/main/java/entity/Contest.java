@@ -5,9 +5,11 @@ import FirebaseDataAccess.IFirebaseEntity;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.type.DateTime;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 @IgnoreExtraProperties
@@ -22,13 +24,17 @@ public abstract class Contest implements IContest, IFirebaseEntity{
 
     private String industry;
 
-    private LocalDateTime startTime;
+    private DateTime startTime;
 
-    private LocalDateTime endTime;
+    private DateTime endTime;
+
+    // Portfolio: {username: {Ticker: {data}}}
+    private HashMap<String, HashMap<String, String[]>> portfolios;
+
 
     @Exclude private ArrayList<User> concreteMembers;
     public Contest(String contestId, String title, String description, ArrayList<String> members,
-                   String industry, LocalDateTime startTime, LocalDateTime endTime){
+                   String industry, DateTime startTime, DateTime endTime, HashMap<String, HashMap<String, String[]>> portfolios){
 
         this.contestId = contestId;
         this.title = title;
@@ -37,6 +43,7 @@ public abstract class Contest implements IContest, IFirebaseEntity{
         this.industry = industry;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.portfolios = portfolios;
         updateInFirebase();
     }
     public void updateInFirebase(){
@@ -85,7 +92,20 @@ public abstract class Contest implements IContest, IFirebaseEntity{
         updateInFirebase();
     }
 
+    public HashMap<String, HashMap<String, String[]>> getPortfolios(){
+        return this.portfolios;
+    }
+
+    public DateTime getStartTime(){
+        return this.startTime;
+    }
+
+    public DateTime getEndTime(){
+        return this.endTime;
+    }
+
     //TODO: Implement Method Later when API call logic is finished
     public User getWinner(){ return null; }
+
 
 }

@@ -31,8 +31,8 @@ public class CompletedContestPresenter implements CompletedContestOutputBoundary
     private void setStateFields(CompletedContestOutputData response, CompletedContestState state){
         state.setContestName(response.contestName);
         state.setIndustry(response.industry);
-        state.setStartDate(response.startDate);
-        state.setEndDate(response.endDate);
+        state.setStartDate(response.startTime);
+        state.setEndDate(response.endTime);
         state.setPortfolio(response.portfolio);
         state.setLeaderboard(response.leaderboard);
         state.setProfit(response.profit);
