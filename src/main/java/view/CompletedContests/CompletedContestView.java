@@ -4,7 +4,6 @@ import interface_adapters.CompletedContests.CompletedContestController;
 import interface_adapters.CompletedContests.CompletedContestViewModel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,10 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.zip.GZIPInputStream;
+import java.util.List;
 
 public class CompletedContestView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -41,18 +38,18 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
         // Creating JLabels for the topPanel
         // TODO: Make it so these update with data from firebase through the view model.
-        JLabel contestName = new JLabel(CompletedContestViewModel.contestName);
+        JLabel contestName = new JLabel(completedContestViewModel.contestName);
 
         // TODO: Find a way to make the date only show the date and not time.
-        String startDateLabel = "Start Date: " + CompletedContestViewModel.startDate.toString();
+        String startDateLabel = "Start Date: " + completedContestViewModel.startDate.toString();
         JLabel startDate = new JLabel(startDateLabel, SwingConstants.CENTER);
-        JLabel contestIndustry = new JLabel(CompletedContestViewModel.industry);
+        JLabel contestIndustry = new JLabel(completedContestViewModel.industry);
 
         // TODO: Same as above
-        String endDateLabel = "End Date: " + CompletedContestViewModel.endDate.toString();
+        String endDateLabel = "End Date: " + completedContestViewModel.endDate.toString();
         JLabel endDate = new JLabel(endDateLabel, SwingConstants.CENTER);
-        JLabel yourPortfolio = new JLabel(CompletedContestViewModel.YOUR_PORTFOLIO);
-        JLabel leaderboard = new JLabel(CompletedContestViewModel.LEADERBOARD_LABEL, SwingConstants.CENTER);
+        JLabel yourPortfolio = new JLabel(completedContestViewModel.YOUR_PORTFOLIO);
+        JLabel leaderboard = new JLabel(completedContestViewModel.LEADERBOARD_LABEL, SwingConstants.CENTER);
 
         // Adding the JLabels to the Top Panel
         topPanel.add(contestName);
@@ -78,7 +75,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 //        };
 
 
-        HashMap<String, String[]> data = CompletedContestViewModel.portfolio;
+        HashMap<String, List<Object>> data = completedContestViewModel.portfolio;
 
         Object[][] dataArray = convertHashMapDataToArray(data);
         DefaultTableModel model = new DefaultTableModel(dataArray, columns);
@@ -109,7 +106,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 //                "StockSavvy2023",
 //                "FinanceWizardX"
 //        };
-        String[] usernames = CompletedContestViewModel.leaderboard;
+        String[] usernames = completedContestViewModel.leaderboard;
         JList<String> leaderboardData = new JList<>(usernames);
 
         // Making the JList Scrollable
@@ -120,8 +117,8 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         // Creating Bottom Panel to Hold Profit and Placement
         JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 10, 10));
 
-        String profitLabel = "Profit" + CompletedContestViewModel.profit;
-        String placementLabel = "Placement: " + CompletedContestViewModel.placement;
+        String profitLabel = "Profit" + completedContestViewModel.profit;
+        String placementLabel = "Placement: " + completedContestViewModel.placement;
         JLabel profit = new JLabel(profitLabel);
         JLabel placement = new JLabel(placementLabel);
 
@@ -160,17 +157,17 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
     }
 
-    private Object[][] convertHashMapDataToArray(HashMap<String, String[]> data){
+    private Object[][] convertHashMapDataToArray(HashMap<String, List<Object>> data){
 
         int length = data.size();
         Object[][] arrayData = new Object[length][5];
         for (int i = 0; i < 5; i++){
             Object[] row = new Object[5];
-            row[0] = data.get("Ticker")[i];
-            row[1] = data.get("Quantity")[i];
-            row[2] = data.get("Purchase Price")[i];
-            row[3] = data.get("End Price")[i];
-            row[4] = data.get("Value")[i];
+            row[0] = data.get("Ticker").get(i);
+            row[1] = data.get("Quantity").get(i);
+            row[2] = data.get("Purchase Price").get(i);
+            row[3] = data.get("End Price").get(i);
+            row[4] = data.get("Value").get(i);
 
             arrayData[i] = row;
         }

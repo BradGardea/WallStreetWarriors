@@ -1,22 +1,23 @@
 package UseCase.CompletedContest;
 
-import com.google.type.DateTime;
+import com.google.cloud.Timestamp;
 import entity.IContest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CompletedContestOutputData {
 
     public String contestName;
 
-    public DateTime startTime;
+    public Timestamp startTime;
 
     public String industry;
 
-    public DateTime endTime;
+    public Timestamp endTime;
 
-    public HashMap<String, String[]> portfolio;
+    public HashMap<String, List<Object>> portfolio;
 
     public ArrayList<String> leaderboard;
 
@@ -24,10 +25,10 @@ public class CompletedContestOutputData {
 
     public String placement;
 
-    public CompletedContestOutputData(IContest entity, HashMap<String, String[]> portfolio, ArrayList<String> leaderboard, String profit, String placement) {
+    public CompletedContestOutputData(IContest entity, HashMap<String, List<Object>> portfolio, ArrayList<String> leaderboard, String profit, String placement) {
         this.contestName = entity.getTitle();
         this.startTime = entity.getStartTime();
-        this.industry = entity.getContestIndustry();
+        this.industry = entity.getIndustry();
         this.endTime = entity.getEndTime();
         this.portfolio = portfolio;
         this.leaderboard = leaderboard;

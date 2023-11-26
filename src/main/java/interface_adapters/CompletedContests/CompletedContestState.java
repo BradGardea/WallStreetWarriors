@@ -1,21 +1,22 @@
 package interface_adapters.CompletedContests;
 
-import com.google.type.DateTime;
+import com.google.cloud.Timestamp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CompletedContestState {
 
     public String contestName;
 
-    public DateTime startDate;
+    public Timestamp startDate;
 
     public String industry;
 
-    public DateTime endDate;
+    public Timestamp endDate;
 
-    public HashMap<String, String[]> portfolio;
+    public HashMap<String, List<Object>> portfolio;
 
     public ArrayList<String> leaderboard;
 
@@ -47,11 +48,11 @@ public class CompletedContestState {
         this.contestName = contestName;
     }
 
-    public DateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(DateTime startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
@@ -63,19 +64,19 @@ public class CompletedContestState {
         this.industry = industry;
     }
 
-    public DateTime getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(DateTime endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 
-    public HashMap<String, String[]> getPortfolio() {
+    public HashMap<String, List<Object>> getPortfolio() {
         return portfolio;
     }
 
-    public void setPortfolio(HashMap<String, String[]> portfolio) {
+    public void setPortfolio(HashMap<String, List<Object>> portfolio) {
         this.portfolio = portfolio;
     }
 

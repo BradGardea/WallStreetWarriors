@@ -1,5 +1,6 @@
 package UseCase.CompletedContest;
 
+import FirebaseDataAccess.FirebaseDataAccess;
 import com.google.type.DateTime;
 import entity.Contest;
 
@@ -7,7 +8,7 @@ import java.util.*;
 
 public class CompletedContestInteractor implements CompletedContestInputBoundary{
 
-    public final CompletedContestDataAccessInterface completedContestDataAccessObject;
+    public final FirebaseDataAccess completedContestDataAccessObject;
 
     public final CompletedContestOutputBoundary completedContestPresenter;
 
@@ -15,7 +16,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
     private String contestId;
 
-    public CompletedContestInteractor(CompletedContestDataAccessInterface completedContestDataAccessObject, CompletedContestOutputBoundary completedContestPresenter, String contestId, String username) {
+    public CompletedContestInteractor(FirebaseDataAccess completedContestDataAccessObject, CompletedContestOutputBoundary completedContestPresenter, String contestId, String username) {
         this.completedContestDataAccessObject = completedContestDataAccessObject;
         this.completedContestPresenter = completedContestPresenter;
         this.contestId = contestId;
@@ -25,9 +26,9 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
     @Override
     public void execute() {
-        Contest contest = completedContestDataAccessObject.getEntity(Contest.class, "Contests", contestId);
+        Contest contest = completedContestDataAccessObject.getEntity(Contest.class, "Contests", "1");
         // portfolio for the logged in user.
-        HashMap<String, String[]> portfolio = contest.getPortfolios().get(username);
+        HashMap<String, List<Object>> portfolio = contest.getPortfolios().get(username);
         // creating the leaderboard
         ArrayList<String> leaderboard = createLeaderboard(contest.getPortfolios());
         String profit = Float.toString(getProfit(portfolio));
@@ -38,7 +39,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
 
     }
-    public ArrayList<String> createLeaderboard(HashMap<String, HashMap<String, String[]>> data){
+    public ArrayList<String> createLeaderboard(HashMap<String, HashMap<String, List<Object>>> data){
         /**
          * A description of the entire Java function.
          *
@@ -83,7 +84,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
     }
 
 
-    private float getProfit(HashMap<String, String[]> portfolio){
+    private float getProfit(HashMap<String, List<Object>> portfolio){
         /**
          * Calculates the total profit from a given portfolio.
          *
@@ -93,7 +94,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
         float user_profit = 0;
         for (String ticker: portfolio.keySet()){
-            user_profit += Float.parseFloat(portfolio.get(ticker)[4]);
+            user_profit += Float.parseFloat((String) portfolio.get(ticker).get(4));
         }
 
         return user_profit;
