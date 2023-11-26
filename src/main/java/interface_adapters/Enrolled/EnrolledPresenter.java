@@ -1,5 +1,8 @@
 package main.java.interface_adapters.Enrolled;
 
+import main.java.use_case.Enrolled.EnrolledOutputBoundary;
+import main.java.use_case.Enrolled.EnrolledOutputData;
+
 /**
  *
  *
@@ -8,5 +11,9 @@ package main.java.interface_adapters.Enrolled;
  * @author Mikhail Skazhenyuk
  * @version 0.0
  */
-public class EnrolledPresenter {
+public class EnrolledPresenter implements EnrolledOutputBoundary {
+    @Override
+    public void prepareSuccessView(EnrolledOutputData enrolledOutputData) {
+
+    }
 }
