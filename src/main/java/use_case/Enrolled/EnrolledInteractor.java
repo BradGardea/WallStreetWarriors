@@ -37,6 +37,7 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         Contest enrolledContest = userDataAccessObject.getEntity(EnrolledContest, "contests", uuid);
 
 
+
     }
 
 }
