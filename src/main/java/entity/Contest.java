@@ -8,6 +8,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 @IgnoreExtraProperties
@@ -22,7 +23,37 @@ public abstract class Contest implements IContest, IFirebaseEntity{
 
     private String industry;
 
+    public HashMap<String, HashMap<String, String>> getStockOptions() {
+        return stockOptions;
+    }
+
+    public void setStockOptions(HashMap<String, HashMap<String, String>> stockOptions) {
+        this.stockOptions = stockOptions;
+        updateInFirebase();
+    }
+
+    private  HashMap<String, HashMap<String, String>> stockOptions;
+    private HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
+
     private LocalDateTime startTime;
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+        updateInFirebase();
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+        updateInFirebase();
+    }
 
     private LocalDateTime endTime;
 
@@ -71,6 +102,22 @@ public abstract class Contest implements IContest, IFirebaseEntity{
     }
     public ArrayList<User> getConcreteMembers(){
         return this.concreteMembers;
+    }
+
+    /**
+     * @return portfolio of following format:
+     * Username/id : {StockTicker: {StockTickerMetadataName: StockTickerMetadata}}
+     */
+    public HashMap<String, HashMap<String, HashMap<String, String>>> getPortfolios() {
+        return portfolios;
+    }
+
+    /**
+     * @param portfolios formatted as: Username/id : {StockTicker: {StockTickerMetadataName: StockTickerMetadata}}
+     */
+    public void setPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> portfolios) {
+        this.portfolios = portfolios;
+        updateInFirebase();
     }
 
     public String getContestId(){ return this.contestId; }

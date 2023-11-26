@@ -15,6 +15,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 class Main{
     public static void main(String[] args){
@@ -40,10 +43,18 @@ class Main{
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
             firebaseDataAccess.setFirestore(db);
 
-            firebaseDataAccess.getEntity(Message.class, "Messages", "123");
-            Message m = new Message("too", "loo");
+            var en = firebaseDataAccess.getEntity(Message.class, "Messages", "1234567");
+            System.out.println(en.getDict());
 
-            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "123456");
+            HashMap hm = new HashMap<String, Object>();
+            HashMap nested = new HashMap<String, Object>();
+            nested.put("hello", "test");
+            hm.put("foo", nested);
+            var l = new ArrayList<String>();
+            l.add("foo");
+            Message m = new Message("test", "now", hm, l);
+
+            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234567");
 
 
             JFrame app = new JFrame("Wall Street Warriors");
