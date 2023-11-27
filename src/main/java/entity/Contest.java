@@ -3,15 +3,15 @@ package entity;
 import FirebaseDataAccess.FirebaseDataAccess;
 import FirebaseDataAccess.IFirebaseEntity;
 
+import com.google.cloud.Timestamp;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.UUID;
-
+import java.util.HashMap;
+import java.util.List;
 @IgnoreExtraProperties
-public abstract class Contest implements IContest, IFirebaseEntity{
+public class Contest implements IContest, IFirebaseEntity{
 
     private String contestId;
     private String title;
@@ -22,13 +22,26 @@ public abstract class Contest implements IContest, IFirebaseEntity{
 
     private String industry;
 
-    private LocalDateTime startTime;
+    private Timestamp startTime;
 
-    private LocalDateTime endTime;
+    private Timestamp endTime;
+
+
+    private  HashMap<String, HashMap<String, String>> stockOptions;
+
+    public HashMap<String, HashMap<String, String>> getStockOptions() {
+        return stockOptions;
+    }
+    public void setStockOptions(HashMap<String, HashMap<String, String>> stockOptions) {
+        this.stockOptions = stockOptions;
+        updateInFirebase();
+    }
+    private HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
+
 
     @Exclude private ArrayList<User> concreteMembers;
     public Contest(String contestId, String title, String description, ArrayList<String> members,
-                   String industry, LocalDateTime startTime, LocalDateTime endTime){
+                   String industry, Timestamp startTime, Timestamp endTime, HashMap<String, HashMap<String, HashMap<String, String>>> portfolios){
 
         this.contestId = contestId;
         this.title = title;
@@ -37,22 +50,14 @@ public abstract class Contest implements IContest, IFirebaseEntity{
         this.industry = industry;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.portfolios = portfolios;
         updateInFirebase();
     }
+
+    // default constructor
+    public Contest(){};
     public void updateInFirebase(){
         FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Contests", this.contestId);
-    }
-
-    public String getTitle(){ return this.title; }
-    public void setTitle(String title){
-        this.title = title;
-        updateInFirebase();
-    }
-
-    public String getDescription(){ return this.description; }
-    public void setDescription(String desc){
-        this.description = desc;
-        updateInFirebase();
     }
 
     public ArrayList<User> getMembers(){
@@ -67,25 +72,77 @@ public abstract class Contest implements IContest, IFirebaseEntity{
     public void setMembers(ArrayList<String> members){
         this.members = members;
         this.concreteMembers = getMembers();
-        updateInFirebase();
     }
     public ArrayList<User> getConcreteMembers(){
         return this.concreteMembers;
     }
+    /**
+     * @return portfolio of following format:
+     * Username/id : {StockTicker: {StockTickerMetadataName: StockTickerMetadata}}
+     */
+    public HashMap<String, HashMap<String, HashMap<String, String>>> getPortfolios() {
+        return portfolios;
+    }
+
+    /**
+     * @param portfolios formatted as: Username/id : {StockTicker: {StockTickerMetadataName: StockTickerMetadata}}
+     */
+    public void setPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> portfolios) {
+        this.portfolios = portfolios;
+        updateInFirebase();
+    }
 
     public String getContestId(){ return this.contestId; }
-    public void setContestId(String id){
-        this.contestId = id;
-        updateInFirebase();
+
+    public void setContestId(String contestId) {
+        this.contestId = contestId;
     }
 
-    public String getContestIndustry(){ return this.industry; }
-    public void setIndustry(String ind){
-        this.industry = ind;
-        updateInFirebase();
+    @Override
+    public String getTitle() {
+        return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
+    @Override
+    public Timestamp getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    @Override
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
+    }
     //TODO: Implement Method Later when API call logic is finished
-    public User getWinner(){ return null; }
+//    public User getWinner(){ return null; }
+
 
 }

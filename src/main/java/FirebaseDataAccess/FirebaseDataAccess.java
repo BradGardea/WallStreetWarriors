@@ -8,6 +8,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.internal.NonNull;
 import com.google.firebase.internal.Nullable;
+import entity.Contest;
 
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
@@ -98,6 +99,6 @@ public class FirebaseDataAccess {
             return false;
         }
     }
-
-
+    
+    
 }
