@@ -1,4 +1,4 @@
-package main.java.interface_adapters.Enrolled;
+package interface_adapters.Enrolled;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

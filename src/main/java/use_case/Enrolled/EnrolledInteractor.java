@@ -1,8 +1,13 @@
-package main.java.use_case.Enrolled;
+package use_case.Enrolled;
+
+import com.google.cloud.Timestamp;
+import entity.Contest;
+import entity.User;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
+import java.time.ZoneId;
+import java.util.*;
+
 /**
  * The Use Case Interactor for the Enrolled contest.
  *
@@ -36,19 +41,47 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
     @Override
     public void execute(EnrolledInputData enrolledInputData) {
         // Get Contest by ID
-        String uuid = enrolledInputData.getUuid();
-        Contest enrolledContest = userDataAccessObject.getEntity(EnrolledContest, "contests", uuid);
+        String username = enrolledInputData.getUsername();
+        String contestId = enrolledInputData.getContestId();
+        Contest enrolledContest = userDataAccessObject.getEntity(Contest.class, "Contests", contestId);
 
         // TODO figure out how to convert the enrolled contest object to the raw data needed
-        // TODO Add the following getters in enrolled contest
-        List<String> opponents = enrolledContest.getOpponents();
-        Map<String, Float> userStocks = enrolledContest.getUserStocks(); // LinkedHashMap
-        Map<String, Map<String, Float>> opponentStocks = enrolledContest.getOpponentStocks(); // LinkedHashMap
-        LocalDateTime startDate = enrolledContest.getStartDate();
-        LocalDateTime endDate = enrolledContest.getEndDate();
+        ArrayList<User> members = enrolledContest.getMembers();
+        HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = enrolledContest.getPortfolios(); // LinkedHashMap
+        Timestamp startTime = enrolledContest.getStartTime();
+        Timestamp endTime = enrolledContest.getEndTime();
+        String industry = enrolledContest.getIndustry();
+        String title = enrolledContest.getTitle();
+        String description = enrolledContest.getDescription();
 
-        EnrolledOutputData enrolledOutputData = new EnrolledOutputData(  ); // TODO Put it in here properly
-        enrolledPresenter.prepareSuccessView(enrolledOutputData);
+        List<String> opponents = new LinkedList<>();
+        HashMap<String, HashMap<String, String>> userPortfolio = portfolios.get(username);
+        HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios = new HashMap<>();
+
+        for (User user : members) {
+            String name = user.getUsername();
+            if (!Objects.equals(name, username)) {
+                opponents.add(name);
+                HashMap<String, HashMap<String, String>> namePortofolio = portfolios.get(name);
+                opponentPortfolios.put(name, namePortofolio);
+            }
+        }
+
+
+        LocalDateTime startDate = startTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime endDate = endTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        EnrolledOutputData enrolledOutputData = new EnrolledOutputData(
+                opponents,
+                userPortfolio,
+                opponentPortfolios,
+                startDate,
+                endDate,
+                title,
+                description,
+                contestId,
+                industry);
+//        enrolledPresenter.prepareSuccessView(enrolledOutputData);
     }
 
 }

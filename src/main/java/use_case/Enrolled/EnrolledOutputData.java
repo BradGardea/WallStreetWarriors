@@ -1,4 +1,4 @@
-package main.java.use_case.Enrolled;
+package use_case.Enrolled;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,8 +13,8 @@ import java.util.*;
  */
 public class EnrolledOutputData {
     private final List<String> opponents;
-    private final Map<String, Float> userStocks; // LinkedHashMap
-    private final Map<String, Map<String, Float>> opponentStocks; // LinkedHashMap
+    private final HashMap<String, HashMap<String, String>> userPortfolio;
+    private final HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
     private final String title;
@@ -22,10 +22,18 @@ public class EnrolledOutputData {
     private final String contestId;
     private final String industry;
 
-    public EnrolledOutputData(List<String> opponents, Map<String, Float> userStocks, Map<String, Map<String, Float>> opponentStocks, LocalDateTime startDate, LocalDateTime endDate, String title, String description, String contestId, String industry) {
+    public EnrolledOutputData(List<String> opponents,
+                              HashMap<String, HashMap<String, String>> userPortfolio,
+                              HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios,
+                              LocalDateTime startDate,
+                              LocalDateTime endDate,
+                              String title,
+                              String description,
+                              String contestId,
+                              String industry) {
         this.opponents = opponents;
-        this.userStocks = userStocks;
-        this.opponentStocks = opponentStocks;
+        this.userPortfolio = userPortfolio;
+        this.opponentPortfolios = opponentPortfolios;
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
@@ -40,12 +48,12 @@ public class EnrolledOutputData {
         return opponents;
     }
 
-    public Map<String, Float> getUserStocks() {
-        return userStocks;
+    public HashMap<String, HashMap<String, String>> getUserStocks() {
+        return userPortfolio;
     }
 
-    public Map<String, Map<String, Float>> getOpponentStocks() {
-        return opponentStocks;
+    public HashMap<String, HashMap<String, HashMap<String, String>>> getOpponentPortfolios() {
+        return opponentPortfolios;
     }
 
     public LocalDateTime getStartDate() {
