@@ -107,7 +107,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     public void setUiValues(){
         // Populate view with default params
         var contestConfig = this.viewModel.getState().getContestDetails();
-        this.industryLabel.setText(contestConfig.getContestIndustry());
+        this.industryLabel.setText(contestConfig.getIndustry());
         this.numberOfPlayersLabel.setText(Integer.toString(contestConfig.getMembers().size()));
         this.contestIdLabel.setText(contestConfig.getContestId());
         this.startTimeLabel.setText(contestConfig.getStartTime().toString());
