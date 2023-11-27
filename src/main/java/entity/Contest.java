@@ -9,7 +9,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 @IgnoreExtraProperties
 public class Contest implements IContest, IFirebaseEntity{
 
@@ -34,7 +33,6 @@ public class Contest implements IContest, IFirebaseEntity{
     }
     public void setStockOptions(HashMap<String, HashMap<String, String>> stockOptions) {
         this.stockOptions = stockOptions;
-        updateInFirebase();
     }
     private HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
 
@@ -89,7 +87,6 @@ public class Contest implements IContest, IFirebaseEntity{
      */
     public void setPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> portfolios) {
         this.portfolios = portfolios;
-        updateInFirebase();
     }
 
     public String getContestId(){ return this.contestId; }
