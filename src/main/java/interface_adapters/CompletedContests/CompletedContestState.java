@@ -16,7 +16,7 @@ public class CompletedContestState {
 
     public Timestamp endDate;
 
-    public HashMap<String, List<Object>> portfolio;
+    public HashMap<String, HashMap<String, String>> portfolio;
 
     public ArrayList<String> leaderboard;
 
@@ -72,11 +72,11 @@ public class CompletedContestState {
         this.endDate = endDate;
     }
 
-    public HashMap<String, List<Object>> getPortfolio() {
+    public HashMap<String, HashMap<String, String>> getPortfolio() {
         return portfolio;
     }
 
-    public void setPortfolio(HashMap<String, List<Object>> portfolio) {
+    public void setPortfolio(HashMap<String, HashMap<String, String>> portfolio) {
         this.portfolio = portfolio;
     }
 

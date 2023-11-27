@@ -17,7 +17,7 @@ public class CompletedContestOutputData {
 
     public Timestamp endTime;
 
-    public HashMap<String, List<Object>> portfolio;
+    public HashMap<String, HashMap<String, String>> portfolio;
 
     public ArrayList<String> leaderboard;
 
@@ -25,7 +25,7 @@ public class CompletedContestOutputData {
 
     public String placement;
 
-    public CompletedContestOutputData(IContest entity, HashMap<String, List<Object>> portfolio, ArrayList<String> leaderboard, String profit, String placement) {
+    public CompletedContestOutputData(IContest entity, HashMap<String, HashMap<String, String>> portfolio, ArrayList<String> leaderboard, String profit, String placement) {
         this.contestName = entity.getTitle();
         this.startTime = entity.getStartTime();
         this.industry = entity.getIndustry();

@@ -28,7 +28,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
     public void execute() {
         Contest contest = completedContestDataAccessObject.getEntity(Contest.class, "Contests", "1");
         // portfolio for the logged in user.
-        HashMap<String, List<Object>> portfolio = contest.getPortfolios().get(username);
+        HashMap<String, HashMap<String, String>> portfolio = contest.getPortfolios().get(username);
         // creating the leaderboard
         ArrayList<String> leaderboard = createLeaderboard(contest.getPortfolios());
         String profit = Float.toString(getProfit(portfolio));
@@ -39,7 +39,8 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
 
     }
-    public ArrayList<String> createLeaderboard(HashMap<String, HashMap<String, List<Object>>> data){
+    //TODO: fix this
+    public ArrayList<String> createLeaderboard(HashMap<String, HashMap<String, HashMap<String, String>>> data){
         /**
          * A description of the entire Java function.
          *
@@ -84,7 +85,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
     }
 
 
-    private float getProfit(HashMap<String, List<Object>> portfolio){
+    private float getProfit(HashMap<String, HashMap<String, String>> portfolio){
         /**
          * Calculates the total profit from a given portfolio.
          *
@@ -94,7 +95,8 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
         float user_profit = 0;
         for (String ticker: portfolio.keySet()){
-            user_profit += Float.parseFloat((String) portfolio.get(ticker).get(4));
+            //TODO: verify profit functions work as expected with new contest structure
+            user_profit += Float.parseFloat((String) portfolio.get(ticker).get("quantity"));
         }
 
         return user_profit;

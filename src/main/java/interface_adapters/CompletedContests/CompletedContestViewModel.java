@@ -25,7 +25,7 @@ public class CompletedContestViewModel extends ViewModel {
 
     public static final String LEADERBOARD_LABEL = "Leaderboard";
 
-    public static HashMap<String, List<Object>> portfolio;
+    public static HashMap<String,  HashMap<String, String>> portfolio;
 
     public static String[] leaderboard;
 

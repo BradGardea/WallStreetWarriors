@@ -75,7 +75,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 //        };
 
 
-        HashMap<String, List<Object>> data = completedContestViewModel.portfolio;
+        HashMap<String, HashMap<String, String>> data = completedContestViewModel.portfolio;
 
         Object[][] dataArray = convertHashMapDataToArray(data);
         DefaultTableModel model = new DefaultTableModel(dataArray, columns);
@@ -157,7 +157,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
     }
 
-    private Object[][] convertHashMapDataToArray(HashMap<String, List<Object>> data){
+    private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data){
 
         int length = data.size();
         Object[][] arrayData = new Object[length][5];
