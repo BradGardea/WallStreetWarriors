@@ -3,7 +3,6 @@ package main.java.use_case.Enrolled;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
 /**
  * The Use Case Interactor for the Enrolled contest.
  *
@@ -15,10 +14,10 @@ import java.util.Map;
  * @version 0.0
  */
 public class EnrolledInteractor implements EnrolledInputBoundary {
-    final EnrolledUserDataAccessInterface userDataAccessObject;
+    final FirebaseDataAccess.FirebaseDataAccess userDataAccessObject;
     final EnrolledOutputBoundary enrolledPresenter;
 
-    public EnrolledInteractor(EnrolledUserDataAccessInterface userDataAccessInterface,
+    public EnrolledInteractor(FirebaseDataAccess.FirebaseDataAccess userDataAccessInterface,
                               EnrolledOutputBoundary enrolledOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.enrolledPresenter = enrolledOutputBoundary;

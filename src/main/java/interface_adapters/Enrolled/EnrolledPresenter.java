@@ -20,7 +20,7 @@ public class EnrolledPresenter implements EnrolledOutputBoundary {
     private final LoggedInViewModel loggedInViewModel;
     private ViewManagerModel viewManagerModel;
 
-    public LoginPresenter(EnrolledViewModel enrolledViewModel, LoggedInViewModel loggedinViewModel, ViewManagerModel viewManagerModel) {
+    public EnrolledPresenter(EnrolledViewModel enrolledViewModel, LoggedInViewModel loggedinViewModel, ViewManagerModel viewManagerModel) {
         this.enrolledViewModel = enrolledViewModel;
         this.loggedInViewModel = loggedinViewModel;
         this.viewManagerModel = viewManagerModel;
@@ -40,7 +40,7 @@ public class EnrolledPresenter implements EnrolledOutputBoundary {
         this.enrolledViewModel.setState(enrolledState);
         this.enrolledViewModel.firePropertyChanged();
 
-        this.viewModelManager.setActiveView(enrolledViewModel.getViewName());
-        this.viewModelManager.firePropertyChanged();
+        this.viewManagerModel.setActiveView(enrolledViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 }
