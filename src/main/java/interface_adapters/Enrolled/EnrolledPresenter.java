@@ -17,10 +17,30 @@ import main.java.interface_adapters.Enrolled.EnrolledState;
 public class EnrolledPresenter implements EnrolledOutputBoundary {
 
     private final EnrolledViewModel enrolledViewModel;
-    private interface_adapters.ViewModelManager
+    private final LoggedInViewModel loggedInViewModel;
+    private ViewManagerModel viewManagerModel;
+
+    public LoginPresenter(EnrolledViewModel enrolledViewModel, LoggedInViewModel loggedinViewModel, ViewManagerModel viewManagerModel) {
+        this.enrolledViewModel = enrolledViewModel;
+        this.loggedInViewModel = loggedinViewModel;
+        this.viewManagerModel = viewManagerModel;
+    }
 
     @Override
     public void prepareSuccessView(EnrolledOutputData enrolledOutputData) {
+        EnrolledState enrolledState = enrolledViewModel.getState();
 
+        // TODO set output data contest stuff
+        enrolledState.setEndDate(enrolledOutputData.getEndDate());
+        enrolledState.setOpponents(enrolledOutputData.getOpponents());
+        enrolledState.setOpponentStocks(enrolledOutputData.getOpponentStocks());
+        enrolledState.setStartDate(enrolledOutputData.getStartDate());
+        enrolledState.setUserStocks(enrolledOutputData.getUserStocks());
+
+        this.enrolledViewModel.setState(enrolledState);
+        this.enrolledViewModel.firePropertyChanged();
+
+        this.viewModelManager.setActiveView(enrolledViewModel.getViewName());
+        this.viewModelManager.firePropertyChanged();
     }
 }

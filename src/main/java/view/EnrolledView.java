@@ -24,20 +24,20 @@ import java.beans.PropertyChangeListener;
  */
 public class EnrolledView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "enrolledcontest";
-    private final EnrolledController enrolledController;
+    private final LoggedInController loggedInController;
     private final EnrolledViewModel enrolledViewModel;
 
     // Variables for timer usage
     private static JLabel timerLabel;
     private static int timeLeft; // Seconds
 
-    public EnrolledView(EnrolledController controller, EnrolledViewModel viewModel) {
-        this.enrolledController = controller;
+    public EnrolledView(LoggedInController controller, EnrolledViewModel viewModel) {
+        this.loggedInController = controller;
         this.enrolledViewModel = viewModel;
-        this.enrolledViewModel.addPropertyChangeListerner(this); // TODO
+        this.enrolledViewModel.addPropertyChangeListener(this); // TODO
 
         // J Swing stuff goes here
-        // TODO Add EnrolledView Java Swing stuff - decide on format changes
+
         // THIS CODE IS FOR CREATING THE WINDOW - PASS THE ACTUAL FRAME LATER ON?
         JFrame frame = new JFrame("WallStreetWarriors - Enrolled Contest View TEST");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +70,7 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
 
 
         // Add all labels
-        topPanel.add(new JLabel("vs", SwingConstants.CENTER));
+        topPanel.add(new JLabel("vs", SwingConstants.CENTER)); // TITLE
         topPanel.add(startDateLabel);
         topPanel.add(new JLabel("Contest ID: 12345", SwingConstants.CENTER));
         topPanel.add(endDateLabel);
