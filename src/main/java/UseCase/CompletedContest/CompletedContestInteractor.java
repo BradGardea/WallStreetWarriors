@@ -1,7 +1,6 @@
 package UseCase.CompletedContest;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import com.google.type.DateTime;
 import entity.Contest;
 
 import java.util.*;
