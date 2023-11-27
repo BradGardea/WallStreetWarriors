@@ -1,6 +1,5 @@
 package interface_adapters.AvailableContests;
 
-import entity.AvailableContest;
 import entity.Contest;
 import interface_adapters.ViewModelManager;
 
