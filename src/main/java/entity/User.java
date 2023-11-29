@@ -17,6 +17,7 @@ public class User implements IUser, IFirebaseEntity {
     @Exclude private ArrayList<Contest> concreteCompletedContests;
     @Exclude private ArrayList<Contest> concreteEnrolledContests;
 
+    public User(){};
     public User(String id, String username, String password, ArrayList<String> completedContests, ArrayList<String> enrolledContests){
         this.id = id;
         this.username = username;

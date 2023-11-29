@@ -12,36 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 @IgnoreExtraProperties
 public class Contest implements IContest, IFirebaseEntity{
-
     private String contestId;
     private String title;
-
     private String description;
-
-    private ArrayList<String> members;
-
+    private ArrayList<User> members;
     private String industry;
-
     private Timestamp startTime;
-
     private Timestamp endTime;
-
-
-    private  HashMap<String, HashMap<String, String>> stockOptions;
-
-    public HashMap<String, HashMap<String, String>> getStockOptions() {
-        return stockOptions;
-    }
-    public void setStockOptions(HashMap<String, HashMap<String, String>> stockOptions) {
-        this.stockOptions = stockOptions;
-        updateInFirebase();
-    }
+    private  ArrayList<String> stockOptions;
     private HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
-
-
-    @Exclude private ArrayList<User> concreteMembers;
-    public Contest(String contestId, String title, String description, ArrayList<String> members,
-                   String industry, Timestamp startTime, Timestamp endTime, HashMap<String, HashMap<String, HashMap<String, String>>> portfolios){
+//    @Exclude
+//    private ArrayList<User> concreteMembers;
+    public Contest(String contestId, String title, String description, ArrayList<User> members,
+                   String industry, Timestamp startTime, Timestamp endTime, ArrayList<String> stockOptions, HashMap<String, HashMap<String, HashMap<String, String>>> portfolios){
 
         this.contestId = contestId;
         this.title = title;
@@ -50,6 +33,7 @@ public class Contest implements IContest, IFirebaseEntity{
         this.industry = industry;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.stockOptions = stockOptions;
         this.portfolios = portfolios;
         updateInFirebase();
     }
@@ -63,18 +47,33 @@ public class Contest implements IContest, IFirebaseEntity{
     public ArrayList<User> getMembers(){
         var users = new ArrayList<User>();
         var dataAccess = FirebaseDataAccess.getInstance();
-        for(var userId: this.members){
-            users.add(dataAccess.getEntity(User.class, "Users", userId));
+        for(var user: this.members){
+            users.add(dataAccess.getEntity(User.class, "Users", user.getUsername()));
         }
         return users;
     }
 
-    public void setMembers(ArrayList<String> members){
-        this.members = members;
-        this.concreteMembers = getMembers();
+    public void setMembersString(ArrayList<String> members){
+        if (this.members != null){
+            this.members = getMembers();
+        }
     }
-    public ArrayList<User> getConcreteMembers(){
-        return this.concreteMembers;
+    public void addMember(User member){
+        this.members.add(member);
+    }
+//    public ArrayList<User> getConcreteMembers(){
+//        return this.concreteMembers;
+//    }
+
+    /**
+     * @return stock options supported in contest of the following format:
+     * StockTicker: {StockTickerMetadataName: StockTickerMetadata}
+     */
+    public ArrayList<String> getStockOptions() {
+        return stockOptions;
+    }
+    public void setStockOptions(ArrayList<String> stockOptions) {
+        this.stockOptions = stockOptions;
     }
     /**
      * @return portfolio of following format:
@@ -89,7 +88,6 @@ public class Contest implements IContest, IFirebaseEntity{
      */
     public void setPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> portfolios) {
         this.portfolios = portfolios;
-        updateInFirebase();
     }
 
     public String getContestId(){ return this.contestId; }

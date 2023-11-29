@@ -57,7 +57,7 @@ public class FirebaseDataAccess {
             }
         }
         catch (Exception ex){
-            System.out.println(ex);
+            System.out.println("Exception gettingEntity: " + ex);
         }
         return null;
     }
@@ -75,10 +75,10 @@ public class FirebaseDataAccess {
         try{
             ApiFuture<WriteResult> future = db.collection(collection).document(id).set(entity);
             // block on response if required
-            System.out.println("Update time : " + future.get().getUpdateTime());
+            System.out.println("Update time: " + future.get().getUpdateTime());
         }
         catch (Exception ex){
-            System.out.println(ex);
+            System.out.println("Exception settingOrUpdating: " + ex);
         }
     }
 
