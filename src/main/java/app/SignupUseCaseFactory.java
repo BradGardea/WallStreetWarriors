@@ -1,6 +1,7 @@
 package app;
 
 
+import FirebaseDataAccess.FirebaseDataAccess;
 import entity.IUserFactory;
 import entity.UserFactory;
 import interface_adapters.SignUpLogIn.*;
@@ -19,7 +20,7 @@ public class SignupUseCaseFactory {
     /** Prevent instantiation. */
     private SignupUseCaseFactory() {}
 
-    public static SignupView create(ViewModelManager viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject) {
+    public static SignupView create(ViewModelManager viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, FirebaseDataAccess userDataAccessObject) {
 
         try {
             SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
@@ -31,7 +32,7 @@ public class SignupUseCaseFactory {
         return null;
     }
 
-    private static SignupController createUserSignupUseCase(ViewModelManager viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, SignupUserDataAccessInterface userDataAccessObject) throws IOException {
+    private static SignupController createUserSignupUseCase(ViewModelManager viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, FirebaseDataAccess userDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel, loginViewModel);
@@ -44,4 +45,5 @@ public class SignupUseCaseFactory {
 
         return new SignupController(userSignupInteractor);
     }
+
 }

@@ -1,16 +1,17 @@
 package use_case.signup;
 
 // import data_access.UserSignupDataAccessInterface;
+import FirebaseDataAccess.FirebaseDataAccess;
 import entity.User;
 import entity.IUserFactory;
 import entity.UserFactory;
 
 public class SignupInteractor implements SignupInputBoundary {
-    final SignupUserDataAccessInterface userDataAccessObject;
+    final FirebaseDataAccess userDataAccessObject;
     final SignupOutputBoundary userPresenter;
     final UserFactory userFactory;
 
-    public SignupInteractor(SignupUserDataAccessInterface signupUserDataAccessInterface,
+    public SignupInteractor(FirebaseDataAccess signupUserDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
                             UserFactory userFactory) {
         this.userDataAccessObject = signupUserDataAccessInterface;
@@ -20,14 +21,14 @@ public class SignupInteractor implements SignupInputBoundary {
 
     @Override
     public void execute(SignupInputData signupInputData) {
-        if (userDataAccessObject.existsByName(signupInputData.getUsername())) {
+        if (userDataAccessObject.getEntity(User.class, "Users", signupInputData.getId()) != null) {
         userPresenter.prepareFailView("User already exists."); }
         else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
             userPresenter.prepareFailView("Passwords don't match.");
         } else {
 
             User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
-            userDataAccessObject.save(user);
+            userDataAccessObject.setOrUpdateEntity(User.class, "Users", user.getUUID());
 
             SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(), false);
             userPresenter.prepareSuccessView(signupOutputData);

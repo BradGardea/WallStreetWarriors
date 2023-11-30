@@ -1,7 +1,9 @@
 package app;
 
 
+import FirebaseDataAccess.FirebaseDataAccess;
 import entity.UserFactory;
+import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
 import interface_adapters.SignUpLogIn.LoginController;
 import interface_adapters.SignUpLogIn.LoginPresenter;
@@ -23,11 +25,11 @@ public class LoginUseCaseFactory {
     public static LoginView create(
             ViewModelManager viewManagerModel,
             LoginViewModel loginViewModel,
-            LoggedInViewModel loggedInViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) {
+            HomePageViewModel homepageViewModel,
+            FirebaseDataAccess userDataAccessObject) {
 
         try {
-            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, homepageViewModel, userDataAccessObject);
             return new LoginView(loginViewModel, loginController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -39,11 +41,11 @@ public class LoginUseCaseFactory {
     private static LoginController createLoginUseCase(
             ViewModelManager viewManagerModel,
             LoginViewModel loginViewModel,
-            LoggedInViewModel loggedInViewModel,
-            LoginUserDataAccessInterface userDataAccessObject) throws IOException {
+            HomePageViewModel homepageViewModel,
+            FirebaseDataAccess userDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
+        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, homepageViewModel, loginViewModel);
 
         UserFactory userFactory = new UserFactory();
 

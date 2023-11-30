@@ -17,7 +17,7 @@ public class FirebaseDataAccess {
     private static FirebaseDataAccess instance = null;
     private static Firestore db = null;
 
-    private FirebaseDataAccess(){
+    public FirebaseDataAccess(){
 
     }
     public static synchronized FirebaseDataAccess getInstance(){

@@ -8,9 +8,10 @@ public class SignupState {
     private String repeatPassword = "";
     private String repeatPasswordError = null;
 
-    private String email = "";
+    private String id = "";
 
-    private String emailError = null;
+    private String idError = null;
+
 
     public SignupState(SignupState copy) {
         username = copy.username;
@@ -19,8 +20,8 @@ public class SignupState {
         passwordError = copy.passwordError;
         repeatPassword = copy.repeatPassword;
         repeatPasswordError = copy.repeatPasswordError;
-        email = copy.email;
-        emailError = copy.emailError;
+        id = copy.id;
+        idError = copy.idError;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -74,13 +75,10 @@ public class SignupState {
         this.repeatPasswordError = repeatPasswordError;
     }
 
-    public String  getEmail() { return email; }
+    public String  getID() { return id; }
 
-    public String getEmailError() {
-        return emailError;
+    public String getIDError() {
+        return idError;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

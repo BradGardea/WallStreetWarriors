@@ -1,22 +1,22 @@
 package interface_adapters.SignUpLogIn;
 
+import interface_adapters.HomePage.HomePageState;
+import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
-import interface_adapters.logged_in.LoggedInState;
-import interface_adapters.logged_in.LoggedInViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 
 public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
-    private final LoggedInViewModel loggedInViewModel;
+    private final HomePageViewModel homePageViewModel;
     private ViewModelManager viewManagerModel;
 
     public LoginPresenter(ViewModelManager viewManagerModel,
-                          LoggedInViewModel loggedInViewModel,
+                          HomePageViewModel loggedInViewModel,
                           LoginViewModel loginViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.loggedInViewModel = loggedInViewModel;
+        this.homePageViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
     }
 
@@ -24,12 +24,12 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the logged in view.
 
-        LoggedInState loggedInState = loggedInViewModel.getState();
-        loggedInState.setUsername(response.getUsername());
-        this.loggedInViewModel.setState(loggedInState);
-        this.loggedInViewModel.firePropertyChanged();
+        HomePageState homepageState = homePageViewModel.getState();
+        homepageState.setUsername(response.getUsername());
+        this.homePageViewModel.setState(homepageState);
+        this.homePageViewModel.firePropertyChanged();
 
-        this.viewManagerModel.setActiveView(loggedInViewModel.getViewName());
+        this.viewManagerModel.setActiveView(homePageViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 

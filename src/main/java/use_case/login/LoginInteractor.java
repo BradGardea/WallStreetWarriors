@@ -1,12 +1,13 @@
 package use_case.login;
 
+import FirebaseDataAccess.FirebaseDataAccess;
 import entity.User;
 
 public class LoginInteractor implements LoginInputBoundary {
-    final LoginUserDataAccessInterface userDataAccessObject;
+    final FirebaseDataAccess userDataAccessObject;
     final LoginOutputBoundary loginPresenter;
 
-    public LoginInteractor(LoginUserDataAccessInterface userDataAccessInterface,
+    public LoginInteractor(FirebaseDataAccess userDataAccessInterface,
                            LoginOutputBoundary loginOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.loginPresenter = loginOutputBoundary;
@@ -16,15 +17,15 @@ public class LoginInteractor implements LoginInputBoundary {
     public void execute(LoginInputData loginInputData) {
         String username = loginInputData.getUsername();
         String password = loginInputData.getPassword();
-        if (!userDataAccessObject.existsByName(username)) {
+        if (userDataAccessObject.getEntity(User.class, "Users", username) != null) {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         } else {
-            String pwd = userDataAccessObject.get(username).getPassword();
+            String pwd = userDataAccessObject.getEntity(User.class, "Users", username).getPassword();
             if (!password.equals(pwd)) {
                 loginPresenter.prepareFailView("Incorrect password for " + username + ".");
             } else {
 
-                User user = userDataAccessObject.get(loginInputData.getUsername());
+                User user = userDataAccessObject.getEntity(User.class, "Users", username);
 
                 LoginOutputData loginOutputData = new LoginOutputData(user.getUsername(), false);
                 loginPresenter.prepareSuccessView(loginOutputData);

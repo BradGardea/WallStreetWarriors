@@ -1,9 +1,9 @@
 package use_case.signup;
 
-import entity.User;
+import com.google.firebase.internal.NonNull;
 
 public interface SignupUserDataAccessInterface {
     boolean existsByName(String identifier);
 
-    void save(User user);
+    <T> T getEntity(@NonNull Class<T> valueType, String collection, String id);
 }

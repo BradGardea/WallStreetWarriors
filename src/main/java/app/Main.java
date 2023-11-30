@@ -9,16 +9,24 @@ import com.google.firebase.cloud.FirestoreClient;
 import interface_adapters.Contests.ContestViewModel;
 import interface_adapters.HomePage.HomePageController;
 import interface_adapters.HomePage.HomePageViewModel;
+import interface_adapters.SignUpLogIn.LoginViewModel;
+import interface_adapters.SignUpLogIn.SignupViewModel;
 import interface_adapters.ViewModelManager;
 import io.opencensus.stats.ViewManager;
 import view.ContestView;
 import view.HomePage.HomePageView;
+import view.LogInSignUp.LoginView;
+import view.LogInSignUp.SignupView;
+import view.LoggedInView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 class Main{
     public static void main(String[] args){
@@ -45,7 +53,13 @@ class Main{
             firebaseDataAccess.setFirestore(db);
 
             firebaseDataAccess.getEntity(Message.class, "Messages", "123");
-            Message m = new Message("too", "loo");
+            HashMap hm = new HashMap<String, Object>();
+            HashMap nested = new HashMap<String, Object>();
+            nested.put("hello", "test");
+            hm.put("foo", nested);
+            var l = new ArrayList<String>();
+            l.add("foo");
+            Message m = new Message("test", "now", hm, l);
 
             firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
 
@@ -61,13 +75,24 @@ class Main{
             ViewModelManager viewModelManager = new ViewModelManager();
 
 
+            LoginViewModel loginViewModel = new LoginViewModel();
             HomePageViewModel homepageViewModel = new HomePageViewModel();
-            HomePageView homepageView = HomePageUseCaseFactory.create(homepageViewModel);
+            SignupViewModel signupViewModel = new SignupViewModel();
+
+            FirebaseDataAccess userDataAccessObject;
+            userDataAccessObject = new FirebaseDataAccess();
 
 
-            views.add(homepageView, homepageView.viewName);
+            SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel, userDataAccessObject);
+            views.add(signupView, signupView.viewName);
 
-            viewModelManager.setActiveView(homepageView.viewName);
+            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject);
+            views.add(loginView, loginView.viewName);
+
+            HomePageView homePageView = new HomePageView(homepageViewModel);
+            views.add(homePageView, homePageView.viewName);
+
+            viewModelManager.setActiveView(signupView.viewName);
             viewModelManager.firePropertyChanged();
 
             app.pack();

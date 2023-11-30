@@ -1,5 +1,6 @@
 package view.LogInSignUp;
 
+import interface_adapters.SignUpLogIn.LoginController;
 import interface_adapters.SignUpLogIn.LoginState;
 import interface_adapters.SignUpLogIn.LoginViewModel;
 
@@ -36,7 +37,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     /**
      * A window with a title and a JButton.
      */
-    public LoginView(LoginViewModel loginViewModel) {
+    public LoginView(LoginViewModel loginViewModel, LoginController loginController) {
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
 
