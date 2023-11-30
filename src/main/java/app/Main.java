@@ -3,29 +3,22 @@ package app;
 import FirebaseDataAccess.FirebaseDataAccess;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
-import com.google.common.io.FileBackedOutputStream;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import interface_adapters.Contests.ContestViewModel;
-import interface_adapters.SignUpLogIn.LoginViewModel;
-import interface_adapters.SignUpLogIn.SignupViewModel;
+import interface_adapters.HomePage.HomePageController;
+import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
-import use_case.signup.SignupUserDataAccessInterface;
+import io.opencensus.stats.ViewManager;
 import view.ContestView;
-import view.LogInSignUp.LoginView;
-import view.LogInSignUp.SignupView;
-import view.LogInSignUp.ViewManager;
+import view.HomePage.HomePageView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 class Main{
     public static void main(String[] args){
@@ -33,7 +26,7 @@ class Main{
         Firestore db;
         //Initialization for firebase.
         try{
-            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-a1c2e7ac43.json");
+            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-9cad46c515.json");
             File file = new File(url.getPath());
 
             FileInputStream serviceAccount =
@@ -51,18 +44,10 @@ class Main{
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
             firebaseDataAccess.setFirestore(db);
 
-            var en = firebaseDataAccess.getEntity(Message.class, "Messages", "1234567");
-            System.out.println(en.getDict());
+            firebaseDataAccess.getEntity(Message.class, "Messages", "123");
+            Message m = new Message("too", "loo");
 
-            HashMap hm = new HashMap<String, Object>();
-            HashMap nested = new HashMap<String, Object>();
-            nested.put("hello", "test");
-            hm.put("foo", nested);
-            var l = new ArrayList<String>();
-            l.add("foo");
-            Message m = new Message("test", "now", hm, l);
-
-            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234567");
+            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
 
 
             JFrame app = new JFrame("Wall Street Warriors");
@@ -74,24 +59,15 @@ class Main{
             app.add(views);
 
             ViewModelManager viewModelManager = new ViewModelManager();
-            new ViewManager(views, cardLayout, viewModelManager);
-
-            SignupViewModel signupViewModel = new SignupViewModel();
-            LoginViewModel loginViewModel = new LoginViewModel();
-
-            FirebaseDataAccess userDataAccessObject;
-
-            try {
-                userDataAccessObject = new FirebaseDataAccess("1");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel, userDataAccessObject);
-            views.add(signupView, signupView.viewName);
 
 
-            viewModelManager.setActiveView(signupView.viewName);
+            HomePageViewModel homepageViewModel = new HomePageViewModel();
+            HomePageView homepageView = HomePageUseCaseFactory.create(homepageViewModel);
+
+
+            views.add(homepageView, homepageView.viewName);
+
+            viewModelManager.setActiveView(homepageView.viewName);
             viewModelManager.firePropertyChanged();
 
             app.pack();
