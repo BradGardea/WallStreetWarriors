@@ -1,7 +1,6 @@
 package main.tests.CompletedContestTests;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import app.ContestUseCaseFactory;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;

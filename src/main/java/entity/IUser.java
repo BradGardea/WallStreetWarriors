@@ -9,6 +9,6 @@ public interface IUser {
 
     String getPassword();
 
-    String getUUID();
+//    String getUUID();
 
 }

@@ -9,76 +9,52 @@ import java.util.ArrayList;
 
 @IgnoreExtraProperties
 public class User implements IUser, IFirebaseEntity {
-    private String id;
     private String username;
     private String password;
     private ArrayList<String> completedContests;
     private ArrayList<String> enrolledContests;
-    @Exclude private ArrayList<Contest> concreteCompletedContests;
-    @Exclude private ArrayList<Contest> concreteEnrolledContests;
+//    @Exclude private ArrayList<Contest> concreteCompletedContests;
+//    @Exclude private ArrayList<Contest> concreteEnrolledContests;
 
     public User(){};
-    public User(String id, String username, String password, ArrayList<String> completedContests, ArrayList<String> enrolledContests){
-        this.id = id;
+
+    public User(String username, String password, ArrayList<String> completedContests, ArrayList<String> enrolledContests){
         this.username = username;
         this.password = password;
         this.enrolledContests = enrolledContests;
         this.completedContests = completedContests;
     }
     public void updateInFirebase(){
-        FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Users", this.id);
+        FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Users", this.username);
     }
-
     @Override
     public String getUsername() {
         return this.username;
     }
-
     public void setUsername(String username){
         this.username = username;
-        updateInFirebase();
     }
-
     @Override
     public String getPassword() {
         return this.password;
     }
     public void setPassword(String password){
         this.password = password;
-        updateInFirebase();
+    }
+    public ArrayList<String> getCompletedContests() {
+        return completedContests;
     }
 
-    @Override
-    public String getUUID() {
-        return this.id;
-    }
-    public void setUUID(String id){
-        this.id = id;
-        updateInFirebase();
-    }
-
-//    public ArrayList<Contest> getCompletedContests() {
-//        ArrayList<Contest> completedConts = new ArrayList<>();
-//        var dataAccess = FirebaseDataAccess.getInstance();
-//        for (var contestId: completedContests) {
-//            completedConts.add(dataAccess.getEntity(CompletedContest.class, "Contests", contestId));
-//        }
-//        return completedConts;
-//    }
-
-//    public ArrayList<Contest> getEnrolledContests(){
-//        ArrayList<Contest> enrolledConts = new ArrayList<>();
-//        var dataAccess = FirebaseDataAccess.getInstance();
-//        for (var contestId: enrolledContests){
-//            enrolledConts.add(dataAccess.getEntity(EnrolledContest.class, "Contests", contestId));
-//        }
-//        return enrolledConts;
-//    }
-    public void setEnrolledContests(ArrayList<String> enrolledContests){
-        this.enrolledContests = enrolledContests;
-    }
-    public void setCompletedContests(ArrayList<String> completedContests){
+    public void setCompletedContests(ArrayList<String> completedContests) {
         this.completedContests = completedContests;
+    }
+
+    public ArrayList<String> getEnrolledContests() {
+        return enrolledContests;
+    }
+
+    public void setEnrolledContests(ArrayList<String> enrolledContests) {
+        this.enrolledContests = enrolledContests;
     }
     public void addCompletedContest(String completedContest){
         this.completedContests.add(completedContest);
@@ -86,4 +62,31 @@ public class User implements IUser, IFirebaseEntity {
     public void addEnrolledContest(String enrolledContest){
         this.enrolledContests.add(enrolledContest);
     }
+
+//    @Override
+//    public String getUUID() {
+//        return this.id;
+//    }
+//    public void setUUID(String id){
+//        this.id = id;
+//        updateInFirebase();
+//    }
+
+//    public ArrayList<Contest> getCompletedContests() {
+//        ArrayList<Contest> completedConts = new ArrayList<>();
+//        var dataAccess = FirebaseDataAccess.getInstance();
+//        for (var contestId: completedContests) {
+//            completedConts.add(dataAccess.getEntity(Contest.class, "Contests", contestId));
+//        }
+//        return completedConts;
+//    }
+//
+//    public ArrayList<Contest> getEnrolledContests(){
+//        ArrayList<Contest> enrolledConts = new ArrayList<>();
+//        var dataAccess = FirebaseDataAccess.getInstance();
+//        for (var contestId: enrolledContests){
+//            enrolledConts.add(dataAccess.getEntity(Contest.class, "Contests", contestId));
+//        }
+//        return enrolledConts;
+//    }
 }

@@ -55,7 +55,7 @@ class Message {
     public void setAuthor(String author){
         this.author = author;
         System.out.println("the setter was called");
-        User user1 = new User(UUID.randomUUID().toString(), "dhruv", "1000", new ArrayList<>(), new ArrayList<>());
+        User user1 = new User("dhruv", "1000", new ArrayList<>(), new ArrayList<>());
         this.user = user1;
         System.out.println(this.user.getUsername());
     }
