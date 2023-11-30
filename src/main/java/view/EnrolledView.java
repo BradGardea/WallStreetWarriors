@@ -26,7 +26,7 @@ import java.time.ZoneId;
  */
 public class EnrolledView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "enrolledcontest";
-    private final HomePageController homePageController;
+//    private final HomePageController homePageController;
     private final EnrolledViewModel enrolledViewModel;
     private EnrolledState enrolledState;
 
@@ -34,8 +34,8 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
     private static JLabel timerLabel;
     private static int timeLeft; // Seconds
 
-    public EnrolledView(HomePageController controller, EnrolledViewModel viewModel) {
-        this.homePageController = controller;
+    public EnrolledView(EnrolledController enrolledController, EnrolledViewModel viewModel) {
+//        this.homePageController = controller;
         this.enrolledViewModel = viewModel;
         this.enrolledViewModel.addPropertyChangeListener(this);
         this.enrolledState = viewModel.getState();

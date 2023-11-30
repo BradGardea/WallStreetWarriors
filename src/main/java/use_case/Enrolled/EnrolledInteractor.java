@@ -1,5 +1,6 @@
 package use_case.Enrolled;
 
+import FirebaseDataAccess.FirebaseDataAccess;
 import com.google.cloud.Timestamp;
 import entity.Contest;
 import entity.User;
@@ -19,10 +20,10 @@ import java.util.*;
  * @version 0.0
  */
 public class EnrolledInteractor implements EnrolledInputBoundary {
-    final FirebaseDataAccess.FirebaseDataAccess userDataAccessObject;
+    final FirebaseDataAccess userDataAccessObject;
     final EnrolledOutputBoundary enrolledPresenter;
 
-    public EnrolledInteractor(FirebaseDataAccess.FirebaseDataAccess userDataAccessInterface,
+    public EnrolledInteractor(FirebaseDataAccess userDataAccessInterface,
                               EnrolledOutputBoundary enrolledOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.enrolledPresenter = enrolledOutputBoundary;
