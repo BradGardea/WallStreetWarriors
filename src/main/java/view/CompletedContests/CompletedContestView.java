@@ -159,20 +159,38 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
     private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data){
 
+//        int length = data.size();
+//        Object[][] arrayData = new Object[length][5];
+//        for (int i = 0; i < 5; i++){
+//            Object[] row = new Object[5];
+//            row[0] = data.get("Ticker").get(i);
+//            row[1] = data.get("Quantity").get(i);
+//            row[2] = data.get("Purchase Price").get(i);
+//            row[3] = data.get("End Price").get(i);
+//            row[4] = data.get("Value").get(i);
+//
+//            arrayData[i] = row;
+//        }
+//
+//        return arrayData;
+
+
         int length = data.size();
         Object[][] arrayData = new Object[length][5];
-        for (int i = 0; i < 5; i++){
+        int iteration = 0;
+        // iterates through every ticker
+        for (String ticker: data.keySet()){
             Object[] row = new Object[5];
-            row[0] = data.get("Ticker").get(i);
-            row[1] = data.get("Quantity").get(i);
-            row[2] = data.get("Purchase Price").get(i);
-            row[3] = data.get("End Price").get(i);
-            row[4] = data.get("Value").get(i);
+            row[0] = data.get(ticker).get("Ticker");
+            row[1] = data.get(ticker).get("Quantity");
+            row[2] = data.get(ticker).get("Purchase Price");
+            row[3] = data.get(ticker).get("End Price");
+            row[4] = data.get(ticker).get("Value");
 
-            arrayData[i] = row;
+            arrayData[iteration] = row;
+            iteration += 1;
         }
 
         return arrayData;
-
     }
 }

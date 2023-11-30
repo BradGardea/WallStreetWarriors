@@ -1,7 +1,6 @@
 package UseCase.CompletedContest;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import com.google.type.DateTime;
 import entity.Contest;
 
 import java.util.*;
@@ -39,49 +38,44 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
 
     }
-    //TODO: fix this
+
+
     public ArrayList<String> createLeaderboard(HashMap<String, HashMap<String, HashMap<String, String>>> data){
         /**
-         * A description of the entire Java function.
+         * Generates a leaderboard based on the given data.
          *
-         * @param  data   A HashMap containing the data for creating the leaderboard.
-         *                The HashMap has the following structure:
-         *                - The keys are usernames.
-         *                - The values are HashMaps representing portfolios.
-         *                  Each portfolio HashMap has the following structure:
-         *                  - The keys are tickers.
-         *                  - The values are arrays of strings representing the ticker data.
-         * @return       An ArrayList of strings representing the leaderboard.
-         *               Each string in the ArrayList represents a username in the leaderboard.
+         * @param  data  a HashMap containing the user stock data
+         * @return       an ArrayList of usernames in descending order of profit
          */
 
-
-
-        // iterate through all the portfolios and create a hashmap with <Key = Profit, Value = Username>
-        // sort this hashmap and return the value.
         Map<String, Float> ordered_leaderboard = new LinkedHashMap<>();
         for (String username: data.keySet()){
-            // nested for loop to get the data for each ticker
+            // iterates through each user's portfolio to get the total profit
+            // calculating total profit passed over to helper function.
             float user_profit = getProfit(data.get(username));
 
+            // adding the username and thier profit to the LinkedHashMap
             ordered_leaderboard.put(username, user_profit);
         }
 
         // by the end of this loop ordered_leaderboard will contain all usernames as keys
         // and their profits as values.
-        // creating an entry set that we will now sort
+
+        // fills this temporary arraylist with the entries from the LinkedHashMap
         List<Map.Entry<String, Float>> entries = new ArrayList<>(ordered_leaderboard.entrySet());
-        // sorting the entries by value
+        // sorting entries by value
         Collections.sort(entries, Map.Entry.comparingByValue());
-        // creating an array list of the usernames
+        // reversing the list to have the highest profit at index 0 and lowest profit at index n - 1
+        Collections.reverse(entries);
+        // Creating the actual leaderboard that will be returned
         ArrayList<String> leaderboard = new ArrayList<>();
 
+        // for loop that will iterate through the entries and add the usernames to the leaderboard
         for (Map.Entry<String, Float> entry: entries){
             leaderboard.add(entry.getKey());
         }
-
-        // by the end of this loop we will have an array list of usernames in order of their profits
         return leaderboard;
+
     }
 
 
@@ -93,10 +87,10 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
          * @return            the total profit calculated from the portfolio
          */
 
+        // TODO: Ensure "Value" is correct in terms of capitalization once logic for setting portfiolio is implemented
         float user_profit = 0;
         for (String ticker: portfolio.keySet()){
-            //TODO: verify profit functions work as expected with new contest structure
-            user_profit += Float.parseFloat((String) portfolio.get(ticker).get("quantity"));
+            user_profit += Float.parseFloat(portfolio.get(ticker).get("Value"));
         }
 
         return user_profit;

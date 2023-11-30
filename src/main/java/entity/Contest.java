@@ -9,7 +9,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 @IgnoreExtraProperties
 public class Contest implements IContest, IFirebaseEntity{
     private String contestId;
@@ -19,8 +18,9 @@ public class Contest implements IContest, IFirebaseEntity{
     private String industry;
     private Timestamp startTime;
     private Timestamp endTime;
-    private  ArrayList<String> stockOptions;
-    private HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
+    private  ArrayList<String> stockOptions;  
+  
+}
 //    @Exclude
 //    private ArrayList<User> concreteMembers;
     public Contest(String contestId, String title, String description, ArrayList<User> members,
@@ -43,7 +43,7 @@ public class Contest implements IContest, IFirebaseEntity{
     public void updateInFirebase(){
         FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Contests", this.contestId);
     }
-
+   
     public ArrayList<User> getMembers(){
         var users = new ArrayList<User>();
         var dataAccess = FirebaseDataAccess.getInstance();

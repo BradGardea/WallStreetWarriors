@@ -1,16 +1,16 @@
 package FirebaseDataAccess;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.internal.NonNull;
 import com.google.firebase.internal.Nullable;
 import entity.Contest;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class FirebaseDataAccess {
@@ -58,6 +58,28 @@ public class FirebaseDataAccess {
         }
         catch (Exception ex){
             System.out.println("Exception gettingEntity: " + ex);
+        }
+        return null;
+    }
+    public @Nullable <T> ArrayList<T> getEntities(@NonNull Class<T> valueType, String collection) {
+        try{
+            ApiFuture<QuerySnapshot> future = db.collection(collection).get();
+
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+            var returnDocs = new ArrayList<T>();
+            if (documents.size() > 0) {
+                for (QueryDocumentSnapshot document : documents) {
+                    returnDocs.add(document.toObject(valueType));
+                    System.out.println(document.getId() + " => " + document.toObject(valueType));
+                }
+                return returnDocs;
+            } else {
+                System.out.println("No such documents!");
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex);
         }
         return null;
     }
