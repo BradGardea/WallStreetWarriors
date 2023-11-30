@@ -90,7 +90,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
         // TODO: Ensure "Value" is correct in terms of capitalization once logic for setting portfiolio is implemented
         float user_profit = 0;
         for (String ticker: portfolio.keySet()){
-            user_profit += Float.parseFloat((String) portfolio.get(ticker).get("Value"));
+            user_profit += Float.parseFloat(portfolio.get(ticker).get("Value"));
         }
 
         return user_profit;

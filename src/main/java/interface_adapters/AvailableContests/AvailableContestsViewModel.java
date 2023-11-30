@@ -10,7 +10,7 @@ public class AvailableContestsViewModel extends ViewModel {
     private AvailableContestState state;
 
     public AvailableContestsViewModel() {
-        super("availableContestView");
+        super("availableContestDetailView");
     }
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 

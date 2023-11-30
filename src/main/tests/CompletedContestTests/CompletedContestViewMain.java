@@ -32,7 +32,7 @@ public class CompletedContestViewMain {
 
         try{
 
-            URL url =  CompletedContestViewMain.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-a1c2e7ac43.json");
+            URL url =  CompletedContestViewMain.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
             File file = new File(url.getPath());
 
             FileInputStream serviceAccount =
@@ -49,32 +49,33 @@ public class CompletedContestViewMain {
             //"Initialize" singleton entity level data access factory
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
             firebaseDataAccess.setFirestore(db);
-        // catching exceptions for GoogleCredentials.fromStream and FileInputStream
+        //  catching exceptions for GoogleCredentials.fromStream and FileInputStream
             String contestId = "1";
-            firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
+//          firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
 
             // creating JFrame for app
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            app.setSize(new Dimension(800, 600));
+            app.setSize(new Dimension(900, 600));
 
-            CardLayout cardLayout = new CardLayout();
-            JPanel views = new JPanel(cardLayout);
-            app.add(views);
+//            CardLayout cardLayout = new CardLayout();
+//            JPanel views = new JPanel(cardLayout);
+//            app.add(views);
             ViewModelManager viewModelManager = new ViewModelManager();
 
         // creating CompletedContestViewModel and CompletedContestController
             CompletedContestViewModel completedContestViewModel = new CompletedContestViewModel();
             CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, contestId, "dhruvpatt");
-            views.add(completedContestView, completedContestView.viewName);
-            viewModelManager.setActiveView(completedContestView.viewName);
-            viewModelManager.firePropertyChanged();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } {
+//            views.add(completedContestView, completedContestView.viewName);
+//            viewModelManager.setActiveView(completedContestView.viewName);
+//            viewModelManager.firePropertyChanged();
+            app.add(completedContestView);
+            app.setVisible(true);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+        } catch (Exception ex){
             System.out.println("Unable to load firebase data, app will have limited functionality");
         }
 
