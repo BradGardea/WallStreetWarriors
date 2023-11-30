@@ -10,6 +10,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import entity.Contest;
 import interface_adapters.Enrolled.EnrolledViewModel;
 import interface_adapters.ViewModelManager;
+import main.tests.Common.CreateContest;
 import view.EnrolledView;
 
 import javax.swing.*;
@@ -42,7 +43,7 @@ public class EnrolledContestViewMain {
             FirebaseApp.initializeApp(options);
 
             db = FirestoreClient.getFirestore();
-
+            CreateContest.createContest();
             //"Initialize" singleton entity level data access factory
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
             firebaseDataAccess.setFirestore(db);
