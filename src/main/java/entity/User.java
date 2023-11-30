@@ -12,8 +12,8 @@ public class User implements IUser, IFirebaseEntity {
     private String id;
     private String username;
     private String password;
-    private ArrayList<String> completedContests;
-    private ArrayList<String> enrolledContests;
+    private ArrayList<String> completedContests = new ArrayList<String>();
+    private ArrayList<String> enrolledContests = new ArrayList<String>();
     @Exclude private ArrayList<Contest> concreteCompletedContests;
     @Exclude private ArrayList<Contest> concreteEnrolledContests;
 

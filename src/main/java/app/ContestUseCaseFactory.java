@@ -28,7 +28,7 @@ public class ContestUseCaseFactory {
 
     public static AvailableContestDetailView createAvailableContestDetailView(AvailableContestsViewModel availableContestsViewModel, ViewModelManager viewModelManager, String contestId, String username){
         AvailableContestsController availableContestsController = createAvailableContestUseCase(availableContestsViewModel, viewModelManager, contestId, username);
-        return new AvailableContestDetailView(availableContestsController, availableContestsViewModel, username);
+        return new AvailableContestDetailView(availableContestsController, availableContestsViewModel);
     }
 
     public static CompletedContestView createCompletedContestView(CompletedContestViewModel completedContestViewModel, FirebaseDataAccess dataAccessInterface, ViewModelManager viewModelManager, String contestId, String username){
