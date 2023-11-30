@@ -1,5 +1,7 @@
 package interface_adapters.SignUpLogIn;
 
+import interface_adapters.ViewModel;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

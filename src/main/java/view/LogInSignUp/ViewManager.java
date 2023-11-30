@@ -1,6 +1,5 @@
 package view.LogInSignUp;
 
-import interface_adapters.SignUpLogIn.ViewManagerModel;
 import interface_adapters.ViewModelManager;
 
 import javax.swing.*;

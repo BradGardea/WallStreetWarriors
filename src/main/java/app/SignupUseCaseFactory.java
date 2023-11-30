@@ -1,14 +1,14 @@
 package app;
 
-// import data_access.FileUserDataAccessObject;
-// import data_access.UserSignupDataAccessInterface;
-import entity.SignUpLogIn.CommonUserFactory;
-import entity.SignUpLogIn.UserFactory;
+
+import entity.IUserFactory;
+import entity.UserFactory;
 import interface_adapters.SignUpLogIn.*;
 import interface_adapters.ViewModelManager;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.signup.SignupUserDataAccessInterface;
 import view.LogInSignUp.SignupView;
 
 import javax.swing.*;
@@ -19,10 +19,10 @@ public class SignupUseCaseFactory {
     /** Prevent instantiation. */
     private SignupUseCaseFactory() {}
 
-    public static SignupView create(ViewModelManager viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel) {
+    public static SignupView create(ViewModelManager viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, SignupUserDataAccessInterface userDataAccessObject) {
 
         try {
-            SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel);
+            SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
             return new SignupView(signupController, signupViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -31,16 +31,15 @@ public class SignupUseCaseFactory {
         return null;
     }
 
-    private static SignupController createUserSignupUseCase(ViewModelManager viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel) throws IOException {
-        // UserSignupDataAccessInterface userDataAccessObject = new FileUserDataAccessObject("./users.csv", new CommonUserFactory());
+    private static SignupController createUserSignupUseCase(ViewModelManager viewManagerModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, SignupUserDataAccessInterface userDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel, loginViewModel);
 
-        UserFactory userFactory = new CommonUserFactory();
+        UserFactory userFactory = new UserFactory();
 
         SignupInputBoundary userSignupInteractor = new SignupInteractor(
-                //userDataAccessObject
+                userDataAccessObject,
                 signupOutputBoundary, userFactory);
 
         return new SignupController(userSignupInteractor);

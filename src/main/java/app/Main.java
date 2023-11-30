@@ -3,6 +3,7 @@ package app;
 import FirebaseDataAccess.FirebaseDataAccess;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
+import com.google.common.io.FileBackedOutputStream;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
@@ -10,6 +11,7 @@ import interface_adapters.Contests.ContestViewModel;
 import interface_adapters.SignUpLogIn.LoginViewModel;
 import interface_adapters.SignUpLogIn.SignupViewModel;
 import interface_adapters.ViewModelManager;
+import use_case.signup.SignupUserDataAccessInterface;
 import view.ContestView;
 import view.LogInSignUp.LoginView;
 import view.LogInSignUp.SignupView;
@@ -19,6 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,7 +79,15 @@ class Main{
             SignupViewModel signupViewModel = new SignupViewModel();
             LoginViewModel loginViewModel = new LoginViewModel();
 
-            SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel);
+            FirebaseDataAccess userDataAccessObject;
+
+            try {
+                userDataAccessObject = new FirebaseDataAccess("1");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel, userDataAccessObject);
             views.add(signupView, signupView.viewName);
 
 

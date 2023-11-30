@@ -56,31 +56,31 @@ public class User implements IUser, IFirebaseEntity {
         updateInFirebase();
     }
 
-//    public ArrayList<Contest> getCompletedContests() {
-//        ArrayList<Contest> completedConts = new ArrayList<>();
-//        var dataAccess = FirebaseDataAccess.getInstance();
-//        for (var contestId: completedContests) {
-//            completedConts.add(dataAccess.getEntity(CompletedContest.class, "Contests", contestId));
-//        }
-//        return completedConts;
-//    }
+    public ArrayList<Contest> getCompletedContests() {
+        ArrayList<Contest> completedConts = new ArrayList<>();
+        var dataAccess = FirebaseDataAccess.getInstance();
+        for (var contestId: completedContests) {
+            completedConts.add(dataAccess.getEntity(Contest.class, "Contests", contestId));
+        }
+        return completedConts;
+    }
 
-//    public ArrayList<Contest> getEnrolledContests(){
-//        ArrayList<Contest> enrolledConts = new ArrayList<>();
-//        var dataAccess = FirebaseDataAccess.getInstance();
-//        for (var contestId: enrolledContests){
-//            enrolledConts.add(dataAccess.getEntity(EnrolledContest.class, "Contests", contestId));
-//        }
-//        return enrolledConts;
-//    }
-//    public void setEnrolledContests(ArrayList<String> enrolledContests){
-//        this.enrolledContests = enrolledContests;
-//        this.concreteEnrolledContests = getEnrolledContests();
-//        updateInFirebase();
-//    }
-//    public void setCompletedContests(ArrayList<String> completedContests){
-//        this.completedContests = completedContests;
-//        this.concreteCompletedContests = getCompletedContests();
-//        updateInFirebase();
-//    }
+    public ArrayList<Contest> getEnrolledContests(){
+        ArrayList<Contest> enrolledConts = new ArrayList<>();
+        var dataAccess = FirebaseDataAccess.getInstance();
+        for (var contestId: enrolledContests){
+            enrolledConts.add(dataAccess.getEntity(Contest.class, "Contests", contestId));
+        }
+        return enrolledConts;
+    }
+    public void setEnrolledContests(ArrayList<String> enrolledContests){
+        this.enrolledContests = enrolledContests;
+        this.concreteEnrolledContests = getEnrolledContests();
+        updateInFirebase();
+    }
+    public void setCompletedContests(ArrayList<String> completedContests){
+        this.completedContests = completedContests;
+        this.concreteCompletedContests = getCompletedContests();
+        updateInFirebase();
+    }
 }

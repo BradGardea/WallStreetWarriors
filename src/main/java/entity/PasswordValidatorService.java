@@ -1,4 +1,6 @@
-package entity.SignUpLogIn;
+package entity;
+
+import entity.PasswordValidator;
 
 public class PasswordValidatorService implements PasswordValidator {
     public boolean passwordIsValid(String password) {

@@ -9,7 +9,6 @@ public class SignupOutputData {
 
     public SignupOutputData(String username, boolean useCaseFailed) {
         this.username = username;
-
         this.useCaseFailed = useCaseFailed;
     }
 

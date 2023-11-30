@@ -4,6 +4,9 @@ import interface_adapters.ViewModelManager;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class SignupPresenter implements SignupOutputBoundary {
 
     private final SignupViewModel signupViewModel;
@@ -22,11 +25,11 @@ public class SignupPresenter implements SignupOutputBoundary {
     public void prepareSuccessView(SignupOutputData response) {
         // On success, switch to the login view.
 
-        SignupState signupState = signupViewModel.getState();
         LoginState loginState = loginViewModel.getState();
         loginState.setUsername(response.getUsername());
         this.loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
+
         viewManagerModel.setActiveView(loginViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

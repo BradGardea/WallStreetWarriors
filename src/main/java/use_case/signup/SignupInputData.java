@@ -6,13 +6,10 @@ public class SignupInputData {
     final private String password;
     final private String repeatPassword;
 
-    final private String email;
-
-    public SignupInputData(String username, String password, String repeatPassword, String email) {
+    public SignupInputData(String username, String password, String repeatPassword) {
         this.username = username;
         this.password = password;
         this.repeatPassword = repeatPassword;
-        this.email = email;
     }
 
     String getUsername() {
@@ -27,7 +24,4 @@ public class SignupInputData {
         return repeatPassword;
     }
 
-    String getEmail() {
-        return email;
-    }
 }
