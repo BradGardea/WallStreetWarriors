@@ -12,11 +12,8 @@ import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.SignUpLogIn.LoginViewModel;
 import interface_adapters.SignUpLogIn.SignupViewModel;
 import interface_adapters.ViewModelManager;
-import io.opencensus.stats.ViewManager;
-import view.ContestView;
 import view.HomePage.HomePageView;
-import view.LogInSignUp.LoginView;
-import view.LogInSignUp.SignupView;
+import view.LogInSignUp.*;
 import view.LoggedInView;
 
 import javax.swing.*;
@@ -73,6 +70,7 @@ class Main{
             app.add(views);
 
             ViewModelManager viewModelManager = new ViewModelManager();
+            new ViewManager(views, cardLayout, viewModelManager);
 
 
             LoginViewModel loginViewModel = new LoginViewModel();
@@ -82,12 +80,12 @@ class Main{
             FirebaseDataAccess userDataAccessObject;
             userDataAccessObject = new FirebaseDataAccess();
 
+            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject);
+            views.add(loginView, loginView.viewName);
 
             SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel, userDataAccessObject);
             views.add(signupView, signupView.viewName);
 
-            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject);
-            views.add(loginView, loginView.viewName);
 
             //HomePageView homePageView = new HomePageView(homepageViewModel);
             //views.add(homePageView, homePageView.viewName);
