@@ -2,6 +2,9 @@ package entity;
 
 import java.util.ArrayList;
 
+import com.google.cloud.Timestamp;
+import com.google.type.DateTime;
+
 public interface IContest {
 
     String getTitle();
@@ -12,7 +15,14 @@ public interface IContest {
 
     String getContestId();
 
-    String getContestIndustry();
+    String getIndustry();
 
-    IUser getWinner();
+    // IUser getWinner();
+
+    Timestamp getStartTime();
+    Timestamp getEndTime();
+
+
+
+
 }
