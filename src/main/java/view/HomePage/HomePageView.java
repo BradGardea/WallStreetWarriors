@@ -45,9 +45,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
         // Main content panel with scrollable lists
         JPanel contentPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-        availableScrollPane = createScrollablePanel("Available", homepageViewModel.availableContests);
-        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.enrolledContests);
-        completedScrollPane = createScrollablePanel("Completed", homepageViewModel.completedContests);
+        availableScrollPane = createScrollablePanel("Available", homepageViewModel.availableContests, true);
+        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.enrolledContests, false);
+        completedScrollPane = createScrollablePanel("Completed", homepageViewModel.completedContests, false);
 
         contentPanel.add(availableScrollPane);
         contentPanel.add(enrolledScrollPane);
@@ -70,14 +70,49 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     public void propertyChange(PropertyChangeEvent evt){
 
     }
-    private JScrollPane createScrollablePanel(String title, ArrayList<Contest> contests) {
-        // This method would create a panel that can be filled with data.
-        // empty panel with a border.
-        JPanel panel = new JPanel(new GridLayout(0, 1, 0, 5));
+    private JScrollPane createScrollablePanel(String title, ArrayList<Contest> contests, boolean showTimeLeft) {
+        // Create a panel with a vertical BoxLayout to stack contest panels vertically
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createTitledBorder(title));
+
+        // Create a separate panel for each contest and add it to the main panel
+        for (Contest contest : contests) {
+            JPanel contestPanel = createContestPanel(contest, showTimeLeft);
+            panel.add(contestPanel);
+        }
+
+        // Create a scroll pane that will only scroll vertically as needed
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         return scrollPane;
     }
+    private JPanel createContestPanel(Contest contest, boolean showTimeLeft) {
+        JPanel contestPanel = new JPanel(new GridLayout(1, 3)); // Adjust grid layout as needed
+        JLabel descriptionLabel = new JLabel(contest.getDescription());
+        JButton infoButton = new JButton("Info");
+        infoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showContestDetailsScreen(contest);
+            }
+        });
+
+        JLabel timeLeftLabel = new JLabel(); // TODO calculate time
+
+        // Add components to the panel
+        contestPanel.add(descriptionLabel);
+        contestPanel.add(infoButton);
+        if (showTimeLeft) {
+            contestPanel.add(timeLeftLabel);
+        }
+        contestPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        return contestPanel;
+    }
+
+    private void showContestDetailsScreen(Contest contest) {
+        // TODO switch screen after clicking info
+    }
+
 }
