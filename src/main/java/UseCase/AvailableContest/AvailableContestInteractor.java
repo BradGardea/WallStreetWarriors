@@ -2,6 +2,7 @@ package UseCase.AvailableContest;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import entity.Contest;
+import entity.User;
 
 public class AvailableContestInteractor implements AvailableContestInputBoundary{
     private AvailableContestOuputBoundary  availableContestOuputBoundary;
@@ -19,6 +20,26 @@ public class AvailableContestInteractor implements AvailableContestInputBoundary
         if (contest != null){
             availableContestOuputBoundary.prepareSuccess(contest);
         }
+    }
+    public boolean enrollUserInContest(){
+        try{
+            var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", this.contestId);
+            var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", this.username);
+
+            if (user != null && contest != null){
+                contest.addMember(user);
+                user.addEnrolledContest(this.contestId);
+
+                contest.updateInFirebase();
+                user.updateInFirebase();
+                return true;
+            }
+            return false;
+        }
+        catch(Exception ex){
+            return false;
+        }
+
     }
 
     public float getUpdatedStockPrice(String stockName){

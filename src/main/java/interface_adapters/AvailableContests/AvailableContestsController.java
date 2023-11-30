@@ -10,15 +10,13 @@ public class AvailableContestsController {
         this.availableContestInteractor = availableContestInteractor;
         this.availableContestInteractor.execute();
     }
-    public String stockListChanged(String stockName) {
-        var cost = getUpdatedStockPrice(stockName);
-        return String.valueOf(cost);
+    public Float stockListChanged(String stockName) {
+        return getUpdatedStockPrice(stockName);
     }
     public float getUpdatedStockPrice(String stockName){
-        //TODO: api call here
-        return 100;
+        return availableContestInteractor.getUpdatedStockPrice(stockName);
     }
-    public void enrollUserInContest(){
-
+    public boolean enrollUserInContest(){
+        return availableContestInteractor.enrollUserInContest();
     }
 }

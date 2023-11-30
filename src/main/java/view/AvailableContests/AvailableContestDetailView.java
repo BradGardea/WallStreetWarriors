@@ -72,6 +72,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
                         if (!e.getValueIsAdjusting()){
                             var updatedCost = controller.stockListChanged(stockChoicesList.getSelectedValue().toString()); //API call to get update prices here
                             updateStockSelectionUI(stockChoicesList.getSelectedValue().toString()); // Add extra param with api call here
+                            checkNextPurchaseOverflow(updatedCost);
                         }
                     }
         });
@@ -80,20 +81,19 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         stockQuantitySpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (stockChoicesList.getSelectedValue() != null){
+                if (Integer.parseInt(stockQuantitySpinner.getValue().toString()) < 0) {
+                    stockQuantitySpinner.setValue(0);
+                }
+                else if (stockChoicesList.getSelectedValue() != null){
                     var currentStock = stockChoicesList.getSelectedValue().toString();
                     var updatedCost = controller.getUpdatedStockPrice(currentStock);
-                    if (currentPortfollio.get(currentStock) != null){
-                        var currentStockMetaData = currentPortfollio.get(currentStock);
-                        currentStockMetaData.put("Quantity", stockQuantitySpinner.getValue().toString());
-                        currentStockMetaData.put("Purchase Price", String.valueOf(updatedCost));
-                    }
-                    else{
-                        var newCurrentStockMetaData = new HashMap<String, String>();
-                        newCurrentStockMetaData.put("Quantity", stockQuantitySpinner.getValue().toString());
-                        newCurrentStockMetaData.put("Purchase Price", String.valueOf(updatedCost));
-                        currentPortfollio.put(currentStock, newCurrentStockMetaData);
-                    }
+
+//                    var totalPrice = Float.parseFloat(stockQuantitySpinner.getValue().toString()) * updatedCost;
+//                    if (totalPrice > Float.parseFloat(cashRemainingLabel.getText())){
+//                        stockQuantitySpinner.setValue(0);
+//                    }
+                    updateCurrentPortfolio(currentStock, updatedCost);
+                    checkNextPurchaseOverflow(updatedCost);
                     totalCostLabel.setText(String.valueOf(Float.parseFloat(stockQuantitySpinner.getValue().toString()) * updatedCost));
                 }
             }
@@ -129,10 +129,35 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
 
     }
 
-    private float calculateCashRemaining(){
-        var cashRemaining = Float.parseFloat(cashRemainingLabel.getText());
+    private void updateCurrentPortfolio(String currentStock, Float updatedCost){
+        if (currentPortfollio.get(currentStock) != null){
+            var currentStockMetaData = currentPortfollio.get(currentStock);
+            currentStockMetaData.put("Quantity", stockQuantitySpinner.getValue().toString());
+            currentStockMetaData.put("Purchase Price", String.valueOf(updatedCost));
+        }
+        else{
+            var newCurrentStockMetaData = new HashMap<String, String>();
+            newCurrentStockMetaData.put("Quantity", stockQuantitySpinner.getValue().toString());
+            newCurrentStockMetaData.put("Purchase Price", String.valueOf(updatedCost));
+            currentPortfollio.put(currentStock, newCurrentStockMetaData);
+        }
+    }
 
-        return 0;
+    private void checkNextPurchaseOverflow(Float updatedCost){
+        if (calculateCashRemaining() < 0){
+            this.stockQuantitySpinner.setValue(0);
+            updateCurrentPortfolio(stockChoicesList.getSelectedValue().toString(), updatedCost);
+        }
+    }
+
+    private float calculateCashRemaining(){
+        var cashRemaining = 10000;
+        for (var stock : currentPortfollio.keySet()) {
+            var stockMetaData = currentPortfollio.get(stock);
+            cashRemaining -= Float.parseFloat(stockMetaData.get("Quantity")) * Float.parseFloat(stockMetaData.get("Purchase Price"));
+        }
+        cashRemainingLabel.setText(String.valueOf(cashRemaining));
+        return cashRemaining;
     }
     private void setListValues() {
         var keyset = this.viewModel.getState().getContestDetails().getStockOptions();
@@ -159,7 +184,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     public void updateStockSelectionUI(String stockSelection){
         this.stockNameLabel.setText(stockSelection);
         if (this.currentPortfollio != null && this.currentPortfollio.getOrDefault(stockSelection, null) != null){
-            this.stockQuantitySpinner.setValue(this.currentPortfollio.get(stockSelection).get("quantity"));
+            this.stockQuantitySpinner.setValue(Integer.parseInt(this.currentPortfollio.get(stockSelection).get("Quantity")));
         }
         else{
             this.stockQuantitySpinner.setValue(0);
@@ -175,7 +200,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     }
 
     private void onOK() {
-        // switch this contest and its configuration to enrolled
+        // switch this contest and its configuration to enrolledw
         dispose();
     }
 
