@@ -1,7 +1,8 @@
 package use_case;
 
 public interface HomePageOutputBoundary {
-    void prepareSuccessView(HomePageOutputData user);
+    void prepareSuccessView(HomePageOutputData data);
 
-    void prepareFailView(String error);
+    // TODO: Add Functionality to Show a message or something if there is an error.
+    void prepareFailView();
 }

@@ -7,6 +7,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import interface_adapters.Contests.ContestViewModel;
+import interface_adapters.HomePage.HomePageController;
 import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
 import io.opencensus.stats.ViewManager;

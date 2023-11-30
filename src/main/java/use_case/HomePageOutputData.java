@@ -1,13 +1,26 @@
 package use_case;
 
+import entity.Contest;
+
+import java.util.ArrayList;
+
 public class HomePageOutputData {
 
-    private final String username;
-    private boolean useCaseFailed;
+    public String username;
 
-    public HomePageOutputData(String username, boolean useCaseFailed) {
+    public ArrayList<Contest> enrolledContests;
+
+    public ArrayList<Contest> completedContests;
+
+    public ArrayList<Contest> availableContests;
+
+
+    public HomePageOutputData(String username, ArrayList<Contest> enrolledContests, ArrayList<Contest> completedContests, ArrayList<Contest> availableContests) {
         this.username = username;
-        this.useCaseFailed = useCaseFailed;
+        this.enrolledContests = enrolledContests;
+        this.completedContests = completedContests;
+        this.availableContests = availableContests;
+
     }
 
     public String getUsername() {

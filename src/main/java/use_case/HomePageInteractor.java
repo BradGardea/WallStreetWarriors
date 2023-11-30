@@ -1,34 +1,44 @@
 package use_case;
 
+import entity.Contest;
 import entity.User;
 
-public class HomePageInteractor implements HomePageInputBoundary {
-    final HomePageDataAccessInterface userDataAccessObject;
-    final HomePageOutputBoundary loginPresenter;
+import FirebaseDataAccess.FirebaseDataAccess;
+import entity.User;
 
-    public HomePageInteractor(HomePageDataAccessInterface userDataAccessInterface,
-                              HomePageOutputBoundary loginOutputBoundary) {
-        this.userDataAccessObject = userDataAccessInterface;
-        this.loginPresenter = loginOutputBoundary;
+import java.lang.reflect.Array;
+import java.util.*;
+
+public class HomePageInteractor implements HomePageInputBoundary {
+    public final FirebaseDataAccess homepageDataAccessObject;
+
+    public final HomePageOutputBoundary homepagePresenter;
+
+    public String username;
+
+
+    public HomePageInteractor(FirebaseDataAccess homepageDataAccessObject,
+                              HomePageOutputBoundary homepagePresenter, String username) {
+        this.homepageDataAccessObject = homepageDataAccessObject;
+        this.homepagePresenter = homepagePresenter;
+        this.username = username;
     }
 
     @Override
-    public void execute(HomePageInputData loginInputData) {
-        String username = loginInputData.getUsername();
-        String password = loginInputData.getPassword();
-        if (!userDataAccessObject.existsByName(username)) {
-            loginPresenter.prepareFailView(username + ": Account does not exist.");
-        } else {
-            String pwd = userDataAccessObject.get(username).getPassword();
-            if (!password.equals(pwd)) {
-                loginPresenter.prepareFailView("Incorrect password for " + username + ".");
-            } else {
+    public void execute() {
+        User user = homepageDataAccessObject.getEntity(User.class, "Users", username);
 
-                User user = userDataAccessObject.get(loginInputData.getUsername());
+        ArrayList<Contest> enrolledContests = user.getEnrolledContests();
 
-                HomePageOutputData loginOutputData = new HomePageOutputData(user.getName(), false);
-                loginPresenter.prepareSuccessView(loginOutputData);
-            }
-        }
+        ArrayList<Contest> completedContests = user.getCompletedContests();
+
+        //fix this to find available contests
+        ArrayList<Contest> availableContests = user.getCompletedContests();
+
+        HomePageOutputData homepageOutputData = new HomePageOutputData(username, enrolledContests, completedContests, availableContests);
+        homepagePresenter.prepareSuccessView(homepageOutputData);
+
+        ///
     }
+
 }

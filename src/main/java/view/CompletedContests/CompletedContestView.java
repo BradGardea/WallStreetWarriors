@@ -1,6 +1,7 @@
 package view.CompletedContests;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class CompletedContestView {
     private JPanel mainPanel;
@@ -10,4 +11,5 @@ public class CompletedContestView {
     private JLabel contestIndustry;
     private JLabel placement;
     private JLabel profit;
+
 }
