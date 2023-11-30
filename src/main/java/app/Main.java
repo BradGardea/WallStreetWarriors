@@ -30,11 +30,10 @@ import java.util.HashMap;
 
 public class Main{
     public static void main(String[] args){
-<<<<<<< HEAD
-//        Firestore db;
-//        //Initialization for firebase.
-//        try{
-//            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
+        Firestore db;
+        //Initialization for firebase.
+        try{
+//            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-9cad46c515.json");
 //            File file = new File(url.getPath());
 //
 //            FileInputStream serviceAccount =
@@ -52,9 +51,7 @@ public class Main{
 //            var firebaseDataAccess = FirebaseDataAccess.getInstance();
 //            firebaseDataAccess.setFirestore(db);
 //
-//            var en = firebaseDataAccess.getEntity(Message.class, "Messages", "1234567");
-//            System.out.println(en.getDict());
-//
+//            firebaseDataAccess.getEntity(Message.class, "Messages", "123");
 //            HashMap hm = new HashMap<String, Object>();
 //            HashMap nested = new HashMap<String, Object>();
 //            nested.put("hello", "test");
@@ -63,68 +60,9 @@ public class Main{
 //            l.add("foo");
 //            Message m = new Message("test", "now", hm, l);
 //
-//            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234567");
-//
-//
-//            JFrame app = new JFrame("Wall Street Warriors");
-//            app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//
-//            CardLayout cardLayout = new CardLayout();
-//
-//            JPanel views = new JPanel(cardLayout);
-//            app.add(views);
-//
-//            ViewModelManager viewModelManager = new ViewModelManager();
-//
-//            ContestViewModel contestViewModel = new ContestViewModel();
-//            ContestView contestView = ContestUseCaseFactory.create(contestViewModel);
-//
-//            views.add(contestView, contestView.viewName);
-//
-//            viewModelManager.setActiveView(contestView.viewName);
-//            viewModelManager.firePropertyChanged();
-//
-//            app.pack();
-//            app.setVisible(true);
-//        }
-//        catch (Exception ex){
-//            System.out.println("Unable to load Firebase data, app will have limited functionality.");
-//        }
-=======
+//            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
 
-        Firestore db;
-        //Initialization for firebase.
-        try{
-            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-9cad46c515.json");
-            File file = new File(url.getPath());
-
-            FileInputStream serviceAccount =
-                    new FileInputStream(file);
-
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .build();
-
-            FirebaseApp.initializeApp(options);
-
-            db = FirestoreClient.getFirestore();
-
-            //"Initialize" singleton entity level data access factory
-            var firebaseDataAccess = FirebaseDataAccess.getInstance();
-            firebaseDataAccess.setFirestore(db);
-
-            firebaseDataAccess.getEntity(Message.class, "Messages", "123");
-            HashMap hm = new HashMap<String, Object>();
-            HashMap nested = new HashMap<String, Object>();
-            nested.put("hello", "test");
-            hm.put("foo", nested);
-            var l = new ArrayList<String>();
-            l.add("foo");
-            Message m = new Message("test", "now", hm, l);
-
-            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
-
-
+            FirebaseInit();
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -153,8 +91,6 @@ public class Main{
             //HomePageView homePageView = new HomePageView(homepageViewModel);
             //views.add(homePageView, homePageView.viewName);
 
-
-
             viewModelManager.setActiveView(signupView.viewName);
             viewModelManager.firePropertyChanged();
 
@@ -164,7 +100,6 @@ public class Main{
         catch (Exception ex){
             System.out.println("Unable to load Firebase data, app will have limited functionality.");
         }
->>>>>>> origin/LoginSignup
     }
 
     public static void FirebaseInit() throws IOException {
