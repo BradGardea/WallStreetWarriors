@@ -89,6 +89,10 @@ class Main{
             LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject);
             views.add(loginView, loginView.viewName);
 
+            //HomePageView homePageView = new HomePageView(homepageViewModel);
+            //views.add(homePageView, homePageView.viewName);
+
+
 
             viewModelManager.setActiveView(signupView.viewName);
             viewModelManager.firePropertyChanged();

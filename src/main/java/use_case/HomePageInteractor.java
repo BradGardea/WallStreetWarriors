@@ -5,6 +5,7 @@ import entity.User;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import entity.User;
+import interface_adapters.Contests.ContestState;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -28,12 +29,20 @@ public class HomePageInteractor implements HomePageInputBoundary {
     public void execute() {
         User user = homepageDataAccessObject.getEntity(User.class, "Users", username);
 
-        ArrayList<Contest> enrolledContests = user.getEnrolledContests();
+        ArrayList<Contest> enrolledContests = new ArrayList<>();
 
-        ArrayList<Contest> completedContests = user.getCompletedContests();
+        ArrayList<Contest> completedContests = new ArrayList<>();
 
         //fix this to find available contests
-        ArrayList<Contest> availableContests = user.getCompletedContests();
+        ArrayList<Contest> availableContests = new ArrayList<>();
+
+        for (var eC: user.getEnrolledContests()){
+            enrolledContests.add(homepageDataAccessObject.getEntity(Contest.class, "Contests", eC));
+        }
+
+        for (var cC: user.getEnrolledContests()){
+            enrolledContests.add(homepageDataAccessObject.getEntity(Contest.class, "Contests", cC));
+        }
 
         HomePageOutputData homepageOutputData = new HomePageOutputData(username, enrolledContests, completedContests, availableContests);
         homepagePresenter.prepareSuccessView(homepageOutputData);

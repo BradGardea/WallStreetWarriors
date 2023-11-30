@@ -15,7 +15,7 @@ public class UserFactory implements IUserFactory{
         ArrayList<String> empty1 = new ArrayList<>();
         ArrayList<String> empty2 = new ArrayList<>();
          //TODO fix id
-        return new User("1", username, password, empty1, empty2);
+        return new User(username, password, empty1, empty2);
     }
 
 }

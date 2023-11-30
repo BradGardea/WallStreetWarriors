@@ -4,12 +4,10 @@ import FirebaseDataAccess.FirebaseDataAccess;
 import entity.User;
 
 public class LoginInteractor implements LoginInputBoundary {
-    final FirebaseDataAccess userDataAccessObject;
+    final FirebaseDataAccess userDataAccessObject = FirebaseDataAccess.getInstance();
     final LoginOutputBoundary loginPresenter;
 
-    public LoginInteractor(FirebaseDataAccess userDataAccessInterface,
-                           LoginOutputBoundary loginOutputBoundary) {
-        this.userDataAccessObject = userDataAccessInterface;
+    public LoginInteractor(LoginOutputBoundary loginOutputBoundary) {
         this.loginPresenter = loginOutputBoundary;
     }
 
@@ -17,10 +15,10 @@ public class LoginInteractor implements LoginInputBoundary {
     public void execute(LoginInputData loginInputData) {
         String username = loginInputData.getUsername();
         String password = loginInputData.getPassword();
-        if (userDataAccessObject.getEntity(User.class, "Users", username) != null) {
+        if (userDataAccessObject.getEntity(User.class, "Users", username) == null) {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         } else {
-            String pwd = userDataAccessObject.getEntity(User.class, "Users", username).getPassword();
+            String pwd = userDataAccessObject.getEntity(User.class, "Users", username).getPassword().trim();
             if (!password.equals(pwd)) {
                 loginPresenter.prepareFailView("Incorrect password for " + username + ".");
             } else {
