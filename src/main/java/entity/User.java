@@ -17,6 +17,7 @@ public class User implements IUser, IFirebaseEntity {
     @Exclude private ArrayList<Contest> concreteCompletedContests;
     @Exclude private ArrayList<Contest> concreteEnrolledContests;
 
+    public User(){};
     public User(String id, String username, String password, ArrayList<String> completedContests, ArrayList<String> enrolledContests){
         this.id = id;
         this.username = username;
@@ -73,14 +74,16 @@ public class User implements IUser, IFirebaseEntity {
 //        }
 //        return enrolledConts;
 //    }
-//    public void setEnrolledContests(ArrayList<String> enrolledContests){
-//        this.enrolledContests = enrolledContests;
-//        this.concreteEnrolledContests = getEnrolledContests();
-//        updateInFirebase();
-//    }
-//    public void setCompletedContests(ArrayList<String> completedContests){
-//        this.completedContests = completedContests;
-//        this.concreteCompletedContests = getCompletedContests();
-//        updateInFirebase();
-//    }
+    public void setEnrolledContests(ArrayList<String> enrolledContests){
+        this.enrolledContests = enrolledContests;
+    }
+    public void setCompletedContests(ArrayList<String> completedContests){
+        this.completedContests = completedContests;
+    }
+    public void addCompletedContest(String completedContest){
+        this.completedContests.add(completedContest);
+    }
+    public void addEnrolledContest(String enrolledContest){
+        this.enrolledContests.add(enrolledContest);
+    }
 }
