@@ -18,9 +18,9 @@ public class Contest implements IContest, IFirebaseEntity{
     private String industry;
     private Timestamp startTime;
     private Timestamp endTime;
-    private  ArrayList<String> stockOptions;  
-  
-}
+    private  ArrayList<String> stockOptions;
+    private HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
+
 //    @Exclude
 //    private ArrayList<User> concreteMembers;
     public Contest(String contestId, String title, String description, ArrayList<User> members,
