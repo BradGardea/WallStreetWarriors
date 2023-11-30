@@ -16,13 +16,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     public final String viewName = "homepage view";
     private HomePageController homepageController;
     private HomePageViewModel homepageViewModel;
-
     private JScrollPane availableScrollPane;
     private JScrollPane enrolledScrollPane;
     private JScrollPane completedScrollPane;
 
     public HomePageView(HomePageViewModel viewModel){
-
         this.homepageViewModel = viewModel;
         this.homepageViewModel.addPropertyChangeListener(this);
 
@@ -59,7 +57,6 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         add(contentPanel, BorderLayout.CENTER);
 
     }
-
 
     // TODO: implement later
     public void actionPerformed(ActionEvent evt){
