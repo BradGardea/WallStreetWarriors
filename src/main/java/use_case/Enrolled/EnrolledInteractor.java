@@ -40,12 +40,13 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
      */
     @Override
     public void execute(EnrolledInputData enrolledInputData) {
-        // Get Contest by ID
         String username = enrolledInputData.getUsername();
         String contestId = enrolledInputData.getContestId();
+
+        // Get Contest object by ID
         Contest enrolledContest = userDataAccessObject.getEntity(Contest.class, "Contests", contestId);
 
-        // TODO figure out how to convert the enrolled contest object to the raw data needed
+        // Get base data from object
         ArrayList<User> members = enrolledContest.getMembers();
         HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = enrolledContest.getPortfolios(); // LinkedHashMap
         Timestamp startTime = enrolledContest.getStartTime();
@@ -53,11 +54,11 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         String industry = enrolledContest.getIndustry();
         String title = enrolledContest.getTitle();
         String description = enrolledContest.getDescription();
-
-        List<String> opponents = new LinkedList<>();
         HashMap<String, HashMap<String, String>> userPortfolio = portfolios.get(username);
-        HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios = new HashMap<>();
 
+        // Convert to OutputData format
+        List<String> opponents = new LinkedList<>();
+        HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios = new HashMap<>();
         for (User user : members) {
             String name = user.getUsername();
             if (!Objects.equals(name, username)) {
@@ -67,7 +68,7 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
             }
         }
 
-
+        // Convert time to OutputData format
         LocalDateTime startDate = startTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime endDate = endTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
@@ -81,7 +82,7 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
                 description,
                 contestId,
                 industry);
-//        enrolledPresenter.prepareSuccessView(enrolledOutputData);
+        enrolledPresenter.prepareSuccessView(enrolledOutputData);
     }
 
 }

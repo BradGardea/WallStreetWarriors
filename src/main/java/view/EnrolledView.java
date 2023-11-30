@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapters.Enrolled.EnrolledController;
+import interface_adapters.Enrolled.EnrolledState;
 import interface_adapters.Enrolled.EnrolledViewModel;
 // import interface_adapters.MAINVIEWPACKAGE.MAINVIEWState; TODO CHANGE THIS
 
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.ZoneId;
 
 /**
  * View of a specific Enrolled StockContest object.
@@ -24,22 +26,24 @@ import java.beans.PropertyChangeListener;
  */
 public class EnrolledView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "enrolledcontest";
-    private final LoggedInController loggedInController;
+    private final HomePageController homePageController;
     private final EnrolledViewModel enrolledViewModel;
+    private EnrolledState enrolledState;
 
     // Variables for timer usage
     private static JLabel timerLabel;
     private static int timeLeft; // Seconds
 
-    public EnrolledView(LoggedInController controller, EnrolledViewModel viewModel) {
-        this.loggedInController = controller;
+    public EnrolledView(HomePageController controller, EnrolledViewModel viewModel) {
+        this.homePageController = controller;
         this.enrolledViewModel = viewModel;
-        this.enrolledViewModel.addPropertyChangeListener(this); // TODO
+        this.enrolledViewModel.addPropertyChangeListener(this);
+        this.enrolledState = viewModel.getState();
 
         // J Swing stuff goes here
 
         // THIS CODE IS FOR CREATING THE WINDOW - PASS THE ACTUAL FRAME LATER ON?
-        JFrame frame = new JFrame("WallStreetWarriors - Enrolled Contest View TEST");
+        JFrame frame = new JFrame(enrolledState.getTitle() + " Enrolled Contest ID: " + enrolledState.getContestId());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -47,12 +51,13 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
         // Grid layout for ease - OOS: More accurate pixel placements so better looks
         JPanel topPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 rows, 2 columns
 
-        // Date Labels - TODO figure out how to get dates from outputdata
-        JLabel startDateLabel = new JLabel("Start Date: 2023-01-01", SwingConstants.CENTER);
-        JLabel endDateLabel = new JLabel("End Date: 2023-01-07", SwingConstants.CENTER);
+        // Date Labels
+        JLabel startDateLabel = new JLabel("Start Date: " + enrolledState.getStartDate().toString(), SwingConstants.CENTER);
+        JLabel endDateLabel = new JLabel("End Date: " + enrolledState.getEndDate().toString(), SwingConstants.CENTER);
 
         // Begin Timer stuff
-        timeLeft = 3600; // e.g., 1 hour in seconds
+        timeLeft = (int) (enrolledState.getEndDate().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond()
+                        - enrolledState.getEndDate().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond()); // e.g., 1 hour in seconds
         timerLabel = new JLabel("Time Remaining: " + formatTime(timeLeft), SwingConstants.CENTER);
         Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -70,9 +75,9 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
 
 
         // Add all labels
-        topPanel.add(new JLabel("vs", SwingConstants.CENTER)); // TITLE
+        topPanel.add(new JLabel(enrolledState.getTitle(), SwingConstants.CENTER)); // TITLE
         topPanel.add(startDateLabel);
-        topPanel.add(new JLabel("Contest ID: 12345", SwingConstants.CENTER));
+        topPanel.add(new JLabel("Contest ID: " + enrolledState.getContestId(), SwingConstants.CENTER));
         topPanel.add(endDateLabel);
         topPanel.add(timerLabel);
 
@@ -87,7 +92,7 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
         String[] columns = new String[]{"Stock", "Quantity", "Purchase Price", "Current Price", "Value"};
 
         // Opponents
-        String[] competitors = {"You", "Enemy1", "Enemy2", "Enemy3", "Enemy4"}; // TODO Load in enemies, just example
+        String[] competitors = enrolledState.getOpponents().toArray(new String[0]); // TODO Load in enemies, just example
 
         // Add a table for each opponent with random data
         for (String competitor : competitors) {
@@ -161,9 +166,10 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
      * @version 0.0
      */
     private static String formatTime(int totalSecs) {
+        int days = totalSecs / (3600 * 24);
         int hours = totalSecs / 3600;
         int minutes = (totalSecs % 3600) / 60;
         int seconds = totalSecs % 60;
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
     }
 }

@@ -48,7 +48,7 @@ public class EnrolledOutputData {
         return opponents;
     }
 
-    public HashMap<String, HashMap<String, String>> getUserStocks() {
+    public HashMap<String, HashMap<String, String>> getUserPortfolio() {
         return userPortfolio;
     }
 
