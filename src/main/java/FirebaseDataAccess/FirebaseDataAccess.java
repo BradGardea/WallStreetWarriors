@@ -5,6 +5,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.internal.NonNull;
 import com.google.firebase.internal.Nullable;
+import entity.Contest;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -120,6 +121,6 @@ public class FirebaseDataAccess {
             return false;
         }
     }
-
-
+    
+    
 }
