@@ -38,7 +38,7 @@ public class CreateContest {
 
             portfolios.put("dhruv", innerPortfolio1);
 
-            var contest = new Contest("1", "Test", "test", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
+            var contest = new Contest("10", "Test", "test", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
         }
         catch(Exception ex){
             System.out.println(ex);

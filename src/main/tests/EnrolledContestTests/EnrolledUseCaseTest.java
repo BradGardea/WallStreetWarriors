@@ -27,7 +27,7 @@ public class EnrolledUseCaseTest {
 
         try{
 
-            URL url =  main.tests.EnrolledContestTests.EnrolledContestViewMain.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-a1c2e7ac43.json");
+            URL url =  main.tests.EnrolledContestTests.EnrolledContestViewMain.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
             File file = new File(url.getPath());
 
             FileInputStream serviceAccount =
