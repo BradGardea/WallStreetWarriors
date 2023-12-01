@@ -218,7 +218,6 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 //    }
 
     public static void launch(CompletedContestView dialog) throws IOException { //TODO: temp
-
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
        // System.exit(0);

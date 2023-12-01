@@ -6,11 +6,13 @@ import entity.Contest;
 import entity.User;
 import interface_adapters.AvailableContests.AvailableContestState;
 import interface_adapters.AvailableContests.AvailableContestsViewModel;
+import interface_adapters.CompletedContests.CompletedContestViewModel;
 import interface_adapters.HomePage.HomePageController;
 import interface_adapters.HomePage.HomePageState;
 import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
 import view.AvailableContests.AvailableContestDetailView;
+import view.CompletedContests.CompletedContestView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -148,7 +150,10 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
                 if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId())){
                     showAvailableContestDetailsScreen(contest);
                 }
-                //Add implementation for other views here
+                else if (!user.getEnrolledContests().contains(contest.getContestId()))
+                {
+                    showCompletedContestDetailsScreen(contest);
+                }
             }
         });
         if (showTimeLeft) {
@@ -187,7 +192,16 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     }
 
     private void showCompletedContestDetailsScreen(Contest contest) {
-        // TODO switch screen after clicking info
+        CompletedContestViewModel completedContestViewModel = new CompletedContestViewModel();
+        CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, FirebaseDataAccess.getInstance(), viewModelManager, contest.getContestId(), homepageViewModel.username);
+        try{
+            CompletedContestView.launch(completedContestView);
+            viewModelManager.setActiveView(completedContestView.viewName);
+            viewModelManager.firePropertyChanged();
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+        }
     }
 
 }

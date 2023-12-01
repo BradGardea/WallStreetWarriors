@@ -25,7 +25,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
     @Override
     public void execute() {
-        Contest contest = completedContestDataAccessObject.getEntity(Contest.class, "Contests", "1");
+        Contest contest = completedContestDataAccessObject.getEntity(Contest.class, "Contests", this.contestId);
         // portfolio for the logged in user.
         HashMap<String, HashMap<String, String>> portfolio = contest.getPortfolios().get(username);
         // creating the leaderboard
