@@ -58,6 +58,7 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         // welcomeLabel should not be added here again since it's already part of the headerPanel
         add(contentPanel, BorderLayout.CENTER);
 
+
     }
 
     // TODO: implement later
@@ -88,29 +89,42 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         return scrollPane;
     }
     private JPanel createContestPanel(Contest contest, boolean showTimeLeft) {
-        JPanel contestPanel = new JPanel(new GridLayout(1, 3)); // Adjust grid layout as needed
+        JPanel contestPanel = new JPanel(new BorderLayout());
+
         JLabel descriptionLabel = new JLabel(contest.getDescription());
+        descriptionLabel.setHorizontalAlignment(JLabel.LEFT);
+        contestPanel.add(descriptionLabel, BorderLayout.CENTER);
+
         JButton infoButton = new JButton("Info");
+        infoButton.setMinimumSize(new Dimension(85, 50));
+        contestPanel.add(infoButton, BorderLayout.EAST);
+
         infoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showContestDetailsScreen(contest);
+                showAvailableContestDetailsScreen(contest);
             }
         });
-
-        JLabel timeLeftLabel = new JLabel(); // TODO calculate time
-
-        // Add components to the panel
-        contestPanel.add(descriptionLabel);
-        contestPanel.add(infoButton);
         if (showTimeLeft) {
-            contestPanel.add(timeLeftLabel);
+            JLabel timeLeftLabel = new JLabel(); // Time calculation should be done here
+            timeLeftLabel.setHorizontalAlignment(JLabel.RIGHT);
+            contestPanel.add(timeLeftLabel, BorderLayout.WEST);
         }
+        contestPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         contestPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
         return contestPanel;
     }
 
-    private void showContestDetailsScreen(Contest contest) {
+    private void showAvailableContestDetailsScreen(Contest contest) {
+        // TODO switch screen after clicking info
+    }
+
+    private void showEnrolledContestDetailsScreen(Contest contest) {
+        // TODO switch screen after clicking info
+    }
+
+    private void showCompletedContestDetailsScreen(Contest contest) {
         // TODO switch screen after clicking info
     }
 

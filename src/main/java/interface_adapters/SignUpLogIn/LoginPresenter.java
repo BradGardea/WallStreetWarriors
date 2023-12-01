@@ -30,10 +30,10 @@ public class LoginPresenter implements LoginOutputBoundary {
         HomePageState homepageState = homePageViewModel.getState();
         homepageState.setUsername(response.getUsername());
         this.homePageViewModel.setState(homepageState);
-        this.homePageViewModel.firePropertyChanged();
+        homePageViewModel.firePropertyChanged();
 
-        this.viewManagerModel.setActiveView(homePageViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        viewManagerModel.setActiveView(homePageViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
