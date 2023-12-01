@@ -17,4 +17,7 @@ public class LoginController {
 
         loginUseCaseInteractor.execute(loginInputData);
     }
+
+    public void executeSwitchScreen() {loginUseCaseInteractor.executeSwitchScreen();
+    }
 }

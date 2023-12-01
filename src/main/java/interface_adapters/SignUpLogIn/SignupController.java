@@ -16,4 +16,8 @@ public class SignupController {
 
         userSignupUseCaseInteractor.execute(signupInputData);
     }
+
+    public void executeSwitchScreen(){
+        userSignupUseCaseInteractor.executeSwitchScreen();
+    }
 }

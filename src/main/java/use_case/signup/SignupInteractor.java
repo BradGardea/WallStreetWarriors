@@ -3,7 +3,6 @@ package use_case.signup;
 // import data_access.UserSignupDataAccessInterface;
 import FirebaseDataAccess.FirebaseDataAccess;
 import entity.User;
-import entity.IUserFactory;
 import entity.UserFactory;
 
 public class SignupInteractor implements SignupInputBoundary {
@@ -28,10 +27,15 @@ public class SignupInteractor implements SignupInputBoundary {
         } else {
 
             User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
-            userDataAccessObject.setOrUpdateEntity(User.class, "Users", user.getUsername());
+            userDataAccessObject.setOrUpdateEntity(user, "Users", user.getUsername());
 
             SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(), false);
-            userPresenter.prepareSuccessView(signupOutputData);
+            userPresenter.prepareSuccessViewLogin(signupOutputData);
         }
+    }
+
+    public void executeSwitchScreen(){
+        userPresenter.prepareSuccessViewButton();
+
     }
 }
