@@ -53,4 +53,9 @@ public class HomePageInteractor implements HomePageInputBoundary {
         ///
     }
 
+    @Override
+    public void executeSignOut() {
+        homepagePresenter.prepareSuccessViewSignOut();
+    }
+
 }

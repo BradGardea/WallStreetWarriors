@@ -14,4 +14,8 @@ public class HomePageController {
         homepageUseCaseInteractor.execute();
     }
 
+    public void executeSignOut(){
+        homepageUseCaseInteractor.executeSignOut();
+    }
+
 }

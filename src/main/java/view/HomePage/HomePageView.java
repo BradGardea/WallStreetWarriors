@@ -39,6 +39,16 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         JButton signOutButton = new JButton("Sign Out");
         signOutButton.setHorizontalAlignment(JLabel.RIGHT);
 
+        signOutButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(signOutButton)) {
+                            homepageController.executeSignOut();
+                        }
+                    }
+                }
+        );
+
         headerPanel.add(title, BorderLayout.WEST);
         headerPanel.add(welcomeLabel, BorderLayout.CENTER);
         headerPanel.add(signOutButton, BorderLayout.EAST);
