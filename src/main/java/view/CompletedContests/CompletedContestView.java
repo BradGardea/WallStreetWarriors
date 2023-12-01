@@ -106,15 +106,19 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         centerPanel.add(listPanel);
 
         // Creating Bottom Panel to Hold Profit and Placement
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JPanel bottomPanel = new JPanel(new GridLayout(2, 2, 10, 10));
 
-        String profitLabel = "Profit" + completedContestViewModel.profit;
+        String profitLabel = "Profit: " + completedContestViewModel.profit;
         String placementLabel = "Placement: " + completedContestViewModel.placement;
         JLabel profit = new JLabel(profitLabel);
         JLabel placement = new JLabel(placementLabel);
+        JLabel empty = new JLabel("");
+        JButton cancelButton = new JButton("Cancel");
 
         bottomPanel.add(profit);
         bottomPanel.add(placement);
+        bottomPanel.add(empty);
+        bottomPanel.add(cancelButton);
         bottomPanel.setBorder(new EmptyBorder(10, 10, 30, 10));
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
@@ -124,6 +128,14 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         mainPanel.setPreferredSize(new Dimension(800, 600));
 
         this.add(mainPanel);
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
+
     }
 
 
@@ -156,6 +168,7 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         return dateFormat.format(date);
     }
 
+
     /**
      * Invoked when an action occurs.
      *
@@ -177,11 +190,11 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 
     }
 
-    public static void launch(AvailableContestDetailView dialog) throws IOException { //TODO: temp
+    public static void launch(CompletedContestView dialog) throws IOException { //TODO: temp
 
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
-        System.exit(0);
+       // System.exit(0);
     }
 
     private void onOK() {
