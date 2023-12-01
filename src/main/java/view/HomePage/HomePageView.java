@@ -45,9 +45,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
         // Main content panel with scrollable lists
         JPanel contentPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-        availableScrollPane = createScrollablePanel("Available", homepageViewModel.availableContests, true);
         enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.enrolledContests, false);
         completedScrollPane = createScrollablePanel("Completed", homepageViewModel.completedContests, false);
+        availableScrollPane = createScrollablePanel("Available", homepageViewModel.availableContests, true);
 
         contentPanel.add(availableScrollPane);
         contentPanel.add(enrolledScrollPane);

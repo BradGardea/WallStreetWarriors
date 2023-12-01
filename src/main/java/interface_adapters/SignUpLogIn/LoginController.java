@@ -20,4 +20,7 @@ public class LoginController {
             return false;
         }
     }
+
+    public void executeSwitchScreen() {loginUseCaseInteractor.executeSwitchScreen();
+    }
 }

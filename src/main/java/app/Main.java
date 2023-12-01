@@ -79,12 +79,16 @@ public class Main{
             FirebaseDataAccess userDataAccessObject;
             userDataAccessObject = new FirebaseDataAccess();
 
+
+            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject, signupViewModel);
+            loginView.views = views;
+            views.add(loginView, loginView.viewName);
+
             SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel, userDataAccessObject);
             views.add(signupView, signupView.viewName);
 
-            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject);
-            loginView.views = views;
-            views.add(loginView, loginView.viewName);
+            //HomePageView homePageView = new HomePageView(homepageViewModel);
+            //views.add(homePageView, homePageView.viewName);
 
             viewModelManager.setActiveView(signupView.viewName);
             viewModelManager.firePropertyChanged();

@@ -30,7 +30,12 @@ public class SignupInteractor implements SignupInputBoundary {
             userDataAccessObject.setOrUpdateEntity(user, "Users", user.getUsername());
 
             SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(), false);
-            userPresenter.prepareSuccessView(signupOutputData);
+            userPresenter.prepareSuccessViewLogin(signupOutputData);
         }
+    }
+
+    public void executeSwitchScreen(){
+        userPresenter.prepareSuccessViewButton();
+
     }
 }

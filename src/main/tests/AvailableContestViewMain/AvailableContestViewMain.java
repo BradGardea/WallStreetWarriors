@@ -15,7 +15,7 @@ public class AvailableContestViewMain {
             Main.FirebaseInit();
             // catching exceptions for GoogleCredentials.fromStream and FileInputStream
             String contestId = "1";
-            CreateContest.createContest();
+            CreateContest.createContest(1);
 //            var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", contestId);
             ViewModelManager viewModelManager = new ViewModelManager();
             AvailableContestsViewModel availableContestsViewModel = new AvailableContestsViewModel();

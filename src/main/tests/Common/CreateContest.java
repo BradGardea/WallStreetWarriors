@@ -11,25 +11,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CreateContest {
-    public static void createContest(){
+    public static void createContest(int count){
         try {
             Main.FirebaseInit();
-            var members = new ArrayList<User>();
-            members.add(new User("dhruv", "foo", null, null));
-            var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
-            // Add 5 days to the current timestamp
-            var fiveDays = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
-            var stockOptions = new ArrayList<String>();
-            stockOptions.add("GOOG");
-            stockOptions.add("YAHOO");
-            stockOptions.add("Foo");
-            var contest = new Contest("1", "Test", "test", members, "Technology", Timestamp.now(), fiveDays, stockOptions, null);
+
+            for(var i = 0; i < count; i ++){
+                var members = new ArrayList<User>();
+                members.add(new User("dhruv", "foo", null, null));
+                var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
+                // Add 5 days to the current timestamp
+                var fiveDays = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
+                var stockOptions = new ArrayList<String>();
+                stockOptions.add("GOOG");
+                stockOptions.add("YAHOO");
+                stockOptions.add("Foo");
+                var contest = new Contest(String.valueOf(i), "Test", "test", members, "Technology", Timestamp.now(), fiveDays, stockOptions, null);
+            }
+
         }
         catch(Exception ex){
             System.out.println(ex);
         }
     }
     public static void main(String[] args) {
-        createContest();
+        createContest(2);
     }
 }

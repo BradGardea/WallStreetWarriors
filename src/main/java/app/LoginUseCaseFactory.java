@@ -4,6 +4,7 @@ package app;
 import FirebaseDataAccess.FirebaseDataAccess;
 import entity.UserFactory;
 import interface_adapters.HomePage.HomePageViewModel;
+import interface_adapters.SignUpLogIn.SignupViewModel;
 import interface_adapters.ViewModelManager;
 import interface_adapters.SignUpLogIn.LoginController;
 import interface_adapters.SignUpLogIn.LoginPresenter;
@@ -25,10 +26,11 @@ public class LoginUseCaseFactory {
             ViewModelManager viewManagerModel,
             LoginViewModel loginViewModel,
             HomePageViewModel homepageViewModel,
-            FirebaseDataAccess userDataAccessObject) {
+            FirebaseDataAccess userDataAccessObject,
+            SignupViewModel signupViewModel) {
 
         try {
-            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, homepageViewModel, userDataAccessObject);
+            LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, homepageViewModel, userDataAccessObject, signupViewModel);
             return new LoginView(loginViewModel, loginController, viewManagerModel, homepageViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -41,10 +43,11 @@ public class LoginUseCaseFactory {
             ViewModelManager viewManagerModel,
             LoginViewModel loginViewModel,
             HomePageViewModel homepageViewModel,
-            FirebaseDataAccess userDataAccessObject) throws IOException {
+            FirebaseDataAccess userDataAccessObject,
+            SignupViewModel signupViewModel) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, homepageViewModel, loginViewModel);
+        LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel, homepageViewModel, loginViewModel, signupViewModel);
 
         UserFactory userFactory = new UserFactory();
 
