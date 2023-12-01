@@ -12,4 +12,7 @@ public class HomePageController {
     public void execute(){
         homepageUseCaseInteractor.execute();
     }
+    public void executeSignOut(){
+        homepageUseCaseInteractor.executeSignOut();
+    }
 }

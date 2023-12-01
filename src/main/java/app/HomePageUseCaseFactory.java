@@ -4,6 +4,7 @@ import FirebaseDataAccess.FirebaseDataAccess;
 import interface_adapters.HomePage.HomePageController;
 import interface_adapters.HomePage.HomePagePresenter;
 import interface_adapters.HomePage.HomePageViewModel;
+import interface_adapters.SignUpLogIn.LoginViewModel;
 import interface_adapters.ViewModelManager;
 import UseCase.HomePage.HomePageInputBoundary;
 import UseCase.HomePage.HomePageInteractor;
@@ -32,7 +33,7 @@ public class HomePageUseCaseFactory {
     private static HomePageController createHomePageUseCase(ViewModelManager viewManagerModel, HomePageViewModel homepageViewModel, FirebaseDataAccess userDataAccessObject, String username) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(homepageViewModel, viewManagerModel);
+        HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(homepageViewModel, viewManagerModel, new LoginViewModel());
 
         HomePageInputBoundary userHomePageInteractor = new HomePageInteractor(userDataAccessObject, homePageOutputBoundary, username);
 
