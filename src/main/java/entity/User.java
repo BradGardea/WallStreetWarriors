@@ -48,16 +48,15 @@ public class User implements IUser, IFirebaseEntity {
     public void setCompletedContests(ArrayList<String> completedContests) {
         this.completedContests = completedContests;
     }
-
     public ArrayList<String> getEnrolledContests() {
         return enrolledContests;
+    }
+    public void addCompletedContest(String completedContest){
+        this.completedContests.add(completedContest);
     }
 
     public void setEnrolledContests(ArrayList<String> enrolledContests) {
         this.enrolledContests = enrolledContests;
-    }
-    public void addCompletedContest(String completedContest){
-        this.completedContests.add(completedContest);
     }
     public void addEnrolledContest(String enrolledContest){
         this.enrolledContests.add(enrolledContest);

@@ -1,4 +1,4 @@
-package use_case.login;
+package UseCase.login;
 
 public interface LoginOutputBoundary {
     void prepareSuccessView(LoginOutputData user);

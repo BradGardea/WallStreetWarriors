@@ -15,7 +15,7 @@ public class CreateContest {
         try {
             Main.FirebaseInit();
             var members = new ArrayList<User>();
-            members.add(new User(null, "dhruv", "foo", null, null));
+            members.add(new User("dhruv", "foo", null, null));
             var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
             // Add 5 days to the current timestamp
             var fiveDays = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));

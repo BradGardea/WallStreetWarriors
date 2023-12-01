@@ -1,7 +1,7 @@
 package interface_adapters.SignUpLogIn;
 
-import use_case.signup.SignupInputBoundary;
-import use_case.signup.SignupInputData;
+import UseCase.signup.SignupInputBoundary;
+import UseCase.signup.SignupInputData;
 
 public class SignupController {
 

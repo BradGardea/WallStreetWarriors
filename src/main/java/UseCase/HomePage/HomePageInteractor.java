@@ -1,13 +1,10 @@
-package use_case;
+package UseCase.HomePage;
 
 import entity.Contest;
 import entity.User;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import entity.User;
-import interface_adapters.Contests.ContestState;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class HomePageInteractor implements HomePageInputBoundary {
@@ -23,6 +20,7 @@ public class HomePageInteractor implements HomePageInputBoundary {
         this.homepageDataAccessObject = homepageDataAccessObject;
         this.homepagePresenter = homepagePresenter;
         this.username = username;
+        execute();
     }
 
     @Override
@@ -33,7 +31,6 @@ public class HomePageInteractor implements HomePageInputBoundary {
 
         ArrayList<Contest> completedContests = new ArrayList<>();
 
-        //fix this to find available contests
         ArrayList<Contest> availableContests = new ArrayList<>();
 
         for (var eC: user.getEnrolledContests()){
@@ -42,6 +39,12 @@ public class HomePageInteractor implements HomePageInputBoundary {
 
         for (var cC: user.getEnrolledContests()){
             enrolledContests.add(homepageDataAccessObject.getEntity(Contest.class, "Contests", cC));
+        }
+
+        for (var contest: homepageDataAccessObject.getEntities(Contest.class, "Contests")){
+            if (!user.getEnrolledContests().contains(contest.getContestId()) || !user.getCompletedContests().contains(contest.getContestId())){
+                availableContests.add(contest);
+            }
         }
 
         HomePageOutputData homepageOutputData = new HomePageOutputData(username, enrolledContests, completedContests, availableContests);

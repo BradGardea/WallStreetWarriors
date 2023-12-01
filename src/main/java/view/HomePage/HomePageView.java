@@ -3,6 +3,7 @@ package view.HomePage;
 import entity.Contest;
 import interface_adapters.HomePage.HomePageController;
 import interface_adapters.HomePage.HomePageViewModel;
+import interface_adapters.ViewModelManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +21,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     private JScrollPane enrolledScrollPane;
     private JScrollPane completedScrollPane;
 
-    public HomePageView(HomePageViewModel viewModel){
+    public HomePageView(HomePageViewModel viewModel, HomePageController controller, ViewModelManager viewModelManager){
         this.homepageViewModel = viewModel;
+        this.homepageController = controller;
         this.homepageViewModel.addPropertyChangeListener(this);
 
         setLayout(new BorderLayout());
@@ -110,6 +112,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
     private void showContestDetailsScreen(Contest contest) {
         // TODO switch screen after clicking info
+    }
+
+    public void launch(){
+        this.setSize(new Dimension(600,800));
+        this.setVisible(true);
     }
 
 }

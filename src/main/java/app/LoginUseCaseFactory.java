@@ -8,10 +8,9 @@ import interface_adapters.ViewModelManager;
 import interface_adapters.SignUpLogIn.LoginController;
 import interface_adapters.SignUpLogIn.LoginPresenter;
 import interface_adapters.SignUpLogIn.LoginViewModel;
-import use_case.login.LoginInputBoundary;
-import use_case.login.LoginInteractor;
-import use_case.login.LoginOutputBoundary;
-import use_case.login.LoginUserDataAccessInterface;
+import UseCase.login.LoginInputBoundary;
+import UseCase.login.LoginInteractor;
+import UseCase.login.LoginOutputBoundary;
 import view.LogInSignUp.LoginView;
 
 import javax.swing.*;
@@ -30,7 +29,7 @@ public class LoginUseCaseFactory {
 
         try {
             LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, homepageViewModel, userDataAccessObject);
-            return new LoginView(loginViewModel, loginController);
+            return new LoginView(loginViewModel, loginController, viewManagerModel, homepageViewModel);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

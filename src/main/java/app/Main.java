@@ -8,6 +8,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import interface_adapters.Contests.ContestViewModel;
 import interface_adapters.HomePage.HomePageController;
+import interface_adapters.HomePage.HomePageState;
 import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.SignUpLogIn.LoginViewModel;
 import interface_adapters.SignUpLogIn.SignupViewModel;
@@ -58,7 +59,6 @@ public class Main{
 //            Message m = new Message("test", "now", hm, l);
 //
 //            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
-
             FirebaseInit();
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -79,15 +79,12 @@ public class Main{
             FirebaseDataAccess userDataAccessObject;
             userDataAccessObject = new FirebaseDataAccess();
 
-            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject);
-            views.add(loginView, loginView.viewName);
-
             SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel, userDataAccessObject);
             views.add(signupView, signupView.viewName);
 
-
-            //HomePageView homePageView = new HomePageView(homepageViewModel);
-            //views.add(homePageView, homePageView.viewName);
+            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject);
+            loginView.views = views;
+            views.add(loginView, loginView.viewName);
 
             viewModelManager.setActiveView(signupView.viewName);
             viewModelManager.firePropertyChanged();
@@ -96,10 +93,9 @@ public class Main{
             app.setVisible(true);
         }
         catch (Exception ex){
-            System.out.println("Unable to load Firebase data, app will have limited functionality.");
+            System.out.println("Unable to load Firebase data, app will have limited functionality." + ex);
         }
     }
-
     public static void FirebaseInit() throws IOException {
         URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
         File file = new File(url.getPath());

@@ -3,8 +3,8 @@ package interface_adapters.SignUpLogIn;
 import interface_adapters.HomePage.HomePageState;
 import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
-import use_case.login.LoginOutputBoundary;
-import use_case.login.LoginOutputData;
+import UseCase.login.LoginOutputBoundary;
+import UseCase.login.LoginOutputData;
 
 public class LoginPresenter implements LoginOutputBoundary {
 

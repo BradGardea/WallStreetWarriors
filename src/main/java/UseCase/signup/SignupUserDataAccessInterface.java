@@ -1,4 +1,4 @@
-package use_case.signup;
+package UseCase.signup;
 
 import com.google.firebase.internal.NonNull;
 

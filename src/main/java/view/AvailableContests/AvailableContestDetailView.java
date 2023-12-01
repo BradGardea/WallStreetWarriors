@@ -243,20 +243,6 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
 //        dialog.pack();
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
-        System.exit(0);
-    }
-
-    public static void main(String[] args) {
-        try{
-//            launch();
-        }
-        catch(Exception ex){
-
-        }
-
-//        AvailableContestDetailView dialog = new AvailableContestDetailView();
-//        dialog.pack();
-//        dialog.setVisible(true);
 //        System.exit(0);
     }
 }

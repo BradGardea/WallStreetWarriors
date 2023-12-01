@@ -1,7 +1,7 @@
 package interface_adapters.HomePage;
 
-import use_case.HomePageOutputBoundary;
-import use_case.HomePageOutputData;
+import UseCase.HomePage.HomePageOutputBoundary;
+import UseCase.HomePage.HomePageOutputData;
 import interface_adapters.ViewModelManager;
 
 public class HomePagePresenter implements HomePageOutputBoundary {

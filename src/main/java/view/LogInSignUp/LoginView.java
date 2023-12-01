@@ -1,8 +1,13 @@
 package view.LogInSignUp;
 
+import FirebaseDataAccess.FirebaseDataAccess;
+import app.HomePageUseCaseFactory;
+import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.SignUpLogIn.LoginController;
 import interface_adapters.SignUpLogIn.LoginState;
 import interface_adapters.SignUpLogIn.LoginViewModel;
+import interface_adapters.ViewModelManager;
+import view.HomePage.HomePageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,14 +37,22 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     final JButton logIn;
     final JButton cancel;
 
+    private HomePageViewModel homepageViewModel;
+    private ViewModelManager viewManagerModel;
+
+    public JPanel views;
+
 
 
     /**
      * A window with a title and a JButton.
      */
-    public LoginView(LoginViewModel loginViewModel, LoginController loginController) {
+    public LoginView(LoginViewModel loginViewModel, LoginController loginController, ViewModelManager viewModelManager, HomePageViewModel homepageViewModel) {
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
+
+        this.viewManagerModel = viewModelManager;
+        this.homepageViewModel = homepageViewModel;
 
         JLabel title = new JLabel("Login Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -61,10 +74,16 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                         if (evt.getSource().equals(logIn)) {
                             LoginState currentState = loginViewModel.getState();
 
-                            loginController.execute(
+                            if (loginController.execute(
                                     currentState.getUsername(),
                                     currentState.getPassword()
-                            );
+                            )){
+                                HomePageView homePageView = HomePageUseCaseFactory.create(viewManagerModel, homepageViewModel, FirebaseDataAccess.getInstance(), currentState.getUsername());
+                                views.add(homePageView, homePageView.viewName);
+                                viewManagerModel.setActiveView(homePageView.viewName);
+                                viewManagerModel.firePropertyChanged();
+//                                homePageView.launch();
+                            }
                         }
                     }
                 }

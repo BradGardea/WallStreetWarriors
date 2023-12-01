@@ -2,14 +2,12 @@ package app;
 
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import entity.IUserFactory;
 import entity.UserFactory;
 import interface_adapters.SignUpLogIn.*;
 import interface_adapters.ViewModelManager;
-import use_case.signup.SignupInputBoundary;
-import use_case.signup.SignupInteractor;
-import use_case.signup.SignupOutputBoundary;
-import use_case.signup.SignupUserDataAccessInterface;
+import UseCase.signup.SignupInputBoundary;
+import UseCase.signup.SignupInteractor;
+import UseCase.signup.SignupOutputBoundary;
 import view.LogInSignUp.SignupView;
 
 import javax.swing.*;

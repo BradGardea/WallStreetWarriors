@@ -1,4 +1,4 @@
-package use_case;
+package UseCase.HomePage;
 
 public interface HomePageInputBoundary {
     void execute();
