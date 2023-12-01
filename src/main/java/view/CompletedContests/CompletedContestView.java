@@ -2,6 +2,7 @@ package view.CompletedContests;
 
 import interface_adapters.CompletedContests.CompletedContestController;
 import interface_adapters.CompletedContests.CompletedContestViewModel;
+import view.AvailableContests.AvailableContestDetailView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,10 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class CompletedContestView extends JPanel implements ActionListener, PropertyChangeListener {
+public class CompletedContestView extends JDialog implements ActionListener, PropertyChangeListener {
 
     public final String viewName = "completed contest";
 
@@ -22,12 +26,12 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
     private CompletedContestViewModel completedContestViewModel;
 
-    public CompletedContestView(CompletedContestController controller, CompletedContestViewModel viewModel){
+    public CompletedContestView(CompletedContestController controller, CompletedContestViewModel viewModel) {
         this.completedContestController = controller;
         this.completedContestViewModel = viewModel;
         this.completedContestViewModel.addPropertyChangeListener(this);
 
-         // Java Swing Code
+        // Java Swing Code
 
         // this panel holds all the sub panels
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -37,16 +41,22 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         topPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
         // Creating JLabels for the topPanel
-        // TODO: Make it so these update with data from firebase through the view model.
         JLabel contestName = new JLabel(completedContestViewModel.contestName);
 
         // TODO: Find a way to make the date only show the date and not time.
-        String startDateLabel = "Start Date: " + completedContestViewModel.startDate.toString();
+
+        Date javaStartDate = completedContestViewModel.startDate.toDate();
+        String dateStartString = formatAsDateString(javaStartDate);
+
+        String startDateLabel = "Start Date: " + dateStartString;
         JLabel startDate = new JLabel(startDateLabel, SwingConstants.CENTER);
         JLabel contestIndustry = new JLabel(completedContestViewModel.industry);
 
         // TODO: Same as above
-        String endDateLabel = "End Date: " + completedContestViewModel.endDate.toString();
+        Date javaEndDate = completedContestViewModel.endDate.toDate();
+        String dateEndString = formatAsDateString(javaEndDate);
+
+        String endDateLabel = "End Date: " + dateEndString;
         JLabel endDate = new JLabel(endDateLabel, SwingConstants.CENTER);
         JLabel yourPortfolio = new JLabel(completedContestViewModel.YOUR_PORTFOLIO);
         JLabel leaderboard = new JLabel(completedContestViewModel.LEADERBOARD_LABEL, SwingConstants.CENTER);
@@ -65,14 +75,8 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
         // Table Panel
         JPanel tablePanel = new JPanel(new BorderLayout());
-//        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
-
         // Column Names For Table
         String[] columns = {"Ticker", "Quantity", "Purchase Price", "End Price", "Value"};
-//        Object[][] data = {
-//                {"AAPL", "10", "150.00", "155.00", "1550.00"},
-//                {"MSFT", "10", "200.00", "210.00", "2100.00"}
-//        };
 
 
         HashMap<String, HashMap<String, String>> data = completedContestViewModel.portfolio;
@@ -92,20 +96,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         // Creating A List Panel for the leaderboard
         JPanel listPanel = new JPanel(new BorderLayout());
 
-        // Mock Data
-        // TODO: Replace with real data from firebase
-//        String[] usernames = {
-//                "StockMaster83",
-//                "BullishTrader",
-//                "MarketGuru007",
-//                "EquityExplorer",
-//                "PortfolioPro22",
-//                "TradeWhiz",
-//                "InvestNinja",
-//                "WealthHarbor",
-//                "StockSavvy2023",
-//                "FinanceWizardX"
-//        };
+        // Setting th leaderboard
         String[] usernames = completedContestViewModel.leaderboard;
         JList<String> leaderboardData = new JList<>(usernames);
 
@@ -127,14 +118,43 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         bottomPanel.setBorder(new EmptyBorder(10, 10, 30, 10));
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
-        centerPanel.setPreferredSize( new Dimension(800, 300));
+        centerPanel.setPreferredSize(new Dimension(800, 300));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-        mainPanel.setPreferredSize( new Dimension(800, 600));
+        mainPanel.setPreferredSize(new Dimension(800, 600));
 
         this.add(mainPanel);
     }
 
+
+    private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data) {
+
+        int length = data.size();
+        Object[][] arrayData = new Object[length][5];
+        int iteration = 0;
+        // iterates through every ticker
+        for (String ticker : data.keySet()) {
+            Object[] row = new Object[5];
+            row[0] = data.get(ticker).get("Ticker");
+            row[1] = data.get(ticker).get("Quantity");
+            row[2] = data.get(ticker).get("Purchase Price");
+            row[3] = data.get(ticker).get("End Price");
+            row[4] = data.get(ticker).get("Value");
+
+            arrayData[iteration] = row;
+            iteration += 1;
+        }
+
+        return arrayData;
+    }
+
+    private static String formatAsDateString(Date date) {
+        // Choose your desired date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Format the date as a string
+        return dateFormat.format(date);
+    }
 
     /**
      * Invoked when an action occurs.
@@ -157,40 +177,22 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
     }
 
-    private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data){
+    public static void launch(AvailableContestDetailView dialog) throws IOException { //TODO: temp
 
-//        int length = data.size();
-//        Object[][] arrayData = new Object[length][5];
-//        for (int i = 0; i < 5; i++){
-//            Object[] row = new Object[5];
-//            row[0] = data.get("Ticker").get(i);
-//            row[1] = data.get("Quantity").get(i);
-//            row[2] = data.get("Purchase Price").get(i);
-//            row[3] = data.get("End Price").get(i);
-//            row[4] = data.get("Value").get(i);
-//
-//            arrayData[i] = row;
-//        }
-//
-//        return arrayData;
-
-
-        int length = data.size();
-        Object[][] arrayData = new Object[length][5];
-        int iteration = 0;
-        // iterates through every ticker
-        for (String ticker: data.keySet()){
-            Object[] row = new Object[5];
-            row[0] = data.get(ticker).get("Ticker");
-            row[1] = data.get(ticker).get("Quantity");
-            row[2] = data.get(ticker).get("Purchase Price");
-            row[3] = data.get(ticker).get("End Price");
-            row[4] = data.get(ticker).get("Value");
-
-            arrayData[iteration] = row;
-            iteration += 1;
-        }
-
-        return arrayData;
+        dialog.setSize(new Dimension(600,800));
+        dialog.setVisible(true);
+        System.exit(0);
     }
+
+    private void onOK() {
+        // switch this contest and its configuration to enrolledw
+        dispose();
+    }
+
+    private void onCancel() {
+        // add your code here if necessary
+        dispose();
+    }
+
 }
+

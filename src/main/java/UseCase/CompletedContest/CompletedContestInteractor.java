@@ -79,7 +79,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
     }
 
 
-    private float getProfit(HashMap<String, HashMap<String, String>> portfolio){
+    public float getProfit(HashMap<String, HashMap<String, String>> portfolio){
         /**
          * Calculates the total profit from a given portfolio.
          *
