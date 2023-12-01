@@ -54,12 +54,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         headerPanel.add(signOutButton, BorderLayout.EAST);
 
         // Main content panel with scrollable lists
-        setLists();
-
         // Add sub-panels to the main panel
         add(headerPanel, BorderLayout.NORTH); // Only add the headerPanel here
+        setLists();
         // welcomeLabel should not be added here again since it's already part of the headerPanel
-        add(this.contentPanel, BorderLayout.CENTER);
+//        add(this.contentPanel, BorderLayout.CENTER);
 
 
     }
@@ -69,7 +68,6 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
     }
 
-    // TODO: implement later
     public void propertyChange(PropertyChangeEvent evt){
         HomePageState state = (HomePageState) evt.getNewValue();
         if (state.availableContests != null && state.completedContests != null && state.enrolledContests != null){
@@ -78,15 +76,30 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     }
 
     private void setLists() {
-        JPanel contentPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-        this.contentPanel = contentPanel;
-        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.enrolledContests, false);
-        completedScrollPane = createScrollablePanel("Completed", homepageViewModel.completedContests, false);
-        availableScrollPane = createScrollablePanel("Available", homepageViewModel.availableContests, true);
+
+        if (this.contentPanel != null){
+            Component[] components = this.contentPanel.getComponents();
+            for (var c: components) {
+                this.contentPanel.remove(c); // Remove the last component
+                revalidate();
+                repaint();
+            }
+        }
+        if (this.contentPanel == null){
+            this.contentPanel = new JPanel(new GridLayout(1, 3, 10, 10));;
+            add(this.contentPanel, BorderLayout.CENTER);
+        }
+
+        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.getState().enrolledContests,  false);
+        completedScrollPane = createScrollablePanel("Completed", homepageViewModel.getState().completedContests, false);
+        availableScrollPane = createScrollablePanel("Available", homepageViewModel.getState().availableContests, true);
 
         this.contentPanel.add(availableScrollPane);
         this.contentPanel.add(enrolledScrollPane);
         this.contentPanel.add(completedScrollPane);
+
+        revalidate();
+        repaint();
     }
 
     private JScrollPane createScrollablePanel(String title, ArrayList<Contest> contests, boolean showTimeLeft) {
@@ -125,6 +138,7 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
                 if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId())){
                     showAvailableContestDetailsScreen(contest);
                 }
+                //Add implementation for other views here
             }
         });
         if (showTimeLeft) {
@@ -164,11 +178,6 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
     private void showCompletedContestDetailsScreen(Contest contest) {
         // TODO switch screen after clicking info
-    }
-
-    public void launch(){
-        this.setSize(new Dimension(600,800));
-        this.setVisible(true);
     }
 
 }
