@@ -16,10 +16,6 @@ import java.util.concurrent.ExecutionException;
 public class FirebaseDataAccess {
     private static FirebaseDataAccess instance = null;
     private static Firestore db = null;
-
-    private FirebaseDataAccess(){
-
-    }
     public static synchronized FirebaseDataAccess getInstance(){
         if (instance == null){
             instance = new FirebaseDataAccess();

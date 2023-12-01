@@ -35,15 +35,15 @@
         </dependency>
 
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.9.1</version> <!-- Replace with the latest version -->
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.4.1</version> <!-- Replace with the latest version -->
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.13.0</version> <!-- Replace with the latest version -->
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version> <!-- Replace with the latest version -->
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -51,8 +51,6 @@
             <version>4.13.1</version>
             <scope>compile</scope>
         </dependency>
-
-
     </dependencies>
 
     <properties>
@@ -60,5 +58,5 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
 </project>

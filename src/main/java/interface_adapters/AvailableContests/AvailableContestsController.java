@@ -3,6 +3,7 @@ package interface_adapters.AvailableContests;
 import UseCase.AvailableContest.AvailableContestInteractor;
 
 import javax.swing.event.ListSelectionEvent;
+import java.util.HashMap;
 
 public class AvailableContestsController {
     AvailableContestInteractor availableContestInteractor;
@@ -10,13 +11,10 @@ public class AvailableContestsController {
         this.availableContestInteractor = availableContestInteractor;
         this.availableContestInteractor.execute();
     }
-    public Float stockListChanged(String stockName) {
-        return getUpdatedStockPrice(stockName);
-    }
-    public float getUpdatedStockPrice(String stockName){
+    public float getUpdatedStockPrice(String stockName) throws Exception{
         return availableContestInteractor.getUpdatedStockPrice(stockName);
     }
-    public boolean enrollUserInContest(){
-        return availableContestInteractor.enrollUserInContest();
+    public boolean enrollUserInContest(HashMap<String, HashMap<String, String>> currentPortfollio){
+        return availableContestInteractor.enrollUserInContest(currentPortfollio);
     }
 }

@@ -4,6 +4,8 @@ import FirebaseDataAccess.FirebaseDataAccess;
 import entity.Contest;
 import entity.User;
 
+import java.util.HashMap;
+
 public class AvailableContestInteractor implements AvailableContestInputBoundary{
     private AvailableContestOuputBoundary  availableContestOuputBoundary;
     private String contestId;
@@ -21,13 +23,14 @@ public class AvailableContestInteractor implements AvailableContestInputBoundary
             availableContestOuputBoundary.prepareSuccess(contest);
         }
     }
-    public boolean enrollUserInContest(){
+    public boolean enrollUserInContest(HashMap<String, HashMap<String, String>> currentPortfolio){
         try{
             var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", this.contestId);
             var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", this.username);
 
             if (user != null && contest != null){
                 contest.addMember(user);
+                contest.setPortfolios(this.username, currentPortfolio);
                 user.addEnrolledContest(this.contestId);
 
                 contest.updateInFirebase();

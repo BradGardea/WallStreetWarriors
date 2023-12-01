@@ -1,18 +1,11 @@
 package view.AvailableContests;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import UseCase.AvailableContest.AvailableContestInteractor;
-import app.ContestUseCaseFactory;
-import app.Main;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
+import entity.Contest;
 import entity.User;
 import interface_adapters.AvailableContests.AvailableContestState;
 import interface_adapters.AvailableContests.AvailableContestsController;
 import interface_adapters.AvailableContests.AvailableContestsViewModel;
-import interface_adapters.ViewModelManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -23,11 +16,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AvailableContestDetailView extends JDialog implements PropertyChangeListener {
@@ -45,22 +34,23 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     private JLabel stockNameLabel;
     private JLabel totalCostLabel;
     private JLabel purchasePriceLabel;
+    private JLabel ErrorLabel;
     private final AvailableContestsViewModel viewModel;
     private final AvailableContestsController controller;
-    private final User user;
+    public boolean enrollSuccess; //TODO: move to state
     public final String viewName = "availableContestDetailView";
     private HashMap<String, HashMap<String, String>> currentPortfollio = new HashMap<String, HashMap<String, String>>(); //StockTickerName: {StockTickerMetaDataName: StockTickerMetaDataName}
 
-    public AvailableContestDetailView(AvailableContestsController controller, AvailableContestsViewModel viewModel, String username) {
+    public AvailableContestDetailView(AvailableContestsController controller, AvailableContestsViewModel viewModel) {
         this.viewModel = viewModel;
         this.controller = controller;
-        this.user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", username);
         viewModel.addPropertyChangeListener(this); //trigger events based on state change
 
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        ErrorLabel.setVisible(false);
         setListValues();
         setUiValues();
         setDefaultStockSelectionUiValues();
@@ -70,7 +60,12 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
                     @Override
                     public void valueChanged(ListSelectionEvent e) {
                         if (!e.getValueIsAdjusting()){
-                            var updatedCost = controller.stockListChanged(stockChoicesList.getSelectedValue().toString()); //API call to get update prices here
+                            Float updatedCost = null; //API call to get update prices here
+                            try {
+                                updatedCost = getUpdatedStockPrices(stockChoicesList.getSelectedValue().toString());
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
+                            }
                             updateStockSelectionUI(stockChoicesList.getSelectedValue().toString()); // Add extra param with api call here
                             checkNextPurchaseOverflow(updatedCost);
                         }
@@ -86,7 +81,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
                 }
                 else if (stockChoicesList.getSelectedValue() != null){
                     var currentStock = stockChoicesList.getSelectedValue().toString();
-                    var updatedCost = controller.getUpdatedStockPrice(currentStock);
+                    var updatedCost = getUpdatedStockPrices(currentStock);
 
 //                    var totalPrice = Float.parseFloat(stockQuantitySpinner.getValue().toString()) * updatedCost;
 //                    if (totalPrice > Float.parseFloat(cashRemainingLabel.getText())){
@@ -168,8 +163,16 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         stockChoicesList.setListData(model);
     }
 
-    public void getUpdatedStockPrices(String stockName){
-        controller.getUpdatedStockPrice(stockName);
+    public float getUpdatedStockPrices(String stockName){
+        try{
+            ErrorLabel.setVisible(false);
+            return controller.getUpdatedStockPrice(stockName);
+        } catch (Exception ex){
+            System.out.println(ex);
+            ErrorLabel.setVisible(true);
+            ErrorLabel.setText("Unable to get updated price");
+            return 0;
+        }
     }
     public void setUiValues(){
         // Populate view with default params
@@ -200,7 +203,11 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     }
 
     private void onOK() {
-        // switch this contest and its configuration to enrolledw
+        var cashMap = new HashMap<String, String>();
+        cashMap.put("Quantity", cashRemainingLabel.getText());
+        cashMap.put("Purchase Price", "1");
+        currentPortfollio.put("Cash", cashMap);
+        enrollSuccess = controller.enrollUserInContest(currentPortfollio);
         dispose();
     }
 
@@ -217,46 +224,9 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     }
 
     public static void launch(AvailableContestDetailView dialog) throws IOException { //TODO: temp
-//        AvailableContestsViewModel viewModel, AvailableContestsController controller, String username
-//        URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
-//        File file = new File(url.getPath());
-//
-//        FileInputStream serviceAccount =
-//                new FileInputStream(file);
-//
-//        FirebaseOptions options = new FirebaseOptions.Builder()
-//                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//                .build();
-//
-//        FirebaseApp.initializeApp(options);
-//
-//        var db = FirestoreClient.getFirestore();
-//
-//        //"Initialize" singleton entity level data access factory
-//        var firebaseDataAccess = FirebaseDataAccess.getInstance();
-//        firebaseDataAccess.setFirestore(db);
-//
-//        var vmM = new ViewModelManager();
-//        var vm = new AvailableContestsViewModel();
-//        var dialog = ContestUseCaseFactory.createAvailableContestDetailView(vm, vmM, "1", "foo");
-//        AvailableContestDetailView dialog = new AvailableContestDetailView(controller, viewModel, username);
-//        dialog.pack();
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
-        System.exit(0);
-    }
-
-    public static void main(String[] args) {
-        try{
-//            launch();
-        }
-        catch(Exception ex){
-
-        }
-
-//        AvailableContestDetailView dialog = new AvailableContestDetailView();
-//        dialog.pack();
-//        dialog.setVisible(true);
 //        System.exit(0);
     }
+
 }

@@ -15,15 +15,17 @@ public class AvailableContestViewMain {
             Main.FirebaseInit();
             // catching exceptions for GoogleCredentials.fromStream and FileInputStream
             String contestId = "1";
-            CreateContest.createContest();
+            CreateContest.createContest(1);
 //            var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", contestId);
             ViewModelManager viewModelManager = new ViewModelManager();
             AvailableContestsViewModel availableContestsViewModel = new AvailableContestsViewModel();
             AvailableContestDetailView availableContestDetailView = ContestUseCaseFactory.createAvailableContestDetailView(availableContestsViewModel, viewModelManager, contestId, "brad");
 //            views.add(availableContestDetailView, availableContestDetailView.viewName);
-            AvailableContestDetailView.launch(availableContestDetailView);
             viewModelManager.setActiveView(availableContestDetailView.viewName);
             viewModelManager.firePropertyChanged();
+            AvailableContestDetailView.launch(availableContestDetailView);
+            System.out.println(availableContestDetailView.enrollSuccess);
+
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

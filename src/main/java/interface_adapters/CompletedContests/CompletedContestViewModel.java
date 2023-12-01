@@ -39,10 +39,22 @@ public class CompletedContestViewModel extends ViewModel {
         super("completed contest view");
     }
 
+
+    /**
+     * Sets the state of the contest to the specified completed contest state.
+     *
+     * @param  completedContestState  the completed contest state to set
+     * @return                        void
+     */
     public void setState(CompletedContestState completedContestState) {
         this.state = completedContestState;
     }
 
+    /**
+     * Returns the state of the completed contest.
+     *
+     * @return the state of the completed contest
+     */
     public CompletedContestState getState(){
         return this.state;
     }
@@ -50,10 +62,11 @@ public class CompletedContestViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
 
-    // trying to set the fields of the view model
     @Override
     public void firePropertyChanged() {
         support.firePropertyChange("state", null, this.state);
+
+        // sets all the fields in the view model to the new ones in state.
         contestName = state.contestName;
         startDate = state.startDate;
         endDate = state.endDate;
@@ -65,6 +78,12 @@ public class CompletedContestViewModel extends ViewModel {
 
     }
 
+
+    /**
+     * Adds a property change listener to the object.
+     *
+     * @param  listener  the listener to be added
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
