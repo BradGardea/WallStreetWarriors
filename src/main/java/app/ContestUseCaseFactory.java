@@ -52,4 +52,18 @@ public class ContestUseCaseFactory {
         return new CompletedContestController(completedContestInteractor);
     }
 
+    public static EnrolledView createEnrolledView(EnrolledViewModel enrolledViewModel, FirebaseDataAccess firebaseDataAccess, ViewModelManager viewModelManager, String contestId, String username) {
+        EnrolledController enrolledController = createEnrolledUseCase(enrolledViewModel, viewModelManager, contestId, firebaseDataAccess);
+        return new EnrolledView(enrolledController, enrolledViewModel);
+    }
+
+    private static EnrolledController createEnrolledUseCase(EnrolledViewModel enrolledViewModel, ViewModelManager viewModelManager, String contestId, FirebaseDataAccess dataAccessInterface){
+        EnrolledOutputBoundary enrolledOutputBoundary = new EnrolledPresenter(enrolledViewModel, viewModelManager);
+        String username = "dhruvpatt";
+        EnrolledInputData inputData = new EnrolledInputData(username, contestId);
+        EnrolledInteractor enrolledInteractor = new EnrolledInteractor(dataAccessInterface, enrolledOutputBoundary);
+
+        enrolledInteractor.execute(inputData);
+        return new EnrolledController(enrolledInteractor);
+    }
 }
