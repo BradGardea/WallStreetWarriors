@@ -44,7 +44,7 @@ public class ContestUseCaseFactory {
     private static CompletedContestController createCompletedContestUseCase(CompletedContestViewModel completedContestViewModel, ViewModelManager viewModelManager, String contestId, FirebaseDataAccess dataAccessInterface){
         CompletedContestOutputBoundary completedContestOutputBoundary = new CompletedContestPresenter(completedContestViewModel, viewModelManager);
         // TODO: remove this hardcoded username later when Goncalo's code is merged in.
-        String username = "dhruvpatt";
+        String username = "dhruv";
         CompletedContestInteractor completedContestInteractor = new CompletedContestInteractor(dataAccessInterface, completedContestOutputBoundary, contestId, username);
 
         // TODO: remove this method call once we have main view for calling the method.
