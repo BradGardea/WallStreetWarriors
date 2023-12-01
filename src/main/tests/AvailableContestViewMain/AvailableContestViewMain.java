@@ -21,9 +21,11 @@ public class AvailableContestViewMain {
             AvailableContestsViewModel availableContestsViewModel = new AvailableContestsViewModel();
             AvailableContestDetailView availableContestDetailView = ContestUseCaseFactory.createAvailableContestDetailView(availableContestsViewModel, viewModelManager, contestId, "brad");
 //            views.add(availableContestDetailView, availableContestDetailView.viewName);
-            AvailableContestDetailView.launch(availableContestDetailView);
             viewModelManager.setActiveView(availableContestDetailView.viewName);
             viewModelManager.firePropertyChanged();
+            AvailableContestDetailView.launch(availableContestDetailView);
+            System.out.println(availableContestDetailView.enrollSuccess);
+
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

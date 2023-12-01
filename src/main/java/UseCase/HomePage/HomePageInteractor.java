@@ -42,7 +42,7 @@ public class HomePageInteractor implements HomePageInputBoundary {
         }
 
         for (var contest: homepageDataAccessObject.getEntities(Contest.class, "Contests")){
-            if (!user.getEnrolledContests().contains(contest.getContestId()) || !user.getCompletedContests().contains(contest.getContestId())){
+            if (!user.getEnrolledContests().contains(contest.getContestId()) && !user.getCompletedContests().contains(contest.getContestId())){
                 availableContests.add(contest);
             }
         }

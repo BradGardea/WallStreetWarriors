@@ -1,9 +1,16 @@
 package view.HomePage;
 
+import FirebaseDataAccess.FirebaseDataAccess;
+import app.ContestUseCaseFactory;
 import entity.Contest;
+import entity.User;
+import interface_adapters.AvailableContests.AvailableContestState;
+import interface_adapters.AvailableContests.AvailableContestsViewModel;
 import interface_adapters.HomePage.HomePageController;
+import interface_adapters.HomePage.HomePageState;
 import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
+import view.AvailableContests.AvailableContestDetailView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +27,13 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     private JScrollPane availableScrollPane;
     private JScrollPane enrolledScrollPane;
     private JScrollPane completedScrollPane;
+    private ViewModelManager viewModelManager;
+    private JPanel contentPanel;
 
     public HomePageView(HomePageViewModel viewModel, HomePageController controller, ViewModelManager viewModelManager){
         this.homepageViewModel = viewModel;
         this.homepageController = controller;
+        this.viewModelManager = viewModelManager;
         this.homepageViewModel.addPropertyChangeListener(this);
 
         setLayout(new BorderLayout());
@@ -44,19 +54,12 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         headerPanel.add(signOutButton, BorderLayout.EAST);
 
         // Main content panel with scrollable lists
-        JPanel contentPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.enrolledContests, false);
-        completedScrollPane = createScrollablePanel("Completed", homepageViewModel.completedContests, false);
-        availableScrollPane = createScrollablePanel("Available", homepageViewModel.availableContests, true);
-
-        contentPanel.add(availableScrollPane);
-        contentPanel.add(enrolledScrollPane);
-        contentPanel.add(completedScrollPane);
+        setLists();
 
         // Add sub-panels to the main panel
         add(headerPanel, BorderLayout.NORTH); // Only add the headerPanel here
         // welcomeLabel should not be added here again since it's already part of the headerPanel
-        add(contentPanel, BorderLayout.CENTER);
+        add(this.contentPanel, BorderLayout.CENTER);
 
 
     }
@@ -68,8 +71,24 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
     // TODO: implement later
     public void propertyChange(PropertyChangeEvent evt){
-
+        HomePageState state = (HomePageState) evt.getNewValue();
+        if (state.availableContests != null && state.completedContests != null && state.enrolledContests != null){
+            setLists();
+        }
     }
+
+    private void setLists() {
+        JPanel contentPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        this.contentPanel = contentPanel;
+        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.enrolledContests, false);
+        completedScrollPane = createScrollablePanel("Completed", homepageViewModel.completedContests, false);
+        availableScrollPane = createScrollablePanel("Available", homepageViewModel.availableContests, true);
+
+        this.contentPanel.add(availableScrollPane);
+        this.contentPanel.add(enrolledScrollPane);
+        this.contentPanel.add(completedScrollPane);
+    }
+
     private JScrollPane createScrollablePanel(String title, ArrayList<Contest> contests, boolean showTimeLeft) {
         // Create a panel with a vertical BoxLayout to stack contest panels vertically
         JPanel panel = new JPanel();
@@ -102,7 +121,10 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         infoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showAvailableContestDetailsScreen(contest);
+                var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", homepageViewModel.username);
+                if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId())){
+                    showAvailableContestDetailsScreen(contest);
+                }
             }
         });
         if (showTimeLeft) {
@@ -117,7 +139,23 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     }
 
     private void showAvailableContestDetailsScreen(Contest contest) {
-        // TODO switch screen after clicking info
+        AvailableContestsViewModel availableContestsViewModel = new AvailableContestsViewModel();
+        AvailableContestDetailView availableContestDetailView = ContestUseCaseFactory.createAvailableContestDetailView(availableContestsViewModel, viewModelManager, contest.getContestId(), homepageViewModel.username);
+//            views.add(availableContestDetailView, availableContestDetailView.viewName);
+        try{
+            AvailableContestDetailView.launch(availableContestDetailView);
+            viewModelManager.setActiveView(availableContestDetailView.viewName);
+            viewModelManager.firePropertyChanged();
+            System.out.println(availableContestDetailView.enrollSuccess);
+            if (availableContestDetailView.enrollSuccess){
+                homepageController.execute();
+                viewModelManager.setActiveView(this.viewName);
+                viewModelManager.firePropertyChanged();
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+        }
     }
 
     private void showEnrolledContestDetailsScreen(Contest contest) {

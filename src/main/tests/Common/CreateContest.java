@@ -25,7 +25,7 @@ public class CreateContest {
                 stockOptions.add("GOOG");
                 stockOptions.add("YAHOO");
                 stockOptions.add("Foo");
-                var contest = new Contest(String.valueOf(i), "Test", "test", members, "Technology", Timestamp.now(), fiveDays, stockOptions, null);
+                var contest = new Contest(String.valueOf(i), "Test", String.valueOf(i), members, "Technology", Timestamp.now(), fiveDays, stockOptions, null);
             }
 
         }

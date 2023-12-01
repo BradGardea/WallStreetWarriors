@@ -101,7 +101,7 @@ public class Main{
         }
     }
     public static void FirebaseInit() throws IOException {
-        URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-9cad46c515.json");
+        URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
         File file = new File(url.getPath());
         FileInputStream serviceAccount =
                 new FileInputStream(file);

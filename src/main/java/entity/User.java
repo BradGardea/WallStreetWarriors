@@ -11,10 +11,8 @@ import java.util.ArrayList;
 public class User implements IUser, IFirebaseEntity {
     private String username;
     private String password;
-    private ArrayList<String> completedContests;
-    private ArrayList<String> enrolledContests;
-//    @Exclude private ArrayList<Contest> concreteCompletedContests;
-//    @Exclude private ArrayList<Contest> concreteEnrolledContests;
+    private ArrayList<String> completedContests = new ArrayList<String>();
+    private ArrayList<String> enrolledContests = new ArrayList<String>();
 
     public User(){};
 

@@ -9,9 +9,7 @@ public class HomePageController {
         this.homepageUseCaseInteractor = homepageUseCaseInteractor;
     }
 
-
     public void execute(){
         homepageUseCaseInteractor.execute();
     }
-
 }
