@@ -32,17 +32,18 @@ public class HomePageInteractor implements HomePageInputBoundary {
         ArrayList<Contest> completedContests = new ArrayList<>();
 
         ArrayList<Contest> availableContests = new ArrayList<>();
-
-        for (var eC: user.getEnrolledContests()){
-            enrolledContests.add(homepageDataAccessObject.getEntity(Contest.class, "Contests", eC));
+        if (user.getEnrolledContests() != null){
+            for (var eC: user.getEnrolledContests()){
+                enrolledContests.add(homepageDataAccessObject.getEntity(Contest.class, "Contests", eC));
+            }
         }
-
-        for (var cC: user.getCompletedContests()){
-            completedContests.add(homepageDataAccessObject.getEntity(Contest.class, "Contests", cC));
+        if (user.getCompletedContests() != null){
+            for (var cC: user.getCompletedContests()){
+                completedContests.add(homepageDataAccessObject.getEntity(Contest.class, "Contests", cC));
+            }
         }
-
         for (var contest: homepageDataAccessObject.getEntities(Contest.class, "Contests")){
-            if (!user.getEnrolledContests().contains(contest.getContestId()) && !user.getCompletedContests().contains(contest.getContestId())){
+            if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId())){
                 availableContests.add(contest);
             }
         }

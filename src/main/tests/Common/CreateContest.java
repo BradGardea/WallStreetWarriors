@@ -14,9 +14,10 @@ public class CreateContest {
     public static void createContest(int count){
         try {
             Main.FirebaseInit();
+            var a = new User("a", "1", new ArrayList<>(), new ArrayList<>());
             for(var i = 0; i < count; i ++){
                 var members = new ArrayList<User>();
-                members.add(new User("dhruv", "foo", null, null));
+                members.add(a);
                 var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
                 // Add 5 days to the current timestamp
                 var fiveDays = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
@@ -24,10 +25,10 @@ public class CreateContest {
                 stockOptions.add("GOOG");
                 stockOptions.add("YAHOO");
                 stockOptions.add("Foo");
-                var contest = new Contest(String.valueOf(i), "Test", String.valueOf(i), members, "Technology", Timestamp.now(), fiveDays, stockOptions, null);
+                new Contest(String.valueOf(i), "Test", String.valueOf(i), members, "Technology", Timestamp.now(), fiveDays, stockOptions, null);
             }
             var members = new ArrayList<User>();
-            members.add(new User("dhruv", "foo", null, null));
+            members.add(a);
             var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
             // Add 5 days to the current timestamp
             var fiveDays = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
@@ -48,9 +49,14 @@ public class CreateContest {
 
             innerPortfolio1.put("AAPL", innerPortfolio2);
 
-            portfolios.put("dhruv", innerPortfolio1);
+            portfolios.put("a", innerPortfolio1);
 
-            var contest = new Contest("1000", "Test", "test", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
+            var cT = new Contest("CompletedTest", "Test", "CompletedTest", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
+            var eT = new Contest("EnrolledTest", "Test", "EnrolledTest", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
+            a.addEnrolledContest(eT.getContestId());
+            a.addCompletedContest(cT.getContestId());
+
+            a.updateInFirebase();
         }
         catch(Exception ex){
             System.out.println(ex);

@@ -22,7 +22,7 @@ import use_case.Enrolled.EnrolledOutputBoundary;
 import view.AvailableContests.AvailableContestDetailView;
 import view.CompletedContests.CompletedContestView;
 import view.ContestView;
-import view.EnrolledView;
+import view.EnrolledContest.EnrolledView;
 
 public class ContestUseCaseFactory {
 
@@ -42,7 +42,6 @@ public class ContestUseCaseFactory {
         return new CompletedContestView(completedContestController, completedContestViewModel);
 
     }
-
     private static AvailableContestsController createAvailableContestUseCase(AvailableContestsViewModel availableContestsViewModel, ViewModelManager viewModelManager, String contestId, String username){
         AvailableContestOuputBoundary availableContestOuputBoundary = new AvailableContestPresenter(availableContestsViewModel, viewModelManager);
         AvailableContestInteractor availableContestInteractor = new AvailableContestInteractor(availableContestOuputBoundary, contestId, username);

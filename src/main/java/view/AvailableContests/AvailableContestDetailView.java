@@ -203,6 +203,10 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     }
 
     private void onOK() {
+        var cashMap = new HashMap<String, String>();
+        cashMap.put("Quantity", cashRemainingLabel.getText());
+        cashMap.put("Purchase Price", "1");
+        currentPortfollio.put("Cash", cashMap);
         enrollSuccess = controller.enrollUserInContest(currentPortfollio);
         dispose();
     }

@@ -10,7 +10,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import entity.Contest;
 import interface_adapters.Enrolled.EnrolledViewModel;
 import interface_adapters.ViewModelManager;
-import view.EnrolledView;
+import view.EnrolledContest.EnrolledView;
 
 import javax.swing.*;
 import java.awt.*;

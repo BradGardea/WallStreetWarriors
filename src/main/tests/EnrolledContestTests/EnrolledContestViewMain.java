@@ -3,24 +3,16 @@ package main.tests.EnrolledContestTests;
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
 import app.Main;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
 import entity.Contest;
 import interface_adapters.Enrolled.EnrolledViewModel;
 import interface_adapters.ViewModelManager;
-import main.tests.Common.CreateContest;
-import view.EnrolledView;
+import view.EnrolledContest.EnrolledView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 
 public class EnrolledContestViewMain {
 

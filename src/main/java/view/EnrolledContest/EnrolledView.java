@@ -1,8 +1,9 @@
-package view;
+package view.EnrolledContest;
 
 import interface_adapters.Enrolled.EnrolledController;
 import interface_adapters.Enrolled.EnrolledState;
 import interface_adapters.Enrolled.EnrolledViewModel;
+import view.CompletedContests.CompletedContestView;
 // import interface_adapters.MAINVIEWPACKAGE.MAINVIEWState; TODO CHANGE THIS
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.time.ZoneId;
 
 /**
@@ -24,7 +26,7 @@ import java.time.ZoneId;
  * @author Mikhail Skazhenyuk
  * @version 0.0
  */
-public class EnrolledView extends JPanel implements ActionListener, PropertyChangeListener {
+public class EnrolledView extends JDialog implements ActionListener, PropertyChangeListener {
     public final String viewName = "enrolledcontest";
 //    private final HomePageController homePageController;
     private final EnrolledViewModel enrolledViewModel;
@@ -43,8 +45,9 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
         // J Swing stuff goes here
 
         // THIS CODE IS FOR CREATING THE WINDOW - PASS THE ACTUAL FRAME LATER ON?
-        JFrame frame = new JFrame(enrolledState.getTitle() + " Enrolled Contest ID: " + enrolledState.getContestId());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JPanel frame = new JPanel(enrolledState.getTitle() + " Enrolled Contest ID: " + enrolledState.getContestId());
+        JPanel frame = new JPanel(new BorderLayout());
+//        frame.(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         // Actual Stuff
@@ -129,10 +132,20 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
         horizontalScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         horizontalScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         frame.add(horizontalScrollPane, BorderLayout.CENTER);
+//        JButton cancelButton = new JButton("Cancel");
+//        frame.add(cancelButton);
+        this.add(frame);
 
-        // Pack and show the frame
-        frame.pack();
-        frame.setVisible(true);
+
+//        cancelButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                onCancel();
+//            }
+//        });
+//        // Pack and show the frame
+//        frame.pack();
+//        frame.setVisible(true);
     }
 
     /**
@@ -171,5 +184,21 @@ public class EnrolledView extends JPanel implements ActionListener, PropertyChan
         int minutes = (totalSecs % 3600) / 60;
         int seconds = totalSecs % 60;
         return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
+    }
+
+    public static void launch(EnrolledView dialog) throws IOException {
+        dialog.setSize(new Dimension(600,800));
+        dialog.setVisible(true);
+        // System.exit(0);
+    }
+
+    private void onOK() {
+        // switch this contest and its configuration to enrolledw
+        dispose();
+    }
+
+    private void onCancel() {
+        // add your code here if necessary
+        dispose();
     }
 }

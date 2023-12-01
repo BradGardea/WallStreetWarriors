@@ -7,12 +7,14 @@ import entity.User;
 import interface_adapters.AvailableContests.AvailableContestState;
 import interface_adapters.AvailableContests.AvailableContestsViewModel;
 import interface_adapters.CompletedContests.CompletedContestViewModel;
+import interface_adapters.Enrolled.EnrolledViewModel;
 import interface_adapters.HomePage.HomePageController;
 import interface_adapters.HomePage.HomePageState;
 import interface_adapters.HomePage.HomePageViewModel;
 import interface_adapters.ViewModelManager;
 import view.AvailableContests.AvailableContestDetailView;
 import view.CompletedContests.CompletedContestView;
+import view.EnrolledContest.EnrolledView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -154,6 +156,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
                 {
                     showCompletedContestDetailsScreen(contest);
                 }
+                else if (!user.getCompletedContests().contains(contest.getContestId())){
+                    showEnrolledContestDetailsScreen(contest);
+                }
             }
         });
         if (showTimeLeft) {
@@ -188,7 +193,16 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     }
 
     private void showEnrolledContestDetailsScreen(Contest contest) {
-        // TODO switch screen after clicking info
+        EnrolledViewModel enrolledViewModel = new EnrolledViewModel();
+        EnrolledView enrolledView = ContestUseCaseFactory.createEnrolledView(enrolledViewModel, FirebaseDataAccess.getInstance(), viewModelManager, contest.getContestId(), homepageViewModel.username);
+        try{
+            EnrolledView.launch(enrolledView);
+            viewModelManager.setActiveView(enrolledView.viewName);
+            viewModelManager.firePropertyChanged();
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     private void showCompletedContestDetailsScreen(Contest contest) {

@@ -21,6 +21,7 @@ public class User implements IUser, IFirebaseEntity {
         this.password = password;
         this.enrolledContests = enrolledContests;
         this.completedContests = completedContests;
+        updateInFirebase();
     }
     public void updateInFirebase(){
         FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Users", this.username);
