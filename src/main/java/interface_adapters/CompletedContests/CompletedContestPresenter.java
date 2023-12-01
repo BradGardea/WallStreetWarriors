@@ -13,6 +13,14 @@ public class CompletedContestPresenter implements CompletedContestOutputBoundary
         this.completedContestViewModel = completedContestViewModel;
         this.viewModelManager = viewModelManager;
     }
+
+    /**
+     * A description of the prepareSuccessView function.
+     *
+     * @param  response  an instance of CompletedContestOutputData class
+     *                   containing the response data
+     * @return           void
+     */
     @Override
     public void prepareSuccessView(CompletedContestOutputData response) {
         CompletedContestState state = completedContestViewModel.getState();
