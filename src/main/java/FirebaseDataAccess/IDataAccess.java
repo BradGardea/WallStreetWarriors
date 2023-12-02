@@ -1,16 +1,11 @@
 package FirebaseDataAccess;
 
-import com.google.firebase.internal.NonNull;
-import com.google.firebase.internal.Nullable;
-
-import java.util.EventListener;
-
-public interface IFirebaseEntity{
+public interface IDataAccess{
 
     /*
     Method that requires implementation dependent on class that needs to be updated in Firebase
      */
-    public void updateInFirebase();
+    public void updateInStorage();
 //    /**
 //     * Gets the document with the specified ID from Firestore
 //     * @param collection The string corresponding to the Parent collection of the document

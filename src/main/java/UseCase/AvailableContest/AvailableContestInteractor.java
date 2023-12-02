@@ -33,8 +33,8 @@ public class AvailableContestInteractor implements AvailableContestInputBoundary
                 contest.setPortfolios(this.username, currentPortfolio);
                 user.addEnrolledContest(this.contestId);
 
-                contest.updateInFirebase();
-                user.updateInFirebase();
+                contest.updateInStorage();
+                user.updateInStorage();
                 return true;
             }
             return false;
