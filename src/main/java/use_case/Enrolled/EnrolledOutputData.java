@@ -13,33 +13,33 @@ import java.util.*;
  */
 public class EnrolledOutputData {
     private final List<String> opponents;
-    private final HashMap<String, HashMap<String, String>> userPortfolio;
-    private final HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios;
+    private final HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
     private final String title;
     private final String description;
     private final String contestId;
     private final String industry;
+    private final String username;
 
     public EnrolledOutputData(List<String> opponents,
-                              HashMap<String, HashMap<String, String>> userPortfolio,
-                              HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios,
+                              HashMap<String, HashMap<String, HashMap<String, String>>> portfolios,
                               LocalDateTime startDate,
                               LocalDateTime endDate,
                               String title,
                               String description,
                               String contestId,
-                              String industry) {
+                              String industry,
+                              String username) {
         this.opponents = opponents;
-        this.userPortfolio = userPortfolio;
-        this.opponentPortfolios = opponentPortfolios;
+        this.portfolios = portfolios;
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
         this.description = description;
         this.contestId = contestId;
         this.industry = industry;
+        this.username = username;
     }
 
     // Getters
@@ -48,12 +48,12 @@ public class EnrolledOutputData {
         return opponents;
     }
 
-    public HashMap<String, HashMap<String, String>> getUserPortfolio() {
-        return userPortfolio;
+    public String getUsername() {
+        return username;
     }
 
-    public HashMap<String, HashMap<String, HashMap<String, String>>> getOpponentPortfolios() {
-        return opponentPortfolios;
+    public HashMap<String, HashMap<String, HashMap<String, String>>> getPortfolios() {
+        return portfolios;
     }
 
     public LocalDateTime getStartDate() {
