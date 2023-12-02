@@ -49,24 +49,21 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
 
         // Get base data from object
         ArrayList<User> members = enrolledContest.getMembers();
-        HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = enrolledContest.getPortfolios(); // LinkedHashMap
+        HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = enrolledContest.getPortfolios();
         Timestamp startTime = enrolledContest.getStartTime();
         Timestamp endTime = enrolledContest.getEndTime();
         String industry = enrolledContest.getIndustry();
         String title = enrolledContest.getTitle();
         String description = enrolledContest.getDescription();
-        HashMap<String, HashMap<String, String>> userPortfolio = portfolios.get(username);
 
         // Convert to OutputData format
         List<String> opponents = new LinkedList<>();
-        HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios = new HashMap<>();
         for (User user : members) {
             String name = user.getUsername();
-            if (!Objects.equals(name, username)) {
-                opponents.add(name);
-                HashMap<String, HashMap<String, String>> namePortofolio = portfolios.get(name);
-                opponentPortfolios.put(name, namePortofolio);
+            if (Objects.equals(name, username)) {
+                continue;
             }
+            opponents.add(name);
         }
 
         // Convert time to OutputData format
@@ -75,14 +72,14 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
 
         EnrolledOutputData enrolledOutputData = new EnrolledOutputData(
                 opponents,
-                userPortfolio,
-                opponentPortfolios,
+                portfolios,
                 startDate,
                 endDate,
                 title,
                 description,
                 contestId,
-                industry);
+                industry,
+                username);
         enrolledPresenter.prepareSuccessView(enrolledOutputData);
     }
 
