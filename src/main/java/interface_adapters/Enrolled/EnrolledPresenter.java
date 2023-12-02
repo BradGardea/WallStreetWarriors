@@ -32,14 +32,14 @@ public class EnrolledPresenter implements EnrolledOutputBoundary {
         EnrolledState enrolledState = enrolledViewModel.getState();
 
         enrolledState.setOpponents(enrolledOutputData.getOpponents());
-        enrolledState.setUserPortfolio(enrolledOutputData.getUserPortfolio());
-        enrolledState.setOpponentPortfolios(enrolledOutputData.getOpponentPortfolios());
+        enrolledState.setPortfolios(enrolledOutputData.getPortfolios());
         enrolledState.setStartDate(enrolledOutputData.getStartDate());
         enrolledState.setEndDate(enrolledOutputData.getEndDate());
         enrolledState.setTitle(enrolledOutputData.getTitle());
         enrolledState.setDescription(enrolledOutputData.getDescription());
         enrolledState.setContestId(enrolledOutputData.getContestId());
         enrolledState.setIndustry(enrolledOutputData.getIndustry());
+        enrolledState.setUsername(enrolledOutputData.getUsername());
 
         this.enrolledViewModel.setState(enrolledState);
         this.enrolledViewModel.firePropertyChanged();

@@ -11,9 +11,9 @@ import java.util.*;
  * @version 0.0
  */
 public class EnrolledState {
+    private String username;
     private List<String> opponents;
-    private HashMap<String, HashMap<String, String>> userPortfolio;
-    private HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios;
+    private HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String title;
@@ -22,15 +22,19 @@ public class EnrolledState {
     private String industry;
 
     public EnrolledState(EnrolledState copy) {
+        username = copy.username;
         opponents = copy.opponents;
-        userPortfolio = copy.userPortfolio;
-        opponentPortfolios = copy.opponentPortfolios;
+        portfolios = copy.portfolios;
         startDate = copy.startDate;
         endDate = copy.endDate;
         title = copy.title;
         description = copy.description;
         contestId = copy.contestId;
         industry = copy.industry;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public EnrolledState() {}
@@ -55,12 +59,12 @@ public class EnrolledState {
         return opponents;
     }
 
-    public HashMap<String, HashMap<String, String>> getUserPortfolio() {
-        return userPortfolio;
+    public HashMap<String, HashMap<String, HashMap<String, String>>> getPortfolios() {
+        return portfolios;
     }
 
-    public HashMap<String, HashMap<String, HashMap<String, String>>> getOpponentPortfolios() {
-        return opponentPortfolios;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public LocalDateTime getStartDate() {
@@ -91,12 +95,8 @@ public class EnrolledState {
         this.opponents = opponents;
     }
 
-    public void setUserPortfolio(HashMap<String, HashMap<String, String>> userPortfolio) {
-        this.userPortfolio = userPortfolio;
-    }
-
-    public void setOpponentPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> opponentPortfolios) {
-        this.opponentPortfolios = opponentPortfolios;
+    public void setPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> portfolios) {
+        this.portfolios = portfolios;
     }
 
     public void setStartDate(LocalDateTime startDate) {
