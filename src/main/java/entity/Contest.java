@@ -1,13 +1,13 @@
 package entity;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import FirebaseDataAccess.IDataAccess;
+import FirebaseDataAccess.IUpdateableEntity;
 
 import com.google.cloud.Timestamp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-public class Contest implements IContest, IDataAccess{
+public class Contest implements IContest, IUpdateableEntity {
     private String contestId;
     private String title;
     private String description;

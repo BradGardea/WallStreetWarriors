@@ -26,7 +26,6 @@ public class AvailableContestInteractor implements AvailableContestInputBoundary
         }
     }
     public boolean enrollUserInContest(HashMap<String, HashMap<String, String>> currentPortfolio){
-        try{
             var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", this.contestId);
             var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", this.username);
 
@@ -40,16 +39,16 @@ public class AvailableContestInteractor implements AvailableContestInputBoundary
                 return true;
             }
             return false;
-        }
-        catch(Exception ex){
-            return false;
-        }
-
     }
 
     public float getUpdatedStockPrice(String stockName) throws RuntimeException{
-
         return Float.parseFloat(ApiCall.getClosePrice(stockName, Credentials.apiKey));
+    }
 
+    public String getUsername(){
+        return this.username;
+    }
+    public String getContestId(){
+        return this.contestId;
     }
 }
