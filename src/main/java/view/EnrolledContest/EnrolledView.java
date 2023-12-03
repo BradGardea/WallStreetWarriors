@@ -40,6 +40,8 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
     private static JLabel timerLabel;
     private static int timeLeft; // Seconds
 
+    public boolean contestExpired;
+
     public EnrolledView(EnrolledController enrolledController, EnrolledViewModel viewModel) {
 //        this.homePageController = controller;
         this.enrolledViewModel = viewModel;
@@ -190,7 +192,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
                     okButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
+                            contestExpired = enrolledController.markContestCompleted();
                             dispose();
                         }
 

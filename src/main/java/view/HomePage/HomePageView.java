@@ -201,6 +201,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             viewModelManager.setActiveView(enrolledView.viewName);
             viewModelManager.firePropertyChanged();
             EnrolledView.launch(enrolledView);
+            if (enrolledView.contestExpired){
+                homepageController.execute();
+            }
             viewModelManager.setActiveView(this.viewName);
             viewModelManager.firePropertyChanged();
         }

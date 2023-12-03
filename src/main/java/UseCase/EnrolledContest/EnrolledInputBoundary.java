@@ -1,5 +1,7 @@
 package UseCase.EnrolledContest;
 
+import java.util.HashMap;
+
 /**
  * A boundary between Controller and Enrolled UCI.
  * execute method in UCI passing inputData.
@@ -9,4 +11,5 @@ package UseCase.EnrolledContest;
  */
 public interface EnrolledInputBoundary {
     void execute(EnrolledInputData enrolledInputData);
+    public boolean markContestCompleted();
 }

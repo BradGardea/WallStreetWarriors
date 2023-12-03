@@ -22,6 +22,8 @@ import java.util.*;
 public class EnrolledInteractor implements EnrolledInputBoundary {
     final FirebaseDataAccess userDataAccessObject;
     final EnrolledOutputBoundary enrolledPresenter;
+    private String username;
+    private String contestId;
 
     public EnrolledInteractor(FirebaseDataAccess userDataAccessInterface,
                               EnrolledOutputBoundary enrolledOutputBoundary) {
@@ -41,11 +43,11 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
      */
     @Override
     public void execute(EnrolledInputData enrolledInputData) {
-        String username = enrolledInputData.getUsername();
-        String contestId = enrolledInputData.getContestId();
+        this.username = enrolledInputData.getUsername();
+        this.contestId = enrolledInputData.getContestId();
 
         // Get Contest object by ID
-        Contest enrolledContest = userDataAccessObject.getEntity(Contest.class, "Contests", contestId);
+        Contest enrolledContest = userDataAccessObject.getEntity(Contest.class, "Contests", this.contestId);
 
         // Get base data from object
         ArrayList<User> members = enrolledContest.getMembers();
@@ -60,7 +62,7 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         List<String> opponents = new LinkedList<>();
         for (User user : members) {
             String name = user.getUsername();
-            if (Objects.equals(name, username)) {
+            if (Objects.equals(name, this.username)) {
                 continue;
             }
             opponents.add(name);
@@ -77,10 +79,25 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
                 endDate,
                 title,
                 description,
-                contestId,
+                this.contestId,
                 industry,
-                username);
+                this.username);
         enrolledPresenter.prepareSuccessView(enrolledOutputData);
+    }
+
+    public boolean markContestCompleted(){
+        var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", this.contestId);
+        var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", this.username);
+
+        if (user != null && contest != null){
+            user.removeEnrolledContest(this.contestId);
+            user.addCompletedContest(this.contestId);
+
+            contest.updateInStorage();
+            user.updateInStorage();
+            return true;
+        }
+        return false;
     }
 
 }

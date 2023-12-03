@@ -59,6 +59,9 @@ public class User implements IUser, IUpdateableEntity {
     public void addEnrolledContest(String enrolledContest){
         this.enrolledContests.add(enrolledContest);
     }
+    public void removeEnrolledContest(String enrolledContest){
+        this.enrolledContests.remove(enrolledContest);
+    }
 
 //    @Override
 //    public String getUUID() {

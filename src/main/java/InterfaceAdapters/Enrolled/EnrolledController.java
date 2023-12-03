@@ -3,6 +3,8 @@ package InterfaceAdapters.Enrolled;
 import UseCase.EnrolledContest.EnrolledInputBoundary;
 import UseCase.EnrolledContest.EnrolledInputData;
 
+import java.util.HashMap;
+
 /**
  * Called from LoggedIn View to then display a popup of a specific enrolled contest.
  * Call to Enrolled Use Case interactor.
@@ -23,5 +25,8 @@ public class EnrolledController {
     public void execute(String username, String contestId) {
         EnrolledInputData enrolledInputData = new EnrolledInputData(username, contestId);
         enrolledUseCaseInteractor.execute(enrolledInputData);
+    }
+    public boolean markContestCompleted(){
+        return enrolledUseCaseInteractor.markContestCompleted();
     }
 }
