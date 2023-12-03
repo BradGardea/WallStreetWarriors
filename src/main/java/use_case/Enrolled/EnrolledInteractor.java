@@ -41,6 +41,11 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
      */
     @Override
     public void execute(EnrolledInputData enrolledInputData) {
+
+        enrolledPresenter.prepareSuccessView(retrieveData(enrolledInputData));
+    }
+
+    public EnrolledOutputData retrieveData(EnrolledInputData enrolledInputData) {
         String username = enrolledInputData.getUsername();
         String contestId = enrolledInputData.getContestId();
 
@@ -80,7 +85,8 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
                 contestId,
                 industry,
                 username);
-        enrolledPresenter.prepareSuccessView(enrolledOutputData);
+
+        return enrolledOutputData;
     }
 
 }

@@ -1,4 +1,4 @@
-package main.tests.EnrolledContestTests;
+package main.tests.EnrolledTests;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
@@ -25,24 +25,20 @@ public class EnrolledContestViewMain {
             Main.FirebaseInit();
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
             // catching exceptions for GoogleCredentials.fromStream and FileInputStream
-            String contestId = "1000";
-            firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
+            String contestId = "EnrolledTest";
+            Contest enrolled = firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
 
-            // creating JFrame for app
-            JFrame app = new JFrame("Wall Street Warriors");
-            app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            app.setSize(new Dimension(800, 600));
-
-            CardLayout cardLayout = new CardLayout();
-            JPanel views = new JPanel(cardLayout);
-            app.add(views);
             ViewModelManager viewModelManager = new ViewModelManager();
 
             EnrolledViewModel enrolledViewModel = new EnrolledViewModel();
-            EnrolledView enrolledView = ContestUseCaseFactory.createEnrolledView(enrolledViewModel, firebaseDataAccess, viewModelManager, contestId, "dhruvpatt");
-            views.add(enrolledView, enrolledView.viewName);
+
+            EnrolledView enrolledView = ContestUseCaseFactory.createEnrolledView(enrolledViewModel, firebaseDataAccess, viewModelManager, contestId, "a");
+
             viewModelManager.setActiveView(enrolledView.viewName);
             viewModelManager.firePropertyChanged();
+
+            enrolledView.pack();
+            enrolledView.setVisible(true);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

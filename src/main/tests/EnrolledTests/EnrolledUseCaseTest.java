@@ -1,4 +1,4 @@
-package main.tests.EnrolledContestTests;
+package main.tests.EnrolledTests;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
@@ -27,7 +27,7 @@ public class EnrolledUseCaseTest {
 
         try{
 
-            URL url =  main.tests.EnrolledContestTests.EnrolledContestViewMain.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
+            URL url =  main.tests.EnrolledTests.EnrolledContestViewMain.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
             File file = new File(url.getPath());
 
             FileInputStream serviceAccount =
