@@ -1,4 +1,4 @@
-package CompletedContestTests.CompletedContest;
+package tests.CompletedContestTests.CompletedContest;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import UseCase.CompletedContest.CompletedContestInteractor;
