@@ -13,7 +13,7 @@ import UseCase.AvailableContest.AvailableContestOuputBoundary;
 import UseCase.CompletedContest.CompletedContestInteractor;
 import entity.Contest;
 import entity.User;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
