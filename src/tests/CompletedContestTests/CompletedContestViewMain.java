@@ -36,7 +36,7 @@ public class CompletedContestViewMain {
 
         // creating CompletedContestViewModel and CompletedContestController
             CompletedContestViewModel completedContestViewModel = new CompletedContestViewModel();
-            CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, contestId, "dhruvpatt");
+            CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, contestId, "a");
             CompletedContestView.launch(completedContestView);
 //            app.add(completedContestView);
 //            app.setVisible(true);

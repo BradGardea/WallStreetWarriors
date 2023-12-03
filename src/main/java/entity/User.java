@@ -7,7 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
 
 @IgnoreExtraProperties
-public class User implements IUser, IDataAccess {
+public class User implements IUser, IUpdateableEntity {
     private String username;
     private String password;
     private ArrayList<String> completedContests = new ArrayList<String>();

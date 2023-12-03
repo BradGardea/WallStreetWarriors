@@ -13,7 +13,7 @@ import UseCase.AvailableContest.AvailableContestOuputBoundary;
 import UseCase.CompletedContest.CompletedContestInteractor;
 import entity.Contest;
 import entity.User;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
@@ -41,6 +41,12 @@ class AvailableContestInteractorTest {
         this.availableContestInteractor = new AvailableContestInteractor(this.availableContestsPresenter, "0", "dummy");
     }
 
+    @Test
+    void construct(){
+        var interactor = new AvailableContestInteractor(this.availableContestsPresenter, "0", "dummy");
+        assert(interactor.getContestId() == "0" && interactor.getUsername() == "dummy");
+    }
+
     // execute test should validate whether the view model gets updated with a non-null state
     @Test
     void execute() {
@@ -50,8 +56,13 @@ class AvailableContestInteractorTest {
 
     // enrollUserInContest test should validate whether a user can be added to a contest
     @Test
-    void enrollUserInContest() {
+    void enrollUserInContestSuccess() {
         assert(this.availableContestInteractor.enrollUserInContest(CreatePortfolios.createPorfolios().get("dummy")));
+    }
+    @Test
+    void enrollUserInContestFail(){
+        var interactor = new AvailableContestInteractor(this.availableContestsPresenter, "10000", "dummy");
+        assert(!interactor.enrollUserInContest(CreatePortfolios.createPorfolios().get("dummy")));
     }
 
     // getUpdatedStockPrice test should validate whether a price is indeed fetched
