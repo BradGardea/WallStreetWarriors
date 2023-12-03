@@ -1,9 +1,12 @@
-package main.tests.EnrolledContestTests;
+package java.EnrolledContestTests;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
-import app.Main;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
 import entity.Contest;
 import interface_adapters.Enrolled.EnrolledViewModel;
 import interface_adapters.ViewModelManager;
@@ -11,21 +14,38 @@ import view.EnrolledContest.EnrolledView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
-public class EnrolledContestViewMain {
-
-
+public class EnrolledUseCaseTest {
     public static void main(String[] args) {
         // initialization for firebase.
         Firestore db;
 
         try{
-            Main.FirebaseInit();
+
+            URL url =  EnrolledContestViewMain.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
+            File file = new File(url.getPath());
+
+            FileInputStream serviceAccount =
+                    new FileInputStream(file);
+
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .build();
+
+            FirebaseApp.initializeApp(options);
+
+            db = FirestoreClient.getFirestore();
+
+            //"Initialize" singleton entity level data access factory
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
+            firebaseDataAccess.setFirestore(db);
             // catching exceptions for GoogleCredentials.fromStream and FileInputStream
-            String contestId = "1000";
+            String contestId = "1";
             firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
 
             // creating JFrame for app

@@ -1,4 +1,4 @@
-package main.tests.CompletedContestTests;
+package java.CompletedContestTests;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;

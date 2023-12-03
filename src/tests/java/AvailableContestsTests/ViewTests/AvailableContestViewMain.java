@@ -1,11 +1,12 @@
-package main.tests.AvailableContestViewMain;
+package java.AvailableContestsTests.ViewTests;
 
 import app.ContestUseCaseFactory;
 import app.Main;
 import interface_adapters.AvailableContests.AvailableContestsViewModel;
 import interface_adapters.ViewModelManager;
-import main.tests.Common.CreateContest;
+import java.Common.CreateContest;
 import view.AvailableContests.AvailableContestDetailView;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 

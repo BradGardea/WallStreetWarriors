@@ -1,4 +1,4 @@
-package main.tests.Common;
+package java.Common;
 
 
 import app.Main;

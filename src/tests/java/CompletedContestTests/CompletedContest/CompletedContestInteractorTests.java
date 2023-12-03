@@ -1,11 +1,10 @@
-package main.tests.CompletedContestTests.CompletedContest;
+package java.CompletedContestTests.CompletedContest;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import UseCase.CompletedContest.CompletedContestInteractor;
 import interface_adapters.CompletedContests.CompletedContestPresenter;
 import interface_adapters.CompletedContests.CompletedContestViewModel;
 import interface_adapters.ViewModelManager;
-import main.tests.CompletedContestTests.CompletedContestViewMain;
 
 import java.util.ArrayList;
 import java.util.HashMap;

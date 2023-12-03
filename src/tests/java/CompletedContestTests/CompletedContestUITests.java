@@ -1,4 +1,4 @@
-package main.tests.CompletedContestTests;
+package java.CompletedContestTests;
 
 public class CompletedContestUITests {
 
