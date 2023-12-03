@@ -1,9 +1,8 @@
 package view.EnrolledContest;
 
-import interface_adapters.Enrolled.EnrolledController;
-import interface_adapters.Enrolled.EnrolledState;
-import interface_adapters.Enrolled.EnrolledViewModel;
-import view.CompletedContests.CompletedContestView;
+import InterfaceAdapters.Enrolled.EnrolledController;
+import InterfaceAdapters.Enrolled.EnrolledState;
+import InterfaceAdapters.Enrolled.EnrolledViewModel;
 // import interface_adapters.MAINVIEWPACKAGE.MAINVIEWState; TODO CHANGE THIS
 
 import javax.swing.*;
@@ -31,7 +30,7 @@ import java.util.LinkedList;
  * @version 0.0
  */
 public class EnrolledView extends JDialog implements ActionListener, PropertyChangeListener {
-    public final String viewName = "enrolledcontest";
+    public static final String viewName = "enrolledcontest";
 //    private final HomePageController homePageController;
     private final EnrolledViewModel enrolledViewModel;
     private EnrolledState enrolledState;
@@ -45,6 +44,8 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         this.enrolledViewModel = viewModel;
         this.enrolledViewModel.addPropertyChangeListener(this);
         this.enrolledState = viewModel.getState();
+
+        setModal(true);
 
         // J Swing stuff goes here
 

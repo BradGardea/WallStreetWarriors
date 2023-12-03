@@ -1,11 +1,9 @@
 package view.AvailableContests;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import entity.Contest;
-import entity.User;
-import interface_adapters.AvailableContests.AvailableContestState;
-import interface_adapters.AvailableContests.AvailableContestsController;
-import interface_adapters.AvailableContests.AvailableContestsViewModel;
+import InterfaceAdapters.AvailableContests.AvailableContestState;
+import InterfaceAdapters.AvailableContests.AvailableContestsController;
+import InterfaceAdapters.AvailableContests.AvailableContestsViewModel;
+import InterfaceAdapters.ViewModelManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -40,7 +38,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     private final AvailableContestsViewModel viewModel;
     private final AvailableContestsController controller;
     public boolean enrollSuccess; //TODO: move to state
-    public final String viewName = "availableContestDetailView";
+    public static final String viewName = "availableContestDetailView";
     private HashMap<String, HashMap<String, String>> currentPortfollio = new HashMap<String, HashMap<String, String>>(); //StockTickerName: {StockTickerMetaDataName: StockTickerMetaDataName}
 
     public AvailableContestDetailView(AvailableContestsController controller, AvailableContestsViewModel viewModel) {
@@ -234,7 +232,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         }
     }
 
-    public static void launch(AvailableContestDetailView dialog) throws IOException { //TODO: temp
+    public static void launch(AvailableContestDetailView dialog) throws IOException {
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
 //        System.exit(0);

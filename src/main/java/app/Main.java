@@ -6,16 +6,11 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import interface_adapters.Contests.ContestViewModel;
-import interface_adapters.HomePage.HomePageController;
-import interface_adapters.HomePage.HomePageState;
-import interface_adapters.HomePage.HomePageViewModel;
-import interface_adapters.SignUpLogIn.LoginViewModel;
-import interface_adapters.SignUpLogIn.SignupViewModel;
-import interface_adapters.ViewModelManager;
-import view.HomePage.HomePageView;
+import InterfaceAdapters.HomePage.HomePageViewModel;
+import InterfaceAdapters.SignUpLogIn.LoginViewModel;
+import InterfaceAdapters.SignUpLogIn.SignupViewModel;
+import InterfaceAdapters.ViewModelManager;
 import view.LogInSignUp.*;
-import view.LoggedInView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main{
     public static void main(String[] args){
