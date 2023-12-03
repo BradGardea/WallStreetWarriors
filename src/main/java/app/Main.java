@@ -69,8 +69,7 @@ public class Main{
             HomePageViewModel homepageViewModel = new HomePageViewModel();
             SignupViewModel signupViewModel = new SignupViewModel();
 
-            FirebaseDataAccess userDataAccessObject = new FirebaseDataAccess();
-
+            FirebaseDataAccess userDataAccessObject = FirebaseDataAccess.getInstance();
 
             LoginView loginView = (LoginView)MainNavigationFactory.createMainView("log in", viewModelManager, homepageViewModel, signupViewModel, loginViewModel, userDataAccessObject, null);
 
