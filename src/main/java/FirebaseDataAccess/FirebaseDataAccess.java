@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class FirebaseDataAccess {
+public class FirebaseDataAccess implements IDataAccess {
     private static FirebaseDataAccess instance = null;
     private static Firestore db = null;
     public static synchronized FirebaseDataAccess getInstance(){
