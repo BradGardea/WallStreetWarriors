@@ -56,7 +56,7 @@ public class CreateContest {
             a.addEnrolledContest(eT.getContestId());
             a.addCompletedContest(cT.getContestId());
 
-            a.updateInFirebase();
+            a.updateInStorage();
         }
         catch(Exception ex){
             System.out.println(ex);

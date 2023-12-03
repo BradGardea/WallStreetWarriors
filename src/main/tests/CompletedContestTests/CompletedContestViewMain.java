@@ -3,40 +3,31 @@ package main.tests.CompletedContestTests;
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
 import app.Main;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
-import entity.Contest;
-import interface_adapters.CompletedContests.CompletedContestController;
 import interface_adapters.CompletedContests.CompletedContestViewModel;
-import interface_adapters.Contests.ContestViewModel;
 import interface_adapters.ViewModelManager;
 import view.CompletedContests.CompletedContestView;
-import view.ContestView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CompletedContestViewMain {
 
+    public static boolean popUpDiscovered = false;
 
-    public static void main(String[] args) {
+//    @org.junit.Test
+    public static void testCompletedContestExecute() {
         // initialization for firebase.
         Firestore db;
 
         try{
-
+            popUpDiscovered = false;
             Main.FirebaseInit();
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
             //  catching exceptions for GoogleCredentials.fromStream and FileInputStream
-            String contestId = "1";
+            String contestId = "CompletedTest";
             // firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
 
             // creating JFrame for app
@@ -47,16 +38,59 @@ public class CompletedContestViewMain {
 
             ViewModelManager viewModelManager = new ViewModelManager();
 
-        // creating CompletedContestViewModel and CompletedContestController
+            // creating CompletedContestViewModel and CompletedContestController
             CompletedContestViewModel completedContestViewModel = new CompletedContestViewModel();
-            CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, contestId, "dhruvpatt");
+            CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, contestId, "a");
+
+
+
             CompletedContestView.launch(completedContestView);
-//            app.add(completedContestView);
-//            app.setVisible(true);
+
+//            createCloseTimer().start();
+//            assert (popUpDiscovered);
 
         } catch (Exception ex){
             System.out.println("Unable to load firebase data, app will have limited functionality");
         }
 
     }
+
+    private Timer createCloseTimer(){
+        ActionListener close = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Window[] windows = Window.getWindows();
+                for (Window window : windows) {
+
+                    if (window instanceof JDialog) {
+
+                        JDialog dialog = (JDialog)window;
+
+                        // this ignores old dialogs
+                        if (dialog.isVisible()) {
+//                            String s = ((JOptionPane) ((BorderLayout) dialog.getRootPane()
+//                                    .getContentPane().getLayout()).getLayoutComponent(BorderLayout.CENTER)).getMessage().toString();
+//                            System.out.println("message = " + s);
+
+                            // store the information we got from the JDialog
+                            CompletedContestViewMain.popUpDiscovered = true;
+
+                            System.out.println("disposing of..." + window.getClass());
+                            window.dispose();
+                        }
+                    }
+                }
+            }
+        };
+        Timer t = new Timer(100000, close);
+        t.setRepeats(false);
+        return t;
+    }
+
+    public static void main(String[] args) {
+        testCompletedContestExecute();
+    }
+
+
 }

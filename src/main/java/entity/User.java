@@ -2,13 +2,12 @@ package entity;
 
 import FirebaseDataAccess.*;
 
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 
 @IgnoreExtraProperties
-public class User implements IUser, IFirebaseEntity {
+public class User implements IUser, IDataAccess {
     private String username;
     private String password;
     private ArrayList<String> completedContests = new ArrayList<String>();
@@ -21,9 +20,9 @@ public class User implements IUser, IFirebaseEntity {
         this.password = password;
         this.enrolledContests = enrolledContests;
         this.completedContests = completedContests;
-        updateInFirebase();
+        updateInStorage();
     }
-    public void updateInFirebase(){
+    public void updateInStorage(){
         FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Users", this.username);
     }
     @Override
@@ -67,7 +66,7 @@ public class User implements IUser, IFirebaseEntity {
 //    }
 //    public void setUUID(String id){
 //        this.id = id;
-//        updateInFirebase();
+//        updateInStorage();
 //    }
 
 //    public ArrayList<Contest> getCompletedContests() {

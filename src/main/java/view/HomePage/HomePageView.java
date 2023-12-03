@@ -2,6 +2,7 @@ package view.HomePage;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
+import app.MainNavigationView;
 import entity.Contest;
 import entity.User;
 import interface_adapters.AvailableContests.AvailableContestState;
@@ -24,8 +25,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-public class HomePageView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "homepage view";
+public class HomePageView extends JPanel implements ActionListener, PropertyChangeListener, MainNavigationView {
+    private final String viewName = "homepage view";
     private HomePageController homepageController;
     private HomePageViewModel homepageViewModel;
     private JScrollPane availableScrollPane;
@@ -218,4 +219,8 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         }
     }
 
+    @Override
+    public String getViewName() {
+        return this.viewName;
+    }
 }

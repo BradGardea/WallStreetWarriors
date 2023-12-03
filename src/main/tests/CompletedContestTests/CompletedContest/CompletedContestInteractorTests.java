@@ -28,7 +28,7 @@ public class CompletedContestInteractorTests {
         this.completedContestInteractor = new CompletedContestInteractor(this.firebaseDataAccess, this.completedContestPresenter, "1", "dhruv");
     }
 
-    public static HashMap<String, HashMap<String, HashMap<String, String>>> createPorfolios(){
+    public static HashMap<String, HashMap<String, HashMap<String, String>>> createPorfolios() {
 
 
         HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = new HashMap<>();
@@ -119,4 +119,6 @@ public class CompletedContestInteractorTests {
         }
 
     }
+
+
 }
