@@ -1,5 +1,7 @@
 package UseCase.AvailableContest;
 
+import Api.ApiCall;
+import Api.Credentials;
 import FirebaseDataAccess.FirebaseDataAccess;
 import entity.Contest;
 import entity.User;
@@ -45,7 +47,9 @@ public class AvailableContestInteractor implements AvailableContestInputBoundary
 
     }
 
-    public float getUpdatedStockPrice(String stockName){
-        return 100; //TODO: api call here
+    public float getUpdatedStockPrice(String stockName) throws RuntimeException{
+
+        return Float.parseFloat(ApiCall.getClosePrice(stockName, Credentials.apiKey));
+
     }
 }

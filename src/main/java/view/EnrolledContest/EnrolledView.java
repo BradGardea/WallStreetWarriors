@@ -1,9 +1,8 @@
 package view.EnrolledContest;
 
-import interface_adapters.Enrolled.EnrolledController;
-import interface_adapters.Enrolled.EnrolledState;
-import interface_adapters.Enrolled.EnrolledViewModel;
-import view.CompletedContests.CompletedContestView;
+import InterfaceAdapters.Enrolled.EnrolledController;
+import InterfaceAdapters.Enrolled.EnrolledState;
+import InterfaceAdapters.Enrolled.EnrolledViewModel;
 // import interface_adapters.MAINVIEWPACKAGE.MAINVIEWState; TODO CHANGE THIS
 
 import javax.swing.*;
@@ -15,7 +14,11 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.time.Instant;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * View of a specific Enrolled StockContest object.
@@ -27,7 +30,7 @@ import java.time.ZoneId;
  * @version 0.0
  */
 public class EnrolledView extends JDialog implements ActionListener, PropertyChangeListener {
-    public final String viewName = "enrolledcontest";
+    public static final String viewName = "enrolledcontest";
 //    private final HomePageController homePageController;
     private final EnrolledViewModel enrolledViewModel;
     private EnrolledState enrolledState;
@@ -42,6 +45,8 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         this.enrolledViewModel.addPropertyChangeListener(this);
         this.enrolledState = viewModel.getState();
 
+        setModal(true);
+
         // J Swing stuff goes here
 
         // THIS CODE IS FOR CREATING THE WINDOW - PASS THE ACTUAL FRAME LATER ON?
@@ -52,15 +57,18 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
 
         // Actual Stuff
         // Grid layout for ease - OOS: More accurate pixel placements so better looks
-        JPanel topPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 rows, 2 columns
+        JPanel topPanel = new JPanel(new GridLayout(4, 2, 10, 10)); // 3 rows, 2 columns
 
         // Date Labels
         JLabel startDateLabel = new JLabel("Start Date: " + enrolledState.getStartDate().toString(), SwingConstants.CENTER);
         JLabel endDateLabel = new JLabel("End Date: " + enrolledState.getEndDate().toString(), SwingConstants.CENTER);
 
+        JLabel descriptionLabel = new JLabel("Description: " + enrolledState.getDescription(), SwingConstants.CENTER);
+        JLabel industryLabel = new JLabel("Industry: " + enrolledState.getIndustry(), SwingConstants.CENTER);
+
         // Begin Timer stuff
         timeLeft = (int) (enrolledState.getEndDate().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond()
-                        - enrolledState.getEndDate().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond()); // e.g., 1 hour in seconds
+                        - Instant.now().getEpochSecond());
         timerLabel = new JLabel("Time Remaining: " + formatTime(timeLeft), SwingConstants.CENTER);
         Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -79,8 +87,10 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
 
         // Add all labels
         topPanel.add(new JLabel(enrolledState.getTitle(), SwingConstants.CENTER)); // TITLE
-        topPanel.add(startDateLabel);
+        topPanel.add(industryLabel);
+        topPanel.add(descriptionLabel);
         topPanel.add(new JLabel("Contest ID: " + enrolledState.getContestId(), SwingConstants.CENTER));
+        topPanel.add(startDateLabel);
         topPanel.add(endDateLabel);
         topPanel.add(timerLabel);
 
@@ -94,25 +104,39 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         // What the columns are called
         String[] columns = new String[]{"Stock", "Quantity", "Purchase Price", "Current Price", "Value"};
 
-        // Opponents
-        String[] competitors = enrolledState.getOpponents().toArray(new String[0]); // TODO Load in enemies, just example
-
-        // Add a table for each opponent with random data
-        for (String competitor : competitors) {
+        // Populate table
+        String username = enrolledState.getUsername();
+        LinkedList<String> users = (LinkedList<String>) enrolledState.getOpponents(); // TODO Load in enemies
+        users.add(0, username);
+        // Add a table for each user
+        for (String user : users) {
             JPanel panelWithLabelAndTable = new JPanel(new BorderLayout());
-            panelWithLabelAndTable.add(new JLabel(competitor, SwingConstants.CENTER), BorderLayout.NORTH);
+            panelWithLabelAndTable.add(new JLabel(user, SwingConstants.CENTER), BorderLayout.NORTH);
 
             // Table data for each (Example, edit later on)
-            Object[][] data = new Object[][]{
-                    {"AAPL", "10", "$150.00", "$155.00", "$1550.00"},
-                    {"MSFT", "15", "$200.00", "$210.00", "$3150.00"}
-                    // Add more stocks as needed
-            };
+            ArrayList<Object []> dataArrayList = new ArrayList<>();
+
+            HashMap<String, HashMap<String, HashMap<String, String>>> userPortfolios = enrolledState.getPortfolios();
+            for (String s : userPortfolios.get(user).keySet()) {
+                Object[] stock = new Object[]{
+                        s,
+                        userPortfolios.get(user).get(s).get("Quantity"),
+                        userPortfolios.get(user).get(s).get("Purchase Price"),
+                        userPortfolios.get(user).get(s).get("End Price"),
+                        userPortfolios.get(user).get(s).get("Value")
+                };
+                dataArrayList.add(stock);
+            }
+
+            Object[][] data = new Object[dataArrayList.size()][];
+            for (int i = 0; i < data.length; i++) {
+                data[i] = dataArrayList.get(i);
+            }
 
             // Make table
             DefaultTableModel model = new DefaultTableModel(data, columns);
             JTable table = new JTable(model);
-            table.setPreferredScrollableViewportSize(new Dimension(300, 100));
+            table.setPreferredScrollableViewportSize(new Dimension(300, 50));
             table.setFillsViewportHeight(true);
 
             // Add table to individual scroll pane (So you can scroll through all the stocks)
@@ -173,14 +197,14 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
      * Helper object for time.
      *
      * Formats the time in a good manner (hours, mins, secs)
-     * TODO Add days?
+     *
      *
      * @author Mikhail Skazhenyuk
      * @version 0.0
      */
     private static String formatTime(int totalSecs) {
-        int days = totalSecs / (3600 * 24);
-        int hours = totalSecs / 3600;
+        int days = totalSecs / 86400;
+        int hours = (totalSecs % 86400) / 3600;
         int minutes = (totalSecs % 3600) / 60;
         int seconds = totalSecs % 60;
         return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
@@ -193,7 +217,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
     }
 
     private void onOK() {
-        // switch this contest and its configuration to enrolledw
+        // switch this contest and its configuration to enrolled
         dispose();
     }
 

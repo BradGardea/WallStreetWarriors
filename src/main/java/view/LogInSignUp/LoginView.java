@@ -3,11 +3,11 @@ package view.LogInSignUp;
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.MainNavigationFactory;
 import app.MainNavigationView;
-import interface_adapters.HomePage.HomePageViewModel;
-import interface_adapters.SignUpLogIn.LoginController;
-import interface_adapters.SignUpLogIn.LoginState;
-import interface_adapters.SignUpLogIn.LoginViewModel;
-import interface_adapters.ViewModelManager;
+import InterfaceAdapters.HomePage.HomePageViewModel;
+import InterfaceAdapters.SignUpLogIn.LoginController;
+import InterfaceAdapters.SignUpLogIn.LoginState;
+import InterfaceAdapters.SignUpLogIn.LoginViewModel;
+import InterfaceAdapters.ViewModelManager;
 import view.HomePage.HomePageView;
 
 import javax.swing.*;
