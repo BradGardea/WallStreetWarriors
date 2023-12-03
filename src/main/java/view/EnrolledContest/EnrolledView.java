@@ -119,23 +119,18 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
 
                 String purchasePrice = userPortfolios.get(user).get(s).get("Purchase Price");
 
-                String closePrice = "0";
-                try {
-                    closePrice = ApiCall.getClosePrice(s, apiKey);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                String closePrice = userPortfolios.get(user).get(s).get("Close Price");
 
-                if (closePrice == null) {
-                    closePrice = "0";
-                }
+                String value = userPortfolios.get(user).get(s).get("Value");
+
+
 
                 Object[] stock = new Object[]{
                         s,
                         quantity,
                         purchasePrice,
                         closePrice,
-                        String.valueOf(Float.parseFloat(quantity) * Float.parseFloat(closePrice))
+                        value
                 };
                 dataArrayList.add(stock);
             }
