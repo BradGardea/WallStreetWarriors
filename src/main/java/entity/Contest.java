@@ -1,16 +1,13 @@
 package entity;
 
 import FirebaseDataAccess.FirebaseDataAccess;
-import FirebaseDataAccess.IFirebaseEntity;
+import FirebaseDataAccess.IUpdateableEntity;
 
 import com.google.cloud.Timestamp;
-import com.google.firebase.database.Exclude;
-import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-@IgnoreExtraProperties
-public class Contest implements IContest, IFirebaseEntity{
+public class Contest implements IContest, IUpdateableEntity {
     private String contestId;
     private String title;
     private String description;
@@ -35,12 +32,12 @@ public class Contest implements IContest, IFirebaseEntity{
         this.endTime = endTime;
         this.stockOptions = stockOptions;
         this.portfolios = portfolios;
-        updateInFirebase();
+        updateInStorage();
     }
 
     // default constructor
     public Contest(){};
-    public void updateInFirebase(){
+    public void updateInStorage(){
         FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Contests", this.contestId);
     }
    

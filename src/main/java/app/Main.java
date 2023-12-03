@@ -6,16 +6,11 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import interface_adapters.Contests.ContestViewModel;
-import interface_adapters.HomePage.HomePageController;
-import interface_adapters.HomePage.HomePageState;
-import interface_adapters.HomePage.HomePageViewModel;
-import interface_adapters.SignUpLogIn.LoginViewModel;
-import interface_adapters.SignUpLogIn.SignupViewModel;
-import interface_adapters.ViewModelManager;
-import view.HomePage.HomePageView;
+import InterfaceAdapters.HomePage.HomePageViewModel;
+import InterfaceAdapters.SignUpLogIn.LoginViewModel;
+import InterfaceAdapters.SignUpLogIn.SignupViewModel;
+import InterfaceAdapters.ViewModelManager;
 import view.LogInSignUp.*;
-import view.LoggedInView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main{
     public static void main(String[] args){
@@ -76,21 +69,20 @@ public class Main{
             HomePageViewModel homepageViewModel = new HomePageViewModel();
             SignupViewModel signupViewModel = new SignupViewModel();
 
-            FirebaseDataAccess userDataAccessObject;
-            userDataAccessObject = new FirebaseDataAccess();
+            FirebaseDataAccess userDataAccessObject = FirebaseDataAccess.getInstance();
 
+            LoginView loginView = (LoginView)MainNavigationFactory.createMainView("log in", viewModelManager, homepageViewModel, signupViewModel, loginViewModel, userDataAccessObject, null);
 
-            LoginView loginView = LoginUseCaseFactory.create(viewModelManager, loginViewModel, homepageViewModel, userDataAccessObject, signupViewModel);
             loginView.views = views;
-            views.add(loginView, loginView.viewName);
+            views.add(loginView, loginView.getViewName());
 
-            SignupView signupView = SignupUseCaseFactory.create(viewModelManager, loginViewModel, signupViewModel, userDataAccessObject);
-            views.add(signupView, signupView.viewName);
+            SignupView signupView = (SignupView) MainNavigationFactory.createMainView("sign up", viewModelManager, homepageViewModel, signupViewModel, loginViewModel, userDataAccessObject, null);
+            views.add(signupView, signupView.getViewName());
 
             //HomePageView homePageView = new HomePageView(homepageViewModel);
             //views.add(homePageView, homePageView.viewName);
 
-            viewModelManager.setActiveView(signupView.viewName);
+            viewModelManager.setActiveView(signupView.getViewName());
             viewModelManager.firePropertyChanged();
 
             app.pack();

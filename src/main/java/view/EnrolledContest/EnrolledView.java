@@ -1,15 +1,10 @@
 package view.EnrolledContest;
 
+import Api.Credentials;
+import InterfaceAdapters.Enrolled.EnrolledController;
+import InterfaceAdapters.Enrolled.EnrolledState;
+import InterfaceAdapters.Enrolled.EnrolledViewModel;
 import Api.ApiCall;
-import FirebaseDataAccess.FirebaseDataAccess;
-import app.HomePageUseCaseFactory;
-import interface_adapters.Enrolled.EnrolledController;
-import interface_adapters.Enrolled.EnrolledState;
-import interface_adapters.Enrolled.EnrolledViewModel;
-import interface_adapters.HomePage.HomePageController;
-import view.CompletedContests.CompletedContestView;
-import view.HomePage.HomePageView;
-// import interface_adapters.MAINVIEWPACKAGE.MAINVIEWState; TODO CHANGE THIS
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -36,7 +31,8 @@ import java.util.LinkedList;
  * @version 0.0
  */
 public class EnrolledView extends JDialog implements ActionListener, PropertyChangeListener {
-    public final String viewName = "enrolledcontest";
+    public static final String viewName = "enrolledcontest";
+//    private final HomePageController homePageController;
     private final EnrolledController enrolledController;
     private final EnrolledViewModel enrolledViewModel;
     private EnrolledState enrolledState;
@@ -45,12 +41,16 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
     private static JLabel timerLabel;
     private static int timeLeft; // Seconds
 
+    public boolean contestExpired;
+
     public EnrolledView(EnrolledController enrolledController, EnrolledViewModel viewModel) {
 //        this.homePageController = controller;
         this.enrolledViewModel = viewModel;
         this.enrolledViewModel.addPropertyChangeListener(this);
         this.enrolledState = viewModel.getState();
         this.enrolledController = enrolledController;
+
+        setModal(true);
 
         // J Swing stuff goes here
 
@@ -102,7 +102,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         LinkedList<String> users = (LinkedList<String>) enrolledState.getOpponents(); // TODO Load in enemies
         users.add(0, username);
 
-        String apiKey = "apikey";
+        String apiKey = Credentials.apiKey;
 
         // Add a table for each user
         for (String user : users) {
@@ -135,7 +135,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
                         quantity,
                         purchasePrice,
                         closePrice,
-                        String.valueOf(Integer.parseInt(quantity) * Integer.parseInt(closePrice))
+                        String.valueOf(Float.parseFloat(quantity) * Float.parseFloat(closePrice))
                 };
                 dataArrayList.add(stock);
             }
@@ -193,6 +193,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
                     okButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            contestExpired = enrolledController.markContestCompleted();
                             dispose();
                         }
 

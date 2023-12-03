@@ -2,16 +2,16 @@ package view.HomePage;
 
 import FirebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
+import app.MainNavigationView;
 import entity.Contest;
 import entity.User;
-import interface_adapters.AvailableContests.AvailableContestState;
-import interface_adapters.AvailableContests.AvailableContestsViewModel;
-import interface_adapters.CompletedContests.CompletedContestViewModel;
-import interface_adapters.Enrolled.EnrolledViewModel;
-import interface_adapters.HomePage.HomePageController;
-import interface_adapters.HomePage.HomePageState;
-import interface_adapters.HomePage.HomePageViewModel;
-import interface_adapters.ViewModelManager;
+import InterfaceAdapters.AvailableContests.AvailableContestsViewModel;
+import InterfaceAdapters.CompletedContests.CompletedContestViewModel;
+import InterfaceAdapters.Enrolled.EnrolledViewModel;
+import InterfaceAdapters.HomePage.HomePageController;
+import InterfaceAdapters.HomePage.HomePageState;
+import InterfaceAdapters.HomePage.HomePageViewModel;
+import InterfaceAdapters.ViewModelManager;
 import view.AvailableContests.AvailableContestDetailView;
 import view.CompletedContests.CompletedContestView;
 import view.EnrolledContest.EnrolledView;
@@ -23,9 +23,10 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class HomePageView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "homepage view";
+public class HomePageView extends JPanel implements ActionListener, PropertyChangeListener, MainNavigationView {
+    private final String viewName = "homepage view";
     private HomePageController homepageController;
     private HomePageViewModel homepageViewModel;
     private JScrollPane availableScrollPane;
@@ -149,14 +150,14 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             @Override
             public void actionPerformed(ActionEvent e) {
                 var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", homepageViewModel.username);
-                if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId())){
+                if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId()) && !Objects.equals(viewModelManager.getActiveView(), EnrolledView.viewName) && !Objects.equals(viewModelManager.getActiveView(), CompletedContestView.viewName)){
                     showAvailableContestDetailsScreen(contest);
                 }
-                else if (!user.getEnrolledContests().contains(contest.getContestId()))
+                else if (!user.getEnrolledContests().contains(contest.getContestId()) && !Objects.equals(viewModelManager.getActiveView(), EnrolledView.viewName))
                 {
                     showCompletedContestDetailsScreen(contest);
                 }
-                else if (!user.getCompletedContests().contains(contest.getContestId())){
+                else if (!user.getCompletedContests().contains(contest.getContestId()) && !Objects.equals(viewModelManager.getActiveView(), AvailableContestDetailView.viewName)){
                     showEnrolledContestDetailsScreen(contest);
                 }
             }
@@ -177,15 +178,16 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         AvailableContestDetailView availableContestDetailView = ContestUseCaseFactory.createAvailableContestDetailView(availableContestsViewModel, viewModelManager, contest.getContestId(), homepageViewModel.username);
 //            views.add(availableContestDetailView, availableContestDetailView.viewName);
         try{
-            AvailableContestDetailView.launch(availableContestDetailView);
-            viewModelManager.setActiveView(availableContestDetailView.viewName);
+            viewModelManager.setActiveView(AvailableContestDetailView.viewName);
             viewModelManager.firePropertyChanged();
+            AvailableContestDetailView.launch(availableContestDetailView);
+            System.out.println(viewModelManager.getActiveView());
             System.out.println(availableContestDetailView.enrollSuccess);
             if (availableContestDetailView.enrollSuccess){
                 homepageController.execute();
-                viewModelManager.setActiveView(this.viewName);
-                viewModelManager.firePropertyChanged();
             }
+            viewModelManager.setActiveView(this.viewName);
+            viewModelManager.firePropertyChanged();
         }
         catch (Exception ex){
             System.out.println(ex);
@@ -196,8 +198,13 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         EnrolledViewModel enrolledViewModel = new EnrolledViewModel();
         EnrolledView enrolledView = ContestUseCaseFactory.createEnrolledView(enrolledViewModel, FirebaseDataAccess.getInstance(), viewModelManager, contest.getContestId(), homepageViewModel.username);
         try{
-            EnrolledView.launch(enrolledView);
             viewModelManager.setActiveView(enrolledView.viewName);
+            viewModelManager.firePropertyChanged();
+            EnrolledView.launch(enrolledView);
+            if (enrolledView.contestExpired){
+                homepageController.execute();
+            }
+            viewModelManager.setActiveView(this.viewName);
             viewModelManager.firePropertyChanged();
         }
         catch (Exception ex) {
@@ -209,8 +216,10 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         CompletedContestViewModel completedContestViewModel = new CompletedContestViewModel();
         CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, FirebaseDataAccess.getInstance(), viewModelManager, contest.getContestId(), homepageViewModel.username);
         try{
-            CompletedContestView.launch(completedContestView);
             viewModelManager.setActiveView(completedContestView.viewName);
+            viewModelManager.firePropertyChanged();
+            CompletedContestView.launch(completedContestView);
+            viewModelManager.setActiveView(this.viewName);
             viewModelManager.firePropertyChanged();
         }
         catch (Exception ex){
@@ -218,4 +227,8 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         }
     }
 
+    @Override
+    public String getViewName() {
+        return this.viewName;
+    }
 }

@@ -1,11 +1,9 @@
 package view.AvailableContests;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import entity.Contest;
-import entity.User;
-import interface_adapters.AvailableContests.AvailableContestState;
-import interface_adapters.AvailableContests.AvailableContestsController;
-import interface_adapters.AvailableContests.AvailableContestsViewModel;
+import InterfaceAdapters.AvailableContests.AvailableContestState;
+import InterfaceAdapters.AvailableContests.AvailableContestsController;
+import InterfaceAdapters.AvailableContests.AvailableContestsViewModel;
+import InterfaceAdapters.ViewModelManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,6 +15,8 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class AvailableContestDetailView extends JDialog implements PropertyChangeListener {
@@ -38,7 +38,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     private final AvailableContestsViewModel viewModel;
     private final AvailableContestsController controller;
     public boolean enrollSuccess; //TODO: move to state
-    public final String viewName = "availableContestDetailView";
+    public static final String viewName = "availableContestDetailView";
     private HashMap<String, HashMap<String, String>> currentPortfollio = new HashMap<String, HashMap<String, String>>(); //StockTickerName: {StockTickerMetaDataName: StockTickerMetaDataName}
 
     public AvailableContestDetailView(AvailableContestsController controller, AvailableContestsViewModel viewModel) {
@@ -66,7 +66,13 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                             }
-                            updateStockSelectionUI(stockChoicesList.getSelectedValue().toString()); // Add extra param with api call here
+
+                            // TODO: Check if this is fine
+                            try {
+                                updateStockSelectionUI(stockChoicesList.getSelectedValue().toString()); // Add extra param with api call here
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
+                            }
                             checkNextPurchaseOverflow(updatedCost);
                         }
                     }
@@ -180,11 +186,14 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         this.industryLabel.setText(contestConfig.getIndustry());
         this.numberOfPlayersLabel.setText(Integer.toString(contestConfig.getMembers().size()));
         this.contestIdLabel.setText(contestConfig.getContestId());
-        this.startTimeLabel.setText(contestConfig.getStartTime().toString());
-        this.endTimeLabel.setText(contestConfig.getEndTime().toString());
+
+        String startDateString = formatAsDateString(contestConfig.getStartTime().toDate());
+        String endDateString = formatAsDateString(contestConfig.getEndTime().toDate());
+        this.startTimeLabel.setText(startDateString);
+        this.endTimeLabel.setText(endDateString);
     }
 
-    public void updateStockSelectionUI(String stockSelection){
+    public void updateStockSelectionUI(String stockSelection) throws Exception {
         this.stockNameLabel.setText(stockSelection);
         if (this.currentPortfollio != null && this.currentPortfollio.getOrDefault(stockSelection, null) != null){
             this.stockQuantitySpinner.setValue(Integer.parseInt(this.currentPortfollio.get(stockSelection).get("Quantity")));
@@ -192,7 +201,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         else{
             this.stockQuantitySpinner.setValue(0);
         }
-        this.purchasePriceLabel.setText("100"); //TODO: get stock cost here
+        this.purchasePriceLabel.setText(Float.toString(controller.getUpdatedStockPrice(stockSelection))); //TODO: get stock cost here
     }
     public void setDefaultStockSelectionUiValues(){
         this.stockNameLabel.setText("Select a stock");
@@ -223,10 +232,18 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         }
     }
 
-    public static void launch(AvailableContestDetailView dialog) throws IOException { //TODO: temp
+    public static void launch(AvailableContestDetailView dialog) throws IOException {
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
 //        System.exit(0);
+    }
+
+    private static String formatAsDateString(Date date) {
+        // Choose your desired date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Format the date as a string
+        return dateFormat.format(date);
     }
 
 }

@@ -46,7 +46,7 @@ public class ApiCall implements IApiCall{
     }
 
     public static void main(String[] args) {
-        String msftClosePrice = getClosePrice("MSFT", "apikey");
+        String msftClosePrice = getClosePrice("MSFT", Credentials.apiKey);
         System.out.println(msftClosePrice);
     }
 
