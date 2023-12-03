@@ -1,9 +1,14 @@
 package view.EnrolledContest;
 
+import Api.ApiCall;
+import FirebaseDataAccess.FirebaseDataAccess;
+import app.HomePageUseCaseFactory;
 import interface_adapters.Enrolled.EnrolledController;
 import interface_adapters.Enrolled.EnrolledState;
 import interface_adapters.Enrolled.EnrolledViewModel;
+import interface_adapters.HomePage.HomePageController;
 import view.CompletedContests.CompletedContestView;
+import view.HomePage.HomePageView;
 // import interface_adapters.MAINVIEWPACKAGE.MAINVIEWState; TODO CHANGE THIS
 
 import javax.swing.*;
@@ -32,7 +37,7 @@ import java.util.LinkedList;
  */
 public class EnrolledView extends JDialog implements ActionListener, PropertyChangeListener {
     public final String viewName = "enrolledcontest";
-//    private final HomePageController homePageController;
+    private final EnrolledController enrolledController;
     private final EnrolledViewModel enrolledViewModel;
     private EnrolledState enrolledState;
 
@@ -45,6 +50,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         this.enrolledViewModel = viewModel;
         this.enrolledViewModel.addPropertyChangeListener(this);
         this.enrolledState = viewModel.getState();
+        this.enrolledController = enrolledController;
 
         // J Swing stuff goes here
 
@@ -69,18 +75,6 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         timeLeft = (int) (enrolledState.getEndDate().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond()
                         - Instant.now().getEpochSecond());
         timerLabel = new JLabel("Time Remaining: " + formatTime(timeLeft), SwingConstants.CENTER);
-        Timer timer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    timerLabel.setText("Time Remaining: " + formatTime(timeLeft));
-                } else {
-                    timerLabel.setText("Time's up!");
-                    ((Timer) e.getSource()).stop();
-                }
-            }
-        });
-        timer.start();
         // End Timer Stuff
 
 
@@ -107,6 +101,9 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         String username = enrolledState.getUsername();
         LinkedList<String> users = (LinkedList<String>) enrolledState.getOpponents(); // TODO Load in enemies
         users.add(0, username);
+
+        String apiKey = "apikey";
+
         // Add a table for each user
         for (String user : users) {
             JPanel panelWithLabelAndTable = new JPanel(new BorderLayout());
@@ -117,12 +114,28 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
 
             HashMap<String, HashMap<String, HashMap<String, String>>> userPortfolios = enrolledState.getPortfolios();
             for (String s : userPortfolios.get(user).keySet()) {
+
+                String quantity = userPortfolios.get(user).get(s).get("Quantity");
+
+                String purchasePrice = userPortfolios.get(user).get(s).get("Purchase Price");
+
+                String closePrice = "0";
+                try {
+                    closePrice = ApiCall.getClosePrice(s, apiKey);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (closePrice == null) {
+                    closePrice = "0";
+                }
+
                 Object[] stock = new Object[]{
                         s,
-                        userPortfolios.get(user).get(s).get("Quantity"),
-                        userPortfolios.get(user).get(s).get("Purchase Price"),
-                        userPortfolios.get(user).get(s).get("End Price"),
-                        userPortfolios.get(user).get(s).get("Value")
+                        quantity,
+                        purchasePrice,
+                        closePrice,
+                        String.valueOf(Integer.parseInt(quantity) * Integer.parseInt(closePrice))
                 };
                 dataArrayList.add(stock);
             }
@@ -133,7 +146,12 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
             }
 
             // Make table
-            DefaultTableModel model = new DefaultTableModel(data, columns);
+            DefaultTableModel model = new DefaultTableModel(data, columns) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             JTable table = new JTable(model);
             table.setPreferredScrollableViewportSize(new Dimension(300, 50));
             table.setFillsViewportHeight(true);
@@ -157,6 +175,38 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         frame.add(horizontalScrollPane, BorderLayout.CENTER);
 //        JButton cancelButton = new JButton("Cancel");
 //        frame.add(cancelButton);
+
+        Timer timer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    timerLabel.setText("Time Remaining: " + formatTime(timeLeft));
+                } else {
+
+                    frame.removeAll();
+                    frame.setLayout(new BorderLayout());
+                    frame.add(new JLabel("Time's up!", SwingConstants.CENTER), BorderLayout.CENTER);
+
+                    JButton okButton = new JButton("OK");
+                    frame.add(okButton, BorderLayout.SOUTH);
+
+                    okButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            dispose();
+                        }
+
+                    });
+
+                    frame.revalidate();
+                    frame.repaint();
+                    ((Timer) e.getSource()).stop();
+
+
+                }
+            }
+        });
+        timer.start();
         this.add(frame);
 
 
