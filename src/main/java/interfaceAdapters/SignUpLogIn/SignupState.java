@@ -39,17 +39,17 @@ public class SignupState {
         return password;
     }
 
-    public String getPasswordError() {
-        return passwordError;
-    }
+//    public String getPasswordError() {
+//        return passwordError;
+//    }
 
     public String getRepeatPassword() {
         return repeatPassword;
     }
 
-    public String getRepeatPasswordError() {
-        return repeatPasswordError;
-    }
+//    public String getRepeatPasswordError() {
+//        return repeatPasswordError;
+//    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -63,22 +63,22 @@ public class SignupState {
         this.password = password;
     }
 
-    public void setPasswordError(String passwordError) {
-        this.passwordError = passwordError;
-    }
+//    public void setPasswordError(String passwordError) {
+//        this.passwordError = passwordError;
+//    }
 
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
     }
 
-    public void setRepeatPasswordError(String repeatPasswordError) {
-        this.repeatPasswordError = repeatPasswordError;
-    }
-
-    public String  getID() { return id; }
-
-    public String getIDError() {
-        return idError;
-    }
+//    public void setRepeatPasswordError(String repeatPasswordError) {
+//        this.repeatPasswordError = repeatPasswordError;
+//    }
+//
+//    public String  getID() { return id; }
+//
+//    public String getIDError() {
+//        return idError;
+//    }
 
 }
