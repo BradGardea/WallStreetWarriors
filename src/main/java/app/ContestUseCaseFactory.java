@@ -1,24 +1,26 @@
 package app;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import UseCase.AvailableContest.AvailableContestInteractor;
-import UseCase.AvailableContest.AvailableContestOuputBoundary;
-import InterfaceAdapters.AvailableContests.AvailableContestPresenter;
-import UseCase.CompletedContest.CompletedContestInteractor;
-import UseCase.CompletedContest.CompletedContestOutputBoundary;
-import InterfaceAdapters.AvailableContests.AvailableContestsController;
-import InterfaceAdapters.AvailableContests.AvailableContestsViewModel;
-import InterfaceAdapters.CompletedContests.CompletedContestController;
-import InterfaceAdapters.CompletedContests.CompletedContestPresenter;
-import InterfaceAdapters.CompletedContests.CompletedContestViewModel;
-import InterfaceAdapters.Contests.ContestViewModel;
-import InterfaceAdapters.Enrolled.EnrolledController;
-import InterfaceAdapters.Enrolled.EnrolledPresenter;
-import InterfaceAdapters.Enrolled.EnrolledViewModel;
-import InterfaceAdapters.ViewModelManager;
-import UseCase.EnrolledContest.EnrolledInputData;
-import UseCase.EnrolledContest.EnrolledInteractor;
-import UseCase.EnrolledContest.EnrolledOutputBoundary;
+import firebaseDataAccess.FirebaseDataAccess;
+import useCase.AvailableContest.AvailableContestInputData;
+import useCase.AvailableContest.AvailableContestInteractor;
+import useCase.AvailableContest.AvailableContestOutputBoundary;
+import interfaceAdapters.AvailableContests.AvailableContestPresenter;
+import useCase.CompletedContest.CompletedContestInputData;
+import useCase.CompletedContest.CompletedContestInteractor;
+import useCase.CompletedContest.CompletedContestOutputBoundary;
+import interfaceAdapters.AvailableContests.AvailableContestsController;
+import interfaceAdapters.AvailableContests.AvailableContestsViewModel;
+import interfaceAdapters.CompletedContests.CompletedContestController;
+import interfaceAdapters.CompletedContests.CompletedContestPresenter;
+import interfaceAdapters.CompletedContests.CompletedContestViewModel;
+import interfaceAdapters.Contests.ContestViewModel;
+import interfaceAdapters.Enrolled.EnrolledController;
+import interfaceAdapters.Enrolled.EnrolledPresenter;
+import interfaceAdapters.Enrolled.EnrolledViewModel;
+import interfaceAdapters.ViewModelManager;
+import useCase.EnrolledContest.EnrolledInputData;
+import useCase.EnrolledContest.EnrolledInteractor;
+import useCase.EnrolledContest.EnrolledOutputBoundary;
 import view.AvailableContests.AvailableContestDetailView;
 import view.CompletedContests.CompletedContestView;
 import view.ContestView;
@@ -35,7 +37,7 @@ public class ContestUseCaseFactory {
 
     public static AvailableContestDetailView createAvailableContestDetailView(AvailableContestsViewModel availableContestsViewModel, ViewModelManager viewModelManager, String contestId, String username){
         AvailableContestsController availableContestsController = createAvailableContestUseCase(availableContestsViewModel, viewModelManager, contestId, username);
-        return new AvailableContestDetailView(availableContestsController, availableContestsViewModel);
+        return new AvailableContestDetailView(availableContestsController, availableContestsViewModel, true);
     }
     public static CompletedContestView createCompletedContestView(CompletedContestViewModel completedContestViewModel, FirebaseDataAccess dataAccessInterface, ViewModelManager viewModelManager, String contestId, String username){
         CompletedContestController completedContestController = createCompletedContestUseCase(completedContestViewModel, viewModelManager, contestId, dataAccessInterface, username);
@@ -43,14 +45,16 @@ public class ContestUseCaseFactory {
 
     }
     private static AvailableContestsController createAvailableContestUseCase(AvailableContestsViewModel availableContestsViewModel, ViewModelManager viewModelManager, String contestId, String username){
-        AvailableContestOuputBoundary availableContestOuputBoundary = new AvailableContestPresenter(availableContestsViewModel, viewModelManager);
-        AvailableContestInteractor availableContestInteractor = new AvailableContestInteractor(availableContestOuputBoundary, contestId, username);
+        AvailableContestOutputBoundary availableContestOutputBoundary = new AvailableContestPresenter(availableContestsViewModel, viewModelManager);
+        AvailableContestInputData availableContestInputData = new AvailableContestInputData(username, contestId);
+        AvailableContestInteractor availableContestInteractor = new AvailableContestInteractor(availableContestOutputBoundary, availableContestInputData);
         return new AvailableContestsController(availableContestInteractor);
     }
 
     private static CompletedContestController createCompletedContestUseCase(CompletedContestViewModel completedContestViewModel, ViewModelManager viewModelManager, String contestId, FirebaseDataAccess dataAccessInterface, String username){
         CompletedContestOutputBoundary completedContestOutputBoundary = new CompletedContestPresenter(completedContestViewModel, viewModelManager);
-        CompletedContestInteractor completedContestInteractor = new CompletedContestInteractor(dataAccessInterface, completedContestOutputBoundary, contestId, username);
+        CompletedContestInputData completedContestInputData = new CompletedContestInputData(username, contestId);
+        CompletedContestInteractor completedContestInteractor = new CompletedContestInteractor(dataAccessInterface, completedContestOutputBoundary, completedContestInputData);
 
         // TODO: remove this method call once we have main view for calling the method.
         completedContestInteractor.execute();

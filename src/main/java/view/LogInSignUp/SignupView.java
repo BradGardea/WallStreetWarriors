@@ -1,9 +1,9 @@
 package view.LogInSignUp;
 
 import app.MainNavigationView;
-import InterfaceAdapters.SignUpLogIn.SignupController;
-import InterfaceAdapters.SignUpLogIn.SignupState;
-import InterfaceAdapters.SignUpLogIn.SignupViewModel;
+import interfaceAdapters.SignUpLogIn.SignupController;
+import interfaceAdapters.SignUpLogIn.SignupState;
+import interfaceAdapters.SignUpLogIn.SignupViewModel;
 
 import javax.swing.*;
 import java.awt.*;
