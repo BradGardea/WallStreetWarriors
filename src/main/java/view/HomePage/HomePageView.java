@@ -105,9 +105,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             add(this.contentPanel, BorderLayout.CENTER);
         }
 
-        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.getState().enrolledContests,  false);
+        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.getState().enrolledContests,  true);
         completedScrollPane = createScrollablePanel("Completed", homepageViewModel.getState().completedContests, false);
-        availableScrollPane = createScrollablePanel("Available", homepageViewModel.getState().availableContests, true);
+        availableScrollPane = createScrollablePanel("Available", homepageViewModel.getState().availableContests, false);
 
         this.contentPanel.add(availableScrollPane);
         this.contentPanel.add(enrolledScrollPane);
@@ -163,9 +163,10 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             }
         });
         if (showTimeLeft) {
-            JLabel timeLeftLabel = new JLabel(); // Time calculation should be done here
+
+            JLabel timeLeftLabel = new JLabel(String.valueOf(contest.getEndTime())); // Time calculation should be done here
             timeLeftLabel.setHorizontalAlignment(JLabel.RIGHT);
-            contestPanel.add(timeLeftLabel, BorderLayout.WEST);
+            contestPanel.add(timeLeftLabel, BorderLayout.EAST);
         }
         contestPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         contestPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
