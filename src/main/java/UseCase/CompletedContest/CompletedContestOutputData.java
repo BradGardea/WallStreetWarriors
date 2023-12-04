@@ -35,5 +35,4 @@ public class CompletedContestOutputData {
         this.profit = profit;
         this.placement = placement;
     }
-
 }
