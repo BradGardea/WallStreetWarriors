@@ -40,6 +40,7 @@ public class EnrolledContestViewMain {
             enrolledView.pack();
             enrolledView.setVisible(true);
 
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

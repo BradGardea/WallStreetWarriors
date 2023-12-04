@@ -36,4 +36,24 @@ public class EnrolledInteractorTest {
         assert(enrolledOutputData.getTitle().equals("Test"));
         assert(enrolledOutputData.getDescription().equals("EnrolledTest"));
     }
+
+    @org.junit.Test
+    public void testExecute() {
+        EnrolledInputData enrolledInputData = new EnrolledInputData("a", "EnrolledTest");
+        this.enrolledInteractor.execute(enrolledInputData);
+        assert(this.enrolledViewModel.getState() != null);
+
+    }
+
+    @org.junit.Test
+    public void testMarkContestCompleted() {
+        EnrolledInputData enrolledInputData = new EnrolledInputData("a", "EnrolledTest");
+        this.enrolledInteractor.execute(enrolledInputData);
+        assert(this.enrolledInteractor.markContestCompleted());
+    }
+
+    @org.junit.Test
+    public void testMarkContestCompletedFail() {
+        assert(!this.enrolledInteractor.markContestCompleted());
+    }
 }

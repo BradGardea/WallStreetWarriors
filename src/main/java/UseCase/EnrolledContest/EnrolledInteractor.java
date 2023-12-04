@@ -25,8 +25,8 @@ import java.util.*;
 public class EnrolledInteractor implements EnrolledInputBoundary {
     final IDataAccess userDataAccessObject;
     final EnrolledOutputBoundary enrolledPresenter;
-    private String username;
-    private String contestId;
+    private String username = null;
+    private String contestId = null;
 
     public EnrolledInteractor(IDataAccess userDataAccessInterface,
                               EnrolledOutputBoundary enrolledOutputBoundary) {
