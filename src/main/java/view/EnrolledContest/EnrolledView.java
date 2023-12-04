@@ -3,7 +3,7 @@ package view.EnrolledContest;
 import interfaceAdapters.Enrolled.EnrolledController;
 import interfaceAdapters.Enrolled.EnrolledState;
 import interfaceAdapters.Enrolled.EnrolledViewModel;
-import api.ApiCall;
+import Api.ApiCall;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

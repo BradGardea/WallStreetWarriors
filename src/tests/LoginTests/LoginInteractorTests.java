@@ -1,17 +1,14 @@
 package LoginTests;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import InterfaceAdapters.HomePage.HomePagePresenter;
-import InterfaceAdapters.HomePage.HomePageViewModel;
-import InterfaceAdapters.SignUpLogIn.LoginPresenter;
-import InterfaceAdapters.SignUpLogIn.LoginViewModel;
-import InterfaceAdapters.SignUpLogIn.SignupViewModel;
-import InterfaceAdapters.ViewModelManager;
-import UseCase.HomePage.HomePageInteractor;
-import UseCase.login.LoginInputData;
-import UseCase.login.LoginInteractor;
+import firebaseDataAccess.FirebaseDataAccess;
+import interfaceAdapters.HomePage.HomePageViewModel;
+import interfaceAdapters.SignUpLogIn.LoginPresenter;
+import interfaceAdapters.SignUpLogIn.LoginViewModel;
+import interfaceAdapters.SignUpLogIn.SignupViewModel;
+import interfaceAdapters.ViewModelManager;
+import useCase.Login.LoginInputData;
+import useCase.Login.LoginInteractor;
 import app.Main;
-import view.LogInSignUp.SignupView;
 
 import java.io.IOException;
 

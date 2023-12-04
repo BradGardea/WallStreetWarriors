@@ -1,16 +1,16 @@
 package SignupTests;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import InterfaceAdapters.HomePage.HomePageViewModel;
-import InterfaceAdapters.SignUpLogIn.LoginPresenter;
-import InterfaceAdapters.SignUpLogIn.LoginViewModel;
-import InterfaceAdapters.SignUpLogIn.SignupPresenter;
-import InterfaceAdapters.SignUpLogIn.SignupViewModel;
-import InterfaceAdapters.ViewModelManager;
-import UseCase.login.LoginInputData;
-import UseCase.login.LoginInteractor;
-import UseCase.signup.SignupInputData;
-import UseCase.signup.SignupInteractor;
+import firebaseDataAccess.FirebaseDataAccess;
+import interfaceAdapters.HomePage.HomePageViewModel;
+import interfaceAdapters.SignUpLogIn.LoginPresenter;
+import interfaceAdapters.SignUpLogIn.LoginViewModel;
+import interfaceAdapters.SignUpLogIn.SignupPresenter;
+import interfaceAdapters.SignUpLogIn.SignupViewModel;
+import interfaceAdapters.ViewModelManager;
+import useCase.Login.LoginInputData;
+import useCase.Login.LoginInteractor;
+import useCase.SignUp.SignupInputData;
+import useCase.SignUp.SignupInteractor;
 import app.Main;
 import entity.UserFactory;
 
@@ -39,7 +39,7 @@ public class SignupInteractorTests {
 
     @org.junit.Test
     public void executeTest(){
-        this.signupInteractor.execute(new SignupInputData("test", "test", "test"));
+        this.signupInteractor.execute(new SignupInputData("test100", "test", "test"));
         assert(this.viewModelManager.getActiveView() == "log in");
     }
 

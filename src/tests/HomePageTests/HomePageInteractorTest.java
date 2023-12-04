@@ -1,17 +1,12 @@
 package HomePageTests;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import InterfaceAdapters.AvailableContests.AvailableContestPresenter;
-import InterfaceAdapters.AvailableContests.AvailableContestsViewModel;
-import InterfaceAdapters.HomePage.HomePagePresenter;
-import InterfaceAdapters.HomePage.HomePageViewModel;
-import InterfaceAdapters.SignUpLogIn.LoginViewModel;
-import InterfaceAdapters.ViewModelManager;
-import UseCase.AvailableContest.AvailableContestInteractor;
-import UseCase.HomePage.HomePageInteractor;
+import firebaseDataAccess.FirebaseDataAccess;
+import interfaceAdapters.HomePage.HomePagePresenter;
+import interfaceAdapters.HomePage.HomePageViewModel;
+import interfaceAdapters.SignUpLogIn.LoginViewModel;
+import interfaceAdapters.ViewModelManager;
+import useCase.HomePage.HomePageInteractor;
 import app.Main;
-import view.HomePage.HomePageView;
-import view.LoggedInView;
 
 import java.io.IOException;
 
@@ -45,6 +40,6 @@ public class HomePageInteractorTest {
     @org.junit.Test
     public void executeSignOutTest(){
         this.homePageInteractor.executeSignOut();
-        assert(this.loginViewModel.getState() == null);
+        assert(this.viewModelManager.getActiveView() == "log in");
     }
 }

@@ -1,7 +1,7 @@
 package useCase.AvailableContest;
 
-import api.ApiCall;
-import api.Credentials;
+import Api.ApiCall;
+import Api.Credentials;
 import firebaseDataAccess.FirebaseDataAccess;
 import entity.Contest;
 import entity.User;
