@@ -82,12 +82,8 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
 
             String quantity = portfolios.get(user).get(s).get("Quantity");
 
-            String closePrice = "0";
-            try {
-                closePrice = ApiCall.getClosePrice(s, Credentials.apiKey);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            String closePrice = ApiCall.getClosePrice(s, Credentials.apiKey);
+
             if (closePrice == null) {
                 closePrice = "0";
             }
@@ -116,14 +112,40 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
     }
 
     public boolean markContestCompleted(EnrolledInputData enrolledInputData) {
-        var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", enrolledInputData.getContestId());
+        var enrolledContest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", enrolledInputData.getContestId());
         var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", enrolledInputData.getUsername());
 
-        if (user != null && contest != null){
+        ArrayList<User> members = enrolledContest.getMembers();
+        HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = enrolledContest.getPortfolios();
+
+        if (user != null && enrolledContest != null){
+            for (User u : members) {
+                String username = u.getUsername();
+                System.out.println(username);
+                for (String s : portfolios.get(username).keySet()) {
+
+                    String quantity = portfolios.get(username).get(s).get("Quantity");
+
+                    String closePrice = ApiCall.getClosePrice(s, Credentials.apiKey);
+                    if (closePrice == null) {
+                        closePrice = "0";
+                    }
+
+                    if (s.equals("Cash")) {closePrice = "1";}
+
+                    String value = String.valueOf(Float.parseFloat(quantity) * Float.parseFloat(closePrice));
+
+                    portfolios.get(username).get(s).put("Close Price", closePrice);
+                    portfolios.get(username).get(s).put("Value", value);
+
+                } }
+
+            userDataAccessObject.setOrUpdateEntity(enrolledContest, "Contests", enrolledInputData.getContestId());
+
             user.removeEnrolledContest(enrolledInputData.getContestId());
             user.addCompletedContest(enrolledInputData.getContestId());
 
-            contest.updateInStorage();
+            enrolledContest.updateInStorage();
             user.updateInStorage();
             return true;
         }
