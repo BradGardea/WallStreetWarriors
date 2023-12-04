@@ -1,5 +1,6 @@
 package useCase.HomePage;
 
+import com.google.cloud.Timestamp;
 import entity.Contest;
 import entity.User;
 
@@ -43,7 +44,7 @@ public class HomePageInteractor implements HomePageInputBoundary {
             }
         }
         for (var contest: homepageDataAccessObject.getEntities(Contest.class, "Contests")){
-            if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId())){
+            if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId()) && contest.getEndTime().getNanos() > Timestamp.now().getNanos()){
                 availableContests.add(contest);
             }
         }

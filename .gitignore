@@ -19,8 +19,6 @@
 *.tar.gz
 *.rar
 
-src/main/java/api/Credentials.java
-
 src/main/resources/*.json
 src/main/java/api/Credentials.java
 
