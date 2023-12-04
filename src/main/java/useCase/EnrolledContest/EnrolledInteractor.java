@@ -98,6 +98,8 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
                 closePrice = "0";
             }
 
+            if (s.equals("Cash")) {closePrice = "1";}
+
             String value = String.valueOf(Float.parseFloat(quantity) * Float.parseFloat(closePrice));
 
             portfolios.get(user).get(s).put("Close Price", closePrice);
