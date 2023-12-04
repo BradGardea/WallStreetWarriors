@@ -1,4 +1,4 @@
-package HomePageTests;
+package homePageTests;
 
 public class HomePageUITest {
 }

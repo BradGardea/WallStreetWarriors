@@ -1,4 +1,4 @@
-package HomePageTests;
+package homePageTests;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.HomePage.HomePagePresenter;
