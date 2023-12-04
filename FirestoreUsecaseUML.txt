@@ -1,0 +1,27 @@
+@startuml
+
+actor Actor as User
+boundary UI as UI
+control Interactors as Interactors
+
+entity IDataAccess as IDataAccess
+database UserBase as UserBase
+database ContestBase as ContestBase
+
+
+
+User -> UI : Login/Signup
+User -> UI : Interacts with a contest
+
+UI -> Interactors : Request to CRU User or Contest
+
+Interactors -> IDataAccess : Handles request with DA implementation
+
+IDataAccess -> UserBase : CRU User
+IDataAccess -> ContestBase : CRU Contest
+
+IDataAccess -> Interactors : Returns confirmation or errors
+Interactors -> UI : Handles return
+
+
+@enduml

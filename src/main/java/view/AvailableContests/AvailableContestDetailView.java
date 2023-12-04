@@ -87,10 +87,6 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
                     var currentStock = stockChoicesList.getSelectedValue().toString();
                     var updatedCost = getUpdatedStockPrices(currentStock);
 
-//                    var totalPrice = Float.parseFloat(stockQuantitySpinner.getValue().toString()) * updatedCost;
-//                    if (totalPrice > Float.parseFloat(cashRemainingLabel.getText())){
-//                        stockQuantitySpinner.setValue(0);
-//                    }
                     updateCurrentPortfolio(currentStock, updatedCost);
                     checkNextPurchaseOverflow(updatedCost);
                     totalCostLabel.setText(String.valueOf(Float.parseFloat(stockQuantitySpinner.getValue().toString()) * updatedCost));
@@ -111,20 +107,20 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
             }
         });
 
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+//        // call onCancel() when cross is clicked
+//        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+//        addWindowListener(new WindowAdapter() {
+//            public void windowClosing(WindowEvent e) {
+//                onCancel();
+//            }
+//        });
+//
+//        // call onCancel() on ESCAPE
+//        contentPane.registerKeyboardAction(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                onCancel();
+//            }
+//        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     }
 
@@ -137,6 +133,28 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     public String getTotalCostLabel(){
         return this.totalCostLabel.getText();
     }
+    public JButton getButtonOK(){
+        return this.buttonOK;
+    }
+    public JButton getButtonCancel(){
+        return this.buttonOK;
+    }
+    public JLabel getCashRemainingLabel() {
+        return cashRemainingLabel;
+    }
+
+    public JSpinner getStockQuantitySpinner() {
+        return stockQuantitySpinner;
+    }
+
+    public JLabel getPurchasePriceLabel() {
+        return purchasePriceLabel;
+    }
+
+    public HashMap<String, HashMap<String, String>> getCurrentPortfollio() {
+        return currentPortfollio;
+    }
+
     public String getStockNameLabel(){
         return this.stockNameLabel.getText();
     }
