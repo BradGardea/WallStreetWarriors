@@ -2,10 +2,7 @@ package SignupTests;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.HomePage.HomePageViewModel;
-import interfaceAdapters.SignUpLogIn.LoginPresenter;
-import interfaceAdapters.SignUpLogIn.LoginViewModel;
-import interfaceAdapters.SignUpLogIn.SignupPresenter;
-import interfaceAdapters.SignUpLogIn.SignupViewModel;
+import interfaceAdapters.SignUpLogIn.*;
 import interfaceAdapters.ViewModelManager;
 import useCase.Login.LoginInputData;
 import useCase.Login.LoginInteractor;
@@ -13,6 +10,8 @@ import useCase.SignUp.SignupInputData;
 import useCase.SignUp.SignupInteractor;
 import app.Main;
 import entity.UserFactory;
+import view.LogInSignUp.LoginView;
+import view.LogInSignUp.SignupView;
 
 import java.io.IOException;
 
@@ -26,6 +25,8 @@ public class SignupInteractorTests {
     public ViewModelManager viewModelManager;
     public SignupPresenter signupPresenter;
 
+    public SignupController signupController;
+
     public SignupInteractorTests() throws IOException {
         Main.FirebaseInit();
         this.firebaseDataAccess = FirebaseDataAccess.getInstance();
@@ -35,28 +36,35 @@ public class SignupInteractorTests {
         this.signupPresenter = new SignupPresenter(this.viewModelManager, this.signupViewModel, this.loginViewModel);
         // hardcoded values for test purposes
         this.signupInteractor = new SignupInteractor(this.firebaseDataAccess, this.signupPresenter, new UserFactory());
+        this.signupController = new SignupController(signupInteractor);
     }
 
     @org.junit.Test
     public void executeTest(){
-        this.signupInteractor.execute(new SignupInputData("test100", "test", "test"));
+        this.signupController.execute("test6374753431000000", "test", "test");
         assert(this.viewModelManager.getActiveView() == "log in");
     }
 
     @org.junit.Test
     public void existentTest(){
-        this.signupInteractor.execute(new SignupInputData("a", "z", "z"));
+        this.signupController.execute("a", "z", "z");
         assert(this.viewModelManager.getActiveView() == null);
     }
 
     @org.junit.Test
     public void nonmatchingTest(){
-        this.signupInteractor.execute(new SignupInputData("a", "a", "b"));
+        this.signupController.execute("qwertyu", "a", "b");
         assert(this.viewModelManager.getActiveView() == null);
     }
     @org.junit.Test
     public void executeSwitchScreenTest(){
-        this.signupInteractor.executeSwitchScreen();
+        this.signupController.executeSwitchScreen();
         assert(this.viewModelManager.getActiveView() == "log in");
+    }
+
+    @org.junit.Test
+    public void construct(){
+        var view = new SignupView(this.signupController, this.signupViewModel);
+        assert(view != null);
     }
 }
