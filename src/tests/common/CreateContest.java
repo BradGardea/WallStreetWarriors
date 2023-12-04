@@ -49,17 +49,21 @@ public class CreateContest {
         dummyEnrolled.add("3");
         for (var i = 0; i < tickerSymbolMap.size() - 1; i++) {
 
-            var d1 = new User("dummy1", "1", new ArrayList<>(), dummyEnrolled);
-            var d2 = new User("dummy2", "1", new ArrayList<>(), dummyEnrolled);
-
-            var members = new ArrayList<User>();
-            members.add(d1);
-            members.add(d2);
+//            var d1 = new User("dummy1", "1", new ArrayList<>(), dummyEnrolled);
+//            var d2 = new User("dummy2", "1", new ArrayList<>(), dummyEnrolled);
+//
+//            var members = new ArrayList<User>();
+//            members.add(d1);
+//            members.add(d2);
 
             var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
             // Add 5 days to the current timestamp
-            var fiveDays = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
-            new Contest(String.valueOf(i), String.valueOf(i), "Default contest",  members, tickerSymbolMap.keySet().toArray()[i].toString(), Timestamp.now(), fiveDays, tickerSymbolMap.get(tickerSymbolMap.keySet().toArray()[i]), new HashMap<String, HashMap<String, HashMap<String, String>>>());
+            var endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
+            if (i == 3){
+                endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(2 * 60).build()));
+            }
+            new Contest(String.valueOf(i), String.valueOf(i), "Default contest: " + String.valueOf(i),  new ArrayList<>(), tickerSymbolMap.keySet().toArray()[i].toString(), Timestamp.now(), endTime, tickerSymbolMap.get(tickerSymbolMap.keySet().toArray()[i]), new HashMap<String, HashMap<String, HashMap<String, String>>>());
+
         }
     }
 
@@ -126,7 +130,7 @@ public class CreateContest {
     public static void main(String[] args) {
         try{
             initDefaultContests();
-            createContest(2);
+//            createContest(2);
         }
         catch (Exception ex){
             System.out.println(ex);
