@@ -4,7 +4,6 @@ import api.Credentials;
 import interfaceAdapters.Enrolled.EnrolledController;
 import interfaceAdapters.Enrolled.EnrolledState;
 import interfaceAdapters.Enrolled.EnrolledViewModel;
-import api.ApiCall;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -101,8 +100,6 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         String username = enrolledState.getUsername();
         LinkedList<String> users = (LinkedList<String>) enrolledState.getOpponents(); // TODO Load in enemies
         users.add(0, username);
-
-        String apiKey = Credentials.apiKey;
 
         // Add a table for each user
         for (String user : users) {
