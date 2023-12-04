@@ -41,8 +41,9 @@ public class SignupInteractorTests {
 
     @org.junit.Test
     public void executeTest(){
-        this.signupController.execute("test6374753431000000", "test", "test");
+        this.signupController.execute("test", "test", "test");
         assert(this.viewModelManager.getActiveView() == "log in");
+        this.firebaseDataAccess.deleteEntity("Users", "test");
     }
 
     @org.junit.Test
