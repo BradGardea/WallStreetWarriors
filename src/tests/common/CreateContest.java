@@ -130,7 +130,7 @@ public class CreateContest {
     public static void main(String[] args) {
         try{
             initDefaultContests();
-//            createContest(2);
+            createContest(2);
         }
         catch (Exception ex){
             System.out.println(ex);
