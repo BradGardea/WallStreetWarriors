@@ -139,16 +139,8 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     public JButton getButtonCancel(){
         return this.buttonOK;
     }
-    public JLabel getCashRemainingLabel() {
-        return cashRemainingLabel;
-    }
-
     public JSpinner getStockQuantitySpinner() {
         return stockQuantitySpinner;
-    }
-
-    public JLabel getPurchasePriceLabel() {
-        return purchasePriceLabel;
     }
 
     public HashMap<String, HashMap<String, String>> getCurrentPortfollio() {
