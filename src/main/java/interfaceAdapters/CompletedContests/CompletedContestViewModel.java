@@ -17,7 +17,7 @@ public class CompletedContestViewModel extends ViewModel {
 
     public static Timestamp endDate;
 
-    public static final String YOUR_PORTFOLIO = "Your Portfolio";
+    public static final String YOUR_PORTFOLIO = "Selected Portfolio";
 
     public static final String LEADERBOARD_LABEL = "Leaderboard";
 

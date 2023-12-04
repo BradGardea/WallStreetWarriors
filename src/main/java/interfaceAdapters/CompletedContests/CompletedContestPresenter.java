@@ -45,6 +45,7 @@ public class CompletedContestPresenter implements CompletedContestOutputBoundary
         state.setLeaderboard(response.leaderboard);
         state.setProfit(response.profit);
         state.setPlacement(response.placement);
+        state.setPortfolios(response.portfolios);
     }
 
 
