@@ -1,11 +1,8 @@
 package view.AvailableContests;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import entity.Contest;
-import entity.User;
-import interface_adapters.AvailableContests.AvailableContestState;
-import interface_adapters.AvailableContests.AvailableContestsController;
-import interface_adapters.AvailableContests.AvailableContestsViewModel;
+import interfaceAdapters.AvailableContests.AvailableContestState;
+import interfaceAdapters.AvailableContests.AvailableContestsController;
+import interfaceAdapters.AvailableContests.AvailableContestsViewModel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -40,16 +37,16 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     private final AvailableContestsViewModel viewModel;
     private final AvailableContestsController controller;
     public boolean enrollSuccess; //TODO: move to state
-    public final String viewName = "availableContestDetailView";
+    public static final String viewName = "availableContestDetailView";
     private HashMap<String, HashMap<String, String>> currentPortfollio = new HashMap<String, HashMap<String, String>>(); //StockTickerName: {StockTickerMetaDataName: StockTickerMetaDataName}
 
-    public AvailableContestDetailView(AvailableContestsController controller, AvailableContestsViewModel viewModel) {
+    public AvailableContestDetailView(AvailableContestsController controller, AvailableContestsViewModel viewModel, boolean setModal) {
         this.viewModel = viewModel;
         this.controller = controller;
         viewModel.addPropertyChangeListener(this); //trigger events based on state change
 
         setContentPane(contentPane);
-        setModal(true);
+        setModal(setModal);
         getRootPane().setDefaultButton(buttonOK);
 
         ErrorLabel.setVisible(false);
@@ -62,16 +59,15 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
                     @Override
                     public void valueChanged(ListSelectionEvent e) {
                         if (!e.getValueIsAdjusting()){
-                            Float updatedCost = null; //API call to get update prices here
+                            Float updatedCost = null;
                             try {
                                 updatedCost = getUpdatedStockPrices(stockChoicesList.getSelectedValue().toString());
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                             }
 
-                            // TODO: Check if this is fine
                             try {
-                                updateStockSelectionUI(stockChoicesList.getSelectedValue().toString()); // Add extra param with api call here
+                                updateStockSelectionUI(stockChoicesList.getSelectedValue().toString());
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                             }
@@ -132,6 +128,21 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
 
     }
 
+    public String getContestIdLabel(){
+        return this.contestIdLabel.getText();
+    }
+    public JList getStockChoicesList(){
+        return this.stockChoicesList;
+    }
+    public String getTotalCostLabel(){
+        return this.totalCostLabel.getText();
+    }
+    public String getStockNameLabel(){
+        return this.stockNameLabel.getText();
+    }
+    public AvailableContestsViewModel getViewModel(){
+        return this.viewModel;
+    }
     private void updateCurrentPortfolio(String currentStock, Float updatedCost){
         if (currentPortfollio.get(currentStock) != null){
             var currentStockMetaData = currentPortfollio.get(currentStock);
@@ -209,7 +220,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         this.stockNameLabel.setText("Select a stock");
         this.stockQuantitySpinner.setValue(0);
         this.purchasePriceLabel.setText("N/A");
-        this.totalCostLabel.setText("0");
+        this.totalCostLabel.setText("N/A");
         this.cashRemainingLabel.setText("10000");
     }
 
@@ -233,8 +244,10 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
             setUiValues();
         }
     }
-
-    public static void launch(AvailableContestDetailView dialog) throws IOException { //TODO: temp
+    public void forceDispose(){
+        dispose();
+    }
+    public static void launch(AvailableContestDetailView dialog) throws IOException {
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
 //        System.exit(0);

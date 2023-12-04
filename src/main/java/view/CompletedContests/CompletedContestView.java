@@ -1,8 +1,7 @@
 package view.CompletedContests;
 
-import interface_adapters.CompletedContests.CompletedContestController;
-import interface_adapters.CompletedContests.CompletedContestViewModel;
-import view.AvailableContests.AvailableContestDetailView;
+import interfaceAdapters.CompletedContests.CompletedContestController;
+import interfaceAdapters.CompletedContests.CompletedContestViewModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +26,7 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
     private JLabel profit;
 
 
-    public final String viewName = "completed contest";
+    public static final String viewName = "completed contest";
 
     private CompletedContestController completedContestController;
 
@@ -37,6 +36,7 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         this.completedContestController = controller;
         this.completedContestViewModel = viewModel;
         this.completedContestViewModel.addPropertyChangeListener(this);
+        setModal(true);
 
         // Java Swing Code
 
@@ -217,7 +217,7 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 //        return arrayData;
 //    }
 
-    public static void launch(CompletedContestView dialog) throws IOException { //TODO: temp
+    public static void launch(CompletedContestView dialog) throws IOException {
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
        // System.exit(0);
