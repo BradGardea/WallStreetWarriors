@@ -1,14 +1,10 @@
-package SignupTests;
+package signupTests;
 
 import firebaseDataAccess.FirebaseDataAccess;
-import interfaceAdapters.HomePage.HomePageViewModel;
-import interfaceAdapters.SignUpLogIn.LoginPresenter;
 import interfaceAdapters.SignUpLogIn.LoginViewModel;
 import interfaceAdapters.SignUpLogIn.SignupPresenter;
 import interfaceAdapters.SignUpLogIn.SignupViewModel;
 import interfaceAdapters.ViewModelManager;
-import useCase.Login.LoginInputData;
-import useCase.Login.LoginInteractor;
 import useCase.SignUp.SignupInputData;
 import useCase.SignUp.SignupInteractor;
 import app.Main;

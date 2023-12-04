@@ -1,4 +1,4 @@
-package LoginTests;
+package loginTests;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.HomePage.HomePageViewModel;

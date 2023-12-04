@@ -22,6 +22,7 @@ import view.LogInSignUp.SignupView;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainNavigationFactory {
 
@@ -34,7 +35,7 @@ public class MainNavigationFactory {
      * @return returns a MainNavigationView, empty interface used to generalize main components.
      */
     public static MainNavigationView createMainView(String viewName, ViewModelManager viewManagerModel, HomePageViewModel homepageViewModel, SignupViewModel signupViewModel, LoginViewModel loginViewModel, FirebaseDataAccess userDataAccessObject, String username){
-        if (viewName == "sign up"){
+        if (Objects.equals(viewName, "sign up")){
             try {
                 SignupController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel, userDataAccessObject);
                 return new SignupView(signupController, signupViewModel);
@@ -44,7 +45,7 @@ public class MainNavigationFactory {
 
             return null;
         }
-        else if (viewName == "log in"){
+        else if (Objects.equals(viewName, "log in")){
             try {
                 LoginController loginController = createLoginUseCase(viewManagerModel, loginViewModel, homepageViewModel, userDataAccessObject, signupViewModel);
                 return new LoginView(loginViewModel, loginController, viewManagerModel, homepageViewModel);
@@ -54,7 +55,7 @@ public class MainNavigationFactory {
 
             return null;
         }
-        else if (viewName == "homepage view"){
+        else if (Objects.equals(viewName, "homepage view")){
             try {
                 HomePageController homepageController = createHomePageUseCase(viewManagerModel, homepageViewModel, userDataAccessObject, username);
                 return new HomePageView(homepageViewModel, homepageController, viewManagerModel);
