@@ -26,8 +26,6 @@ import java.util.*;
 public class EnrolledInteractor implements EnrolledInputBoundary {
     final IDataAccess userDataAccessObject;
     final EnrolledOutputBoundary enrolledPresenter;
-    private String username = null;
-    private String contestId = null;
 
     public EnrolledInteractor(IDataAccess userDataAccessInterface,
                               EnrolledOutputBoundary enrolledOutputBoundary) {
@@ -47,9 +45,6 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
      */
     @Override
     public void execute(EnrolledInputData enrolledInputData) {
-        this.username = enrolledInputData.getUsername();
-        this.contestId = enrolledInputData.getContestId();
-
         enrolledPresenter.prepareSuccessView(retrieveData(enrolledInputData));
     }
 
@@ -121,13 +116,13 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
                 enrolledInputData.getUsername());
     }
 
-    public boolean markContestCompleted(){
-        var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", this.contestId);
-        var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", this.username);
+    public boolean markContestCompleted(EnrolledInputData enrolledInputData) {
+        var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", enrolledInputData.getContestId());
+        var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", enrolledInputData.getUsername());
 
         if (user != null && contest != null){
-            user.removeEnrolledContest(this.contestId);
-            user.addCompletedContest(this.contestId);
+            user.removeEnrolledContest(enrolledInputData.getContestId());
+            user.addCompletedContest(enrolledInputData.getContestId());
 
             contest.updateInStorage();
             user.updateInStorage();

@@ -9,5 +9,5 @@ package useCase.EnrolledContest;
  */
 public interface EnrolledInputBoundary {
     void execute(EnrolledInputData enrolledInputData);
-    public boolean markContestCompleted();
+    boolean markContestCompleted(EnrolledInputData enrolledInputData);
 }

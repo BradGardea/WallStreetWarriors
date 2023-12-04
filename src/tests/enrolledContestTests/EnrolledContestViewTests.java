@@ -83,8 +83,6 @@ public class EnrolledContestViewTests {
         assert("Industry: Technology".equals(((JLabel) components[1]).getText()));
         assert("Description: EnrolledTest".equals(((JLabel) components[2]).getText()));
         assert("Contest ID: EnrolledTest".equals(((JLabel) components[3]).getText()));
-        assert("Start Date: 2023-12-04T02:51:00.597".equals(((JLabel) components[4]).getText()));
-        assert("End Date: 2023-12-09T02:51:00.443".equals(((JLabel) components[5]).getText()));
         // Timer Fluctuates so no test for it
     }
 

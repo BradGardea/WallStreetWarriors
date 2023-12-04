@@ -186,7 +186,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
                     okButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            contestExpired = enrolledController.markContestCompleted();
+                            contestExpired = enrolledController.markContestCompleted(enrolledState.getUsername(), enrolledState.getContestId());
                             dispose();
                         }
 
