@@ -1,6 +1,6 @@
 package view;
 
-import InterfaceAdapters.Contests.ContestViewModel;
+import interfaceAdapters.Contests.ContestViewModel;
 
 import javax.swing.*;
 import java.awt.*;

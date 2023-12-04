@@ -1,7 +1,7 @@
 package view.CompletedContests;
 
-import InterfaceAdapters.CompletedContests.CompletedContestController;
-import InterfaceAdapters.CompletedContests.CompletedContestViewModel;
+import interfaceAdapters.CompletedContests.CompletedContestController;
+import interfaceAdapters.CompletedContests.CompletedContestViewModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

@@ -1,9 +1,9 @@
 package view.EnrolledContest;
 
-import InterfaceAdapters.Enrolled.EnrolledController;
-import InterfaceAdapters.Enrolled.EnrolledState;
-import InterfaceAdapters.Enrolled.EnrolledViewModel;
-import Api.ApiCall;
+import interfaceAdapters.Enrolled.EnrolledController;
+import interfaceAdapters.Enrolled.EnrolledState;
+import interfaceAdapters.Enrolled.EnrolledViewModel;
+import api.ApiCall;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -39,6 +39,8 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
     // Variables for timer usage
     private static JLabel timerLabel;
     private static int timeLeft; // Seconds
+
+    public boolean contestExpired;
 
     public EnrolledView(EnrolledController enrolledController, EnrolledViewModel viewModel) {
 //        this.homePageController = controller;
@@ -190,7 +192,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
                     okButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
+                            contestExpired = enrolledController.markContestCompleted();
                             dispose();
                         }
 

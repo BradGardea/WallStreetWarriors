@@ -1,17 +1,17 @@
 package view.HomePage;
 
-import FirebaseDataAccess.FirebaseDataAccess;
+import firebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;
 import app.MainNavigationView;
 import entity.Contest;
 import entity.User;
-import InterfaceAdapters.AvailableContests.AvailableContestsViewModel;
-import InterfaceAdapters.CompletedContests.CompletedContestViewModel;
-import InterfaceAdapters.Enrolled.EnrolledViewModel;
-import InterfaceAdapters.HomePage.HomePageController;
-import InterfaceAdapters.HomePage.HomePageState;
-import InterfaceAdapters.HomePage.HomePageViewModel;
-import InterfaceAdapters.ViewModelManager;
+import interfaceAdapters.AvailableContests.AvailableContestsViewModel;
+import interfaceAdapters.CompletedContests.CompletedContestViewModel;
+import interfaceAdapters.Enrolled.EnrolledViewModel;
+import interfaceAdapters.HomePage.HomePageController;
+import interfaceAdapters.HomePage.HomePageState;
+import interfaceAdapters.HomePage.HomePageViewModel;
+import interfaceAdapters.ViewModelManager;
 import view.AvailableContests.AvailableContestDetailView;
 import view.CompletedContests.CompletedContestView;
 import view.EnrolledContest.EnrolledView;
@@ -201,6 +201,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             viewModelManager.setActiveView(enrolledView.viewName);
             viewModelManager.firePropertyChanged();
             EnrolledView.launch(enrolledView);
+            if (enrolledView.contestExpired){
+                homepageController.execute();
+            }
             viewModelManager.setActiveView(this.viewName);
             viewModelManager.firePropertyChanged();
         }
