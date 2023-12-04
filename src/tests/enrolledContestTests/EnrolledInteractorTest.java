@@ -49,11 +49,12 @@ public class EnrolledInteractorTest {
     public void testMarkContestCompleted() {
         EnrolledInputData enrolledInputData = new EnrolledInputData("a", "EnrolledTest");
         this.enrolledInteractor.execute(enrolledInputData);
-        assert(this.enrolledInteractor.markContestCompleted());
+        assert(this.enrolledInteractor.markContestCompleted(enrolledInputData));
     }
 
     @org.junit.Test
     public void testMarkContestCompletedFail() {
-        assert(!this.enrolledInteractor.markContestCompleted());
+        EnrolledInputData enrolledInputData = new EnrolledInputData("", "EnrolledTest");
+        assert(!this.enrolledInteractor.markContestCompleted(enrolledInputData));
     }
 }
