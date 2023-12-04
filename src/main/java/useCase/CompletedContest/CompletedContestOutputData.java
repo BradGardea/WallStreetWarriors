@@ -44,28 +44,5 @@ public class CompletedContestOutputData {
     public String getIndustry() {
         return industry;
     }
-    public Timestamp getStartTime() {return this.startTime;}
-    public Timestamp getEndTime() {
-        return endTime;
-    }
-    public String getContestName() {
-        return contestName;
-    }
-
-    public HashMap<String, HashMap<String, String>> getPortfolio() {
-        return portfolio;
-    }
-
-    public ArrayList<String> getLeaderboard() {
-        return leaderboard;
-    }
-
-    public String getProfit() {
-        return profit;
-    }
-
-    public String getPlacement() {
-        return placement;
-    }
 
 }

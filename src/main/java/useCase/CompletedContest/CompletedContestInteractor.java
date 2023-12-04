@@ -2,18 +2,20 @@ package useCase.CompletedContest;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import entity.Contest;
+import firebaseDataAccess.IDataAccess;
 
 import java.util.*;
 
 public class CompletedContestInteractor implements CompletedContestInputBoundary{
 
-    public final FirebaseDataAccess completedContestDataAccessObject;
+    public final IDataAccess completedContestDataAccessObject;
 
     public final CompletedContestOutputBoundary completedContestPresenter;
 
     public String username;
 
     private String contestId;
+
 
     public CompletedContestInteractor(FirebaseDataAccess completedContestDataAccessObject, CompletedContestOutputBoundary completedContestPresenter, CompletedContestInputData completedContestInputData) {
         this.completedContestDataAccessObject = completedContestDataAccessObject;

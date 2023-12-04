@@ -44,6 +44,8 @@ public class AvailableContestInteractorTest {
     // execute test should validate whether the view model gets updated with a non-null state
     @org.junit.Test
     public void execute() {
+        // TODO: This test will always pass as state is initialized to an empty state in the view model
+        // Check state is not empty (ie check fields inside state)
         this.availableContestInteractor.execute();
         assert(this.availableContestsViewModel.getState() != null);
     }

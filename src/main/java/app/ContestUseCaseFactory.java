@@ -13,7 +13,6 @@ import interfaceAdapters.AvailableContests.AvailableContestsViewModel;
 import interfaceAdapters.CompletedContests.CompletedContestController;
 import interfaceAdapters.CompletedContests.CompletedContestPresenter;
 import interfaceAdapters.CompletedContests.CompletedContestViewModel;
-import interfaceAdapters.Contests.ContestViewModel;
 import interfaceAdapters.Enrolled.EnrolledController;
 import interfaceAdapters.Enrolled.EnrolledPresenter;
 import interfaceAdapters.Enrolled.EnrolledViewModel;
@@ -23,7 +22,6 @@ import useCase.EnrolledContest.EnrolledInteractor;
 import useCase.EnrolledContest.EnrolledOutputBoundary;
 import view.AvailableContests.AvailableContestDetailView;
 import view.CompletedContests.CompletedContestView;
-import view.ContestView;
 import view.EnrolledContest.EnrolledView;
 
 public class ContestUseCaseFactory {
@@ -31,9 +29,6 @@ public class ContestUseCaseFactory {
     // Prevents Instantiation
     private ContestUseCaseFactory(){};
 
-    public static ContestView create(ContestViewModel contestViewModel){
-        return new ContestView(contestViewModel);
-    }
 
     public static AvailableContestDetailView createAvailableContestDetailView(AvailableContestsViewModel availableContestsViewModel, ViewModelManager viewModelManager, String contestId, String username){
         AvailableContestsController availableContestsController = createAvailableContestUseCase(availableContestsViewModel, viewModelManager, contestId, username);

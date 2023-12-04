@@ -23,7 +23,7 @@ public class CompletedContestViewMain {
             Main.FirebaseInit();
             var firebaseDataAccess = FirebaseDataAccess.getInstance();
             //  catching exceptions for GoogleCredentials.fromStream and FileInputStream
-            String contestId = "1";
+            String contestId = "CompletedTest";
             // firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
 
             // creating JFrame for app
