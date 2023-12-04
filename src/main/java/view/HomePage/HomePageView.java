@@ -22,7 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class HomePageView extends JPanel implements ActionListener, PropertyChangeListener, MainNavigationView {
@@ -132,7 +134,7 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             add(this.contentPanel, BorderLayout.CENTER);
         }
 
-        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.getState().enrolledContests,  false);
+        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.getState().enrolledContests,  true);
         completedScrollPane = createScrollablePanel("Completed", homepageViewModel.getState().completedContests, false);
         availableScrollPane = createScrollablePanel("Available", homepageViewModel.getState().availableContests, true);
 
@@ -190,9 +192,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             }
         });
         if (showTimeLeft) {
-            JLabel timeLeftLabel = new JLabel(); // Time calculation should be done here
+            Date javaEndDate = contest.getEndTime().toDate();
+            String dateEndString = formatAsDateString(javaEndDate);
+            JLabel timeLeftLabel = new JLabel("End Time: " + dateEndString); // Time calculation should be done here
             timeLeftLabel.setHorizontalAlignment(JLabel.RIGHT);
-            contestPanel.add(timeLeftLabel, BorderLayout.WEST);
+            contestPanel.add(timeLeftLabel, BorderLayout.SOUTH);
         }
         contestPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         contestPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -258,4 +262,13 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     public String getViewName() {
         return this.viewName;
     }
+
+    private static String formatAsDateString(Date date) {
+        // Choose your desired date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Format the date as a string
+        return dateFormat.format(date);
+    }
 }
+
