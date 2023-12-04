@@ -1,6 +1,10 @@
 package useCase.EnrolledContest;
 
 import firebaseDataAccess.FirebaseDataAccess;
+import api.ApiCall;
+import api.Credentials;
+import firebaseDataAccess.FirebaseDataAccess;
+import firebaseDataAccess.IDataAccess;
 import com.google.cloud.Timestamp;
 import entity.Contest;
 import entity.User;
@@ -20,12 +24,12 @@ import java.util.*;
  * @version 0.0
  */
 public class EnrolledInteractor implements EnrolledInputBoundary {
-    final FirebaseDataAccess userDataAccessObject;
+    final IDataAccess userDataAccessObject;
     final EnrolledOutputBoundary enrolledPresenter;
-    private String username;
-    private String contestId;
+    private String username = null;
+    private String contestId = null;
 
-    public EnrolledInteractor(FirebaseDataAccess userDataAccessInterface,
+    public EnrolledInteractor(IDataAccess userDataAccessInterface,
                               EnrolledOutputBoundary enrolledOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.enrolledPresenter = enrolledOutputBoundary;
@@ -46,8 +50,14 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         this.username = enrolledInputData.getUsername();
         this.contestId = enrolledInputData.getContestId();
 
+        enrolledPresenter.prepareSuccessView(retrieveData(enrolledInputData));
+    }
+
+    public EnrolledOutputData retrieveData(EnrolledInputData enrolledInputData) {
+
         // Get Contest object by ID
-        Contest enrolledContest = userDataAccessObject.getEntity(Contest.class, "Contests", this.contestId);
+
+        Contest enrolledContest = userDataAccessObject.getEntity(Contest.class, "Contests", enrolledInputData.getContestId());
 
         // Get base data from object
         ArrayList<User> members = enrolledContest.getMembers();
@@ -62,7 +72,7 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         List<String> opponents = new LinkedList<>();
         for (User user : members) {
             String name = user.getUsername();
-            if (Objects.equals(name, this.username)) {
+            if (Objects.equals(name, enrolledInputData.getUsername())) {
                 continue;
             }
             opponents.add(name);
@@ -72,17 +82,41 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         LocalDateTime startDate = startTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime endDate = endTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        EnrolledOutputData enrolledOutputData = new EnrolledOutputData(
+        for (User u : members) {
+            String user = u.getUsername();
+        for (String s : portfolios.get(user).keySet()) {
+
+            String quantity = portfolios.get(user).get(s).get("Quantity");
+
+            String closePrice = "0";
+            try {
+                closePrice = ApiCall.getClosePrice(s, Credentials.apiKey);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (closePrice == null) {
+                closePrice = "0";
+            }
+
+            String value = String.valueOf(Float.parseFloat(quantity) * Float.parseFloat(closePrice));
+
+            portfolios.get(user).get(s).put("Close Price", closePrice);
+            portfolios.get(user).get(s).put("Value", value);
+
+        } }
+
+        userDataAccessObject.setOrUpdateEntity(enrolledContest, "Contests", enrolledInputData.getContestId());
+
+        return new EnrolledOutputData(
                 opponents,
                 portfolios,
                 startDate,
                 endDate,
                 title,
                 description,
-                this.contestId,
+                enrolledInputData.getContestId(),
                 industry,
-                this.username);
-        enrolledPresenter.prepareSuccessView(enrolledOutputData);
+                enrolledInputData.getUsername());
     }
 
     public boolean markContestCompleted(){

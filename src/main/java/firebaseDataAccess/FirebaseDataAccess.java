@@ -99,23 +99,23 @@ public class FirebaseDataAccess implements IDataAccess {
         }
     }
 
-    /**
-     * Deletes document with specified collection and id
-     * @param collection collection id of target document
-     * @param id target document id
-     * @return true if document delete successful, false if not
-     */
-    public boolean deleteEntity(String collection, String id){
-        try{
-            ApiFuture<WriteResult> writeResult = db.collection(collection).document(id).delete();
-            System.out.println("Update time : " + writeResult.get().getUpdateTime());
-            return true;
-        }
-        catch(Exception ex){
-            System.out.println(ex);
-            return false;
-        }
-    }
+//    /**
+//     * Deletes document with specified collection and id
+//     * @param collection collection id of target document
+//     * @param id target document id
+//     * @return true if document delete successful, false if not
+//     */
+//    public boolean deleteEntity(String collection, String id){
+//        try{
+//            ApiFuture<WriteResult> writeResult = db.collection(collection).document(id).delete();
+//            System.out.println("Update time : " + writeResult.get().getUpdateTime());
+//            return true;
+//        }
+//        catch(Exception ex){
+//            System.out.println(ex);
+//            return false;
+//        }
+//    }
     
     
 }

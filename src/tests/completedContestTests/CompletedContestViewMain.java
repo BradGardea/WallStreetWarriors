@@ -42,7 +42,7 @@ public class CompletedContestViewMain {
 //            app.setVisible(true);
 
         } catch (Exception ex){
-            System.out.println("Unable to load firebase data, app will have limited functionality");
+            System.out.println("Unable to load firebase data, app will have limited functionality" + ex);
         }
 
     }

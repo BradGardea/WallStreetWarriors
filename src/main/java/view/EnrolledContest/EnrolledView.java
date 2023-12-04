@@ -1,5 +1,6 @@
 package view.EnrolledContest;
 
+import api.Credentials;
 import interfaceAdapters.Enrolled.EnrolledController;
 import interfaceAdapters.Enrolled.EnrolledState;
 import interfaceAdapters.Enrolled.EnrolledViewModel;
@@ -101,7 +102,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         LinkedList<String> users = (LinkedList<String>) enrolledState.getOpponents(); // TODO Load in enemies
         users.add(0, username);
 
-        String apiKey = "apikey";
+        String apiKey = Credentials.apiKey;
 
         // Add a table for each user
         for (String user : users) {
@@ -118,23 +119,18 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
 
                 String purchasePrice = userPortfolios.get(user).get(s).get("Purchase Price");
 
-                String closePrice = "0";
-                try {
-                    closePrice = ApiCall.getClosePrice(s, apiKey);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                String closePrice = userPortfolios.get(user).get(s).get("Close Price");
 
-                if (closePrice == null) {
-                    closePrice = "0";
-                }
+                String value = userPortfolios.get(user).get(s).get("Value");
+
+
 
                 Object[] stock = new Object[]{
                         s,
                         quantity,
                         purchasePrice,
                         closePrice,
-                        String.valueOf(Integer.parseInt(quantity) * Integer.parseInt(closePrice))
+                        value
                 };
                 dataArrayList.add(stock);
             }
