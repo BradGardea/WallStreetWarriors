@@ -10,6 +10,7 @@ public class SignupInteractor implements SignupInputBoundary {
     final SignupOutputBoundary userPresenter;
     final UserFactory userFactory;
 
+
     public SignupInteractor(FirebaseDataAccess signupUserDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
                             UserFactory userFactory) {
@@ -21,7 +22,8 @@ public class SignupInteractor implements SignupInputBoundary {
     @Override
     public void execute(SignupInputData signupInputData) {
         if (userDataAccessObject.getEntity(User.class, "Users", signupInputData.getUsername()) !=  null) {
-        userPresenter.prepareFailView("User already exists."); }
+        userPresenter.prepareFailView("User already exists.");
+        }
         else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
             userPresenter.prepareFailView("Passwords don't match.");
         } else {
