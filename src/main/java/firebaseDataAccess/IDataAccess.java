@@ -13,5 +13,5 @@ public interface IDataAccess {
 
     @Nullable <T> void setOrUpdateEntity(@NonNull T entity, String collection, String id);
 
-    boolean deleteEntity(String collection, String id);
+//    boolean deleteEntity(String collection, String id);
 }

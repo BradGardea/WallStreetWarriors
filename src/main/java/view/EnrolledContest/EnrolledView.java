@@ -1,10 +1,10 @@
 package view.EnrolledContest;
 
-import Api.Credentials;
+import api.Credentials;
 import interfaceAdapters.Enrolled.EnrolledController;
 import interfaceAdapters.Enrolled.EnrolledState;
 import interfaceAdapters.Enrolled.EnrolledViewModel;
-import Api.ApiCall;
+import api.ApiCall;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

@@ -1,12 +1,12 @@
-package EnrolledContestTests;
+package enrolledContestTests;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import UseCase.EnrolledContest.EnrolledInputData;
-import UseCase.EnrolledContest.EnrolledInteractor;
-import InterfaceAdapters.Enrolled.EnrolledPresenter;
-import InterfaceAdapters.Enrolled.EnrolledViewModel;
-import InterfaceAdapters.ViewModelManager;
-import UseCase.EnrolledContest.EnrolledOutputData;
+import firebaseDataAccess.FirebaseDataAccess;
+import useCase.EnrolledContest.EnrolledInputData;
+import useCase.EnrolledContest.EnrolledInteractor;
+import interfaceAdapters.Enrolled.EnrolledPresenter;
+import interfaceAdapters.Enrolled.EnrolledViewModel;
+import interfaceAdapters.ViewModelManager;
+import useCase.EnrolledContest.EnrolledOutputData;
 import app.Main;
 
 import java.io.IOException;

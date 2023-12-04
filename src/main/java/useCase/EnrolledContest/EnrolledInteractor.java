@@ -1,10 +1,10 @@
 package useCase.EnrolledContest;
 
 import firebaseDataAccess.FirebaseDataAccess;
-import Api.ApiCall;
-import Api.Credentials;
-import FirebaseDataAccess.FirebaseDataAccess;
-import FirebaseDataAccess.IDataAccess;
+import api.ApiCall;
+import api.Credentials;
+import firebaseDataAccess.FirebaseDataAccess;
+import firebaseDataAccess.IDataAccess;
 import com.google.cloud.Timestamp;
 import entity.Contest;
 import entity.User;
