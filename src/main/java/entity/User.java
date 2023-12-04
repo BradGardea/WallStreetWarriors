@@ -1,6 +1,6 @@
 package entity;
 
-import FirebaseDataAccess.*;
+import firebaseDataAccess.*;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

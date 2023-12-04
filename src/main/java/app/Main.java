@@ -1,15 +1,15 @@
 package app;
 
-import FirebaseDataAccess.FirebaseDataAccess;
+import firebaseDataAccess.FirebaseDataAccess;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import InterfaceAdapters.HomePage.HomePageViewModel;
-import InterfaceAdapters.SignUpLogIn.LoginViewModel;
-import InterfaceAdapters.SignUpLogIn.SignupViewModel;
-import InterfaceAdapters.ViewModelManager;
+import interfaceAdapters.HomePage.HomePageViewModel;
+import interfaceAdapters.SignUpLogIn.LoginViewModel;
+import interfaceAdapters.SignUpLogIn.SignupViewModel;
+import interfaceAdapters.ViewModelManager;
 import view.LogInSignUp.*;
 
 import javax.swing.*;
