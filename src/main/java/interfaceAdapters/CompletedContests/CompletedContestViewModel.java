@@ -63,14 +63,22 @@ public class CompletedContestViewModel extends ViewModel {
         support.firePropertyChange("state", null, this.state);
 
         // sets all the fields in the view model to the new ones in state.
-        contestName = state.contestName;
-        startDate = state.startDate;
-        endDate = state.endDate;
-        industry = state.industry;
-        portfolio = state.portfolio;
-        leaderboard = state.leaderboard.toArray(new String[0]);
-        profit = state.profit;
-        placement = state.placement;
+//        contestName = state.contestName;
+//        startDate = state.startDate;
+//        endDate = state.endDate;
+//        industry = state.industry;
+//        portfolio = state.portfolio;
+//        leaderboard = state.leaderboard.toArray(new String[0]);
+//        profit = state.profit;
+//        placement = state.placement;
+        contestName = state.getContestName();
+        startDate = state.getStartDate();
+        endDate = state.getEndDate();
+        industry = state.getIndustry();
+        portfolio = state.getPortfolio();
+        leaderboard = state.getLeaderboard().toArray(new String[0]);
+        profit = state.getProfit();
+        placement = state.getPlacement();
 
     }
 

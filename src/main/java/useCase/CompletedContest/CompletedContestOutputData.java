@@ -35,8 +35,6 @@ public class CompletedContestOutputData {
         this.profit = profit;
         this.placement = placement;
     }
-<<<<<<< HEAD:src/main/java/UseCase/CompletedContest/CompletedContestOutputData.java
-=======
 
     /**
      * @return stock options supported in contest of the following format:
@@ -46,29 +44,5 @@ public class CompletedContestOutputData {
     public String getIndustry() {
         return industry;
     }
-    public Timestamp getStartTime() {return this.startTime;}
-    public Timestamp getEndTime() {
-        return endTime;
-    }
-    public String getContestName() {
-        return contestName;
-    }
 
-    public HashMap<String, HashMap<String, String>> getPortfolio() {
-        return portfolio;
-    }
-
-    public ArrayList<String> getLeaderboard() {
-        return leaderboard;
-    }
-
-    public String getProfit() {
-        return profit;
-    }
-
-    public String getPlacement() {
-        return placement;
-    }
-
->>>>>>> Integration:src/main/java/useCase/CompletedContest/CompletedContestOutputData.java
 }

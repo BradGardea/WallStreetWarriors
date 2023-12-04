@@ -1,4 +1,4 @@
-package completedContestTests.CompletedContest;
+package completedContestTests;
 
 import common.CreatePortfolios;
 import firebaseDataAccess.FirebaseDataAccess;

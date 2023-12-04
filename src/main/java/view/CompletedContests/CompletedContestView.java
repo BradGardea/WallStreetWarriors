@@ -25,6 +25,10 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
     private JLabel placement;
     private JLabel profit;
 
+    private JLabel startTime;
+
+    private JLabel endTime;
+
 
     public static final String viewName = "completed contest";
 
@@ -49,6 +53,7 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 
         // Creating JLabels for the topPanel
         JLabel contestName = new JLabel(completedContestViewModel.contestName);
+        this.contestName = contestName;
 
         // TODO: Find a way to make the date only show the date and not time.
 
@@ -57,7 +62,9 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 
         String startDateLabel = "Start Date: " + dateStartString;
         JLabel startDate = new JLabel(startDateLabel, SwingConstants.CENTER);
+        this.startTime = startDate;
         JLabel contestIndustry = new JLabel(completedContestViewModel.industry);
+        this.contestIndustry = contestIndustry;
 
         // TODO: Same as above
         Date javaEndDate = completedContestViewModel.endDate.toDate();
@@ -65,6 +72,7 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 
         String endDateLabel = "End Date: " + dateEndString;
         JLabel endDate = new JLabel(endDateLabel, SwingConstants.CENTER);
+        this.endTime = endDate;
         JLabel yourPortfolio = new JLabel(completedContestViewModel.YOUR_PORTFOLIO);
         JLabel leaderboard = new JLabel(completedContestViewModel.LEADERBOARD_LABEL, SwingConstants.CENTER);
 
@@ -119,6 +127,8 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         String placementLabel = "Placement: " + completedContestViewModel.placement;
         JLabel profit = new JLabel(profitLabel);
         JLabel placement = new JLabel(placementLabel);
+        this.profit = profit;
+        this.placement = placement;
         JLabel empty = new JLabel("");
         JButton cancelButton = new JButton("Cancel");
 
@@ -224,7 +234,6 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
     }
 
     private void onOK() {
-        // switch this contest and its configuration to enrolledw
         dispose();
     }
 
@@ -233,5 +242,32 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         dispose();
     }
 
+    public void forceDispose(){
+        dispose();
+    }
+
+    public JLabel getContestName() {
+        return contestName;
+    }
+
+    public JLabel getContestIndustry() {
+        return contestIndustry;
+    }
+
+    public JLabel getPlacement() {
+        return placement;
+    }
+
+    public JLabel getProfit() {
+        return profit;
+    }
+
+    public JLabel getStartTime() {
+        return startTime;
+    }
+
+    public JLabel getEndTime() {
+        return endTime;
+    }
 }
 
