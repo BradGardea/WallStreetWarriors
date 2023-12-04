@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ApiCall implements Api.IApiCall {
+public class ApiCall implements IApiCall {
 
     public static String getClosePrice(String ticker, String apiKey) {
 
