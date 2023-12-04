@@ -1,7 +1,7 @@
 package entity;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import FirebaseDataAccess.IUpdateableEntity;
+import firebaseDataAccess.FirebaseDataAccess;
+import firebaseDataAccess.IUpdateableEntity;
 
 import com.google.cloud.Timestamp;
 
@@ -43,23 +43,11 @@ public class Contest implements IContest, IUpdateableEntity {
    
     public ArrayList<User> getMembers(){
         return this.members;
-//        var users = new ArrayList<User>();
-//        var dataAccess = FirebaseDataAccess.getInstance();
-//        for(var user: this.members){
-//            users.add(dataAccess.getEntity(User.class, "Users", user.getUsername()));
-//        }
-//        return users;
     }
 
-    public void setMembersString(ArrayList<User> members){
-        this.members = members;
-    }
     public void addMember(User member){
         this.members.add(member);
     }
-//    public ArrayList<User> getConcreteMembers(){
-//        return this.concreteMembers;
-//    }
 
     /**
      * @return stock options supported in contest of the following format:
@@ -140,8 +128,4 @@ public class Contest implements IContest, IUpdateableEntity {
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
-    //TODO: Implement Method Later when API call logic is finished
-//    public User getWinner(){ return null; }
-
-
 }
