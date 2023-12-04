@@ -1,9 +1,8 @@
 package useCase.EnrolledContest;
 
-import firebaseDataAccess.FirebaseDataAccess;
-import api.ApiCall;
 import api.Credentials;
 import firebaseDataAccess.FirebaseDataAccess;
+import api.ApiCall;
 import firebaseDataAccess.IDataAccess;
 import com.google.cloud.Timestamp;
 import entity.Contest;
@@ -53,7 +52,6 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         // Get Contest object by ID
 
         Contest enrolledContest = userDataAccessObject.getEntity(Contest.class, "Contests", enrolledInputData.getContestId());
-
         // Get base data from object
         ArrayList<User> members = enrolledContest.getMembers();
         HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = enrolledContest.getPortfolios();
@@ -79,6 +77,7 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
 
         for (User u : members) {
             String user = u.getUsername();
+            System.out.println(user);
         for (String s : portfolios.get(user).keySet()) {
 
             String quantity = portfolios.get(user).get(s).get("Quantity");
