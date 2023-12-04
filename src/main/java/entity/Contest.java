@@ -1,16 +1,13 @@
 package entity;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import FirebaseDataAccess.IFirebaseEntity;
+import firebaseDataAccess.FirebaseDataAccess;
+import firebaseDataAccess.IUpdateableEntity;
 
 import com.google.cloud.Timestamp;
-import com.google.firebase.database.Exclude;
-import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-@IgnoreExtraProperties
-public class Contest implements IContest, IFirebaseEntity{
+public class Contest implements IContest, IUpdateableEntity {
     private String contestId;
     private String title;
     private String description;
@@ -35,35 +32,22 @@ public class Contest implements IContest, IFirebaseEntity{
         this.endTime = endTime;
         this.stockOptions = stockOptions;
         this.portfolios = portfolios;
-        updateInFirebase();
+        updateInStorage();
     }
 
     // default constructor
     public Contest(){};
-    public void updateInFirebase(){
+    public void updateInStorage(){
         FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Contests", this.contestId);
     }
    
     public ArrayList<User> getMembers(){
-        var users = new ArrayList<User>();
-        var dataAccess = FirebaseDataAccess.getInstance();
-        for(var user: this.members){
-            users.add(dataAccess.getEntity(User.class, "Users", user.getUsername()));
-        }
-        return users;
+        return this.members;
     }
 
-    public void setMembersString(ArrayList<String> members){
-        if (this.members != null){
-            this.members = getMembers();
-        }
-    }
     public void addMember(User member){
         this.members.add(member);
     }
-//    public ArrayList<User> getConcreteMembers(){
-//        return this.concreteMembers;
-//    }
 
     /**
      * @return stock options supported in contest of the following format:
@@ -84,10 +68,15 @@ public class Contest implements IContest, IFirebaseEntity{
     }
 
     /**
-     * @param portfolios formatted as: Username/id : {StockTicker: {StockTickerMetadataName: StockTickerMetadata}}
+     * Username/id : {StockTicker: {StockTickerMetadataName: StockTickerMetadata}}
+     * @param username username of portfolio holder
+     * @param portfolio portfolio data
      */
-    public void setPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> portfolios) {
-        this.portfolios = portfolios;
+    public void setPortfolios(String username, HashMap<String, HashMap<String, String>> portfolio) {
+        if (this.portfolios == null){
+           this.portfolios = new HashMap<>();
+        }
+        this.portfolios.put(username, portfolio);
     }
 
     public String getContestId(){ return this.contestId; }
@@ -139,8 +128,4 @@ public class Contest implements IContest, IFirebaseEntity{
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
-    //TODO: Implement Method Later when API call logic is finished
-//    public User getWinner(){ return null; }
-
-
 }

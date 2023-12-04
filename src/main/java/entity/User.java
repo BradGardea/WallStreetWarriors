@@ -1,20 +1,17 @@
 package entity;
 
-import FirebaseDataAccess.*;
+import firebaseDataAccess.*;
 
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 
 @IgnoreExtraProperties
-public class User implements IUser, IFirebaseEntity {
+public class User implements IUser, IUpdateableEntity {
     private String username;
     private String password;
-    private ArrayList<String> completedContests;
-    private ArrayList<String> enrolledContests;
-//    @Exclude private ArrayList<Contest> concreteCompletedContests;
-//    @Exclude private ArrayList<Contest> concreteEnrolledContests;
+    private ArrayList<String> completedContests = new ArrayList<String>();
+    private ArrayList<String> enrolledContests = new ArrayList<String>();
 
     public User(){};
 
@@ -23,8 +20,9 @@ public class User implements IUser, IFirebaseEntity {
         this.password = password;
         this.enrolledContests = enrolledContests;
         this.completedContests = completedContests;
+        updateInStorage();
     }
-    public void updateInFirebase(){
+    public void updateInStorage(){
         FirebaseDataAccess.getInstance().setOrUpdateEntity(this, "Users", this.username);
     }
     @Override
@@ -61,6 +59,9 @@ public class User implements IUser, IFirebaseEntity {
     public void addEnrolledContest(String enrolledContest){
         this.enrolledContests.add(enrolledContest);
     }
+    public void removeEnrolledContest(String enrolledContest){
+        this.enrolledContests.remove(enrolledContest);
+    }
 
 //    @Override
 //    public String getUUID() {
@@ -68,7 +69,7 @@ public class User implements IUser, IFirebaseEntity {
 //    }
 //    public void setUUID(String id){
 //        this.id = id;
-//        updateInFirebase();
+//        updateInStorage();
 //    }
 
 //    public ArrayList<Contest> getCompletedContests() {

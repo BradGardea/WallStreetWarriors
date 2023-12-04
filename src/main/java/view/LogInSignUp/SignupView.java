@@ -1,8 +1,9 @@
 package view.LogInSignUp;
 
-import interface_adapters.SignUpLogIn.SignupController;
-import interface_adapters.SignUpLogIn.SignupState;
-import interface_adapters.SignUpLogIn.SignupViewModel;
+import app.MainNavigationView;
+import interfaceAdapters.SignUpLogIn.SignupController;
+import interfaceAdapters.SignUpLogIn.SignupState;
+import interfaceAdapters.SignUpLogIn.SignupViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,8 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "sign up";
+public class SignupView extends JPanel implements ActionListener, PropertyChangeListener, MainNavigationView {
+    private final String viewName = "sign up";
 
     private final SignupViewModel signupViewModel;
     private final JTextField usernameInputField = new JTextField(15);
@@ -24,7 +25,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final SignupController signupController;
 
     private final JButton signUp;
-    private final JButton cancel;
+
+    private final JButton login;
 
     public SignupView(SignupController controller, SignupViewModel signupViewModel) {
 
@@ -45,22 +47,31 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         JPanel buttons = new JPanel();
         signUp = new JButton(signupViewModel.SIGNUP_BUTTON_LABEL);
         buttons.add(signUp);
-        cancel = new JButton(signupViewModel.CANCEL_BUTTON_LABEL);
-        buttons.add(cancel);
+        login = new JButton(signupViewModel.LOGIN_BUTTON_LABEL);
+        buttons.add(login);
 
-        signUp.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(signUp)) {
-                            signupController.execute(signupViewModel.getState().getUsername(),
-                                    signupViewModel.getState().getPassword(),
-                                    signupViewModel.getState().getRepeatPassword());
+            signUp.addActionListener(
+                    // This creates an anonymous subclass of ActionListener and instantiates it.
+                    new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getSource().equals(signUp)) {
+                                signupController.execute(signupViewModel.getState().getUsername(),
+                                        signupViewModel.getState().getPassword(),
+                                        signupViewModel.getState().getRepeatPassword());
+                            }
                         }
                     }
-                }
-        );
-        cancel.addActionListener(this);
+            );
+
+            login.addActionListener(
+                    new ActionListener() {
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getSource().equals(login)) {
+                                signupController.executeSwitchScreen();
+                            }
+                        }
+                    }
+            );
 
         // This makes a new KeyListener implementing class, instantiates it, and
         // makes it listen to keystrokes in the usernameInputField.
@@ -144,5 +155,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         if (state.getUsernameError() != null) {
             JOptionPane.showMessageDialog(this, state.getUsernameError());
         }
+    }
+
+    @Override
+    public String getViewName() {
+        return this.viewName;
     }
 }

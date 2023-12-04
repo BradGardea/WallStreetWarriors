@@ -1,7 +1,7 @@
 package view.CompletedContests;
 
-import interface_adapters.CompletedContests.CompletedContestController;
-import interface_adapters.CompletedContests.CompletedContestViewModel;
+import interfaceAdapters.CompletedContests.CompletedContestController;
+import interfaceAdapters.CompletedContests.CompletedContestViewModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,9 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
-public class CompletedContestView extends JPanel implements ActionListener, PropertyChangeListener {
+public class CompletedContestView extends JDialog implements ActionListener, PropertyChangeListener {
     private JPanel mainPanel;
     private JTable table1;
     private JList list1;
@@ -22,7 +25,12 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
     private JLabel placement;
     private JLabel profit;
 
-    public final String viewName = "completed contest";
+    private JLabel startTime;
+
+    private JLabel endTime;
+
+
+    public static final String viewName = "completed contest";
 
     private CompletedContestController completedContestController;
 
@@ -32,6 +40,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         this.completedContestController = controller;
         this.completedContestViewModel = viewModel;
         this.completedContestViewModel.addPropertyChangeListener(this);
+        setModal(true);
 
         // Java Swing Code
 
@@ -43,17 +52,27 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         topPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
         // Creating JLabels for the topPanel
-        // TODO: Make it so these update with data from firebase through the view model.
         JLabel contestName = new JLabel(completedContestViewModel.contestName);
+        this.contestName = contestName;
 
         // TODO: Find a way to make the date only show the date and not time.
-        String startDateLabel = "Start Date: " + completedContestViewModel.startDate.toString();
+
+        Date javaStartDate = completedContestViewModel.startDate.toDate();
+        String dateStartString = formatAsDateString(javaStartDate);
+
+        String startDateLabel = "Start Date: " + dateStartString;
         JLabel startDate = new JLabel(startDateLabel, SwingConstants.CENTER);
+        this.startTime = startDate;
         JLabel contestIndustry = new JLabel(completedContestViewModel.industry);
+        this.contestIndustry = contestIndustry;
 
         // TODO: Same as above
-        String endDateLabel = "End Date: " + completedContestViewModel.endDate.toString();
+        Date javaEndDate = completedContestViewModel.endDate.toDate();
+        String dateEndString = formatAsDateString(javaEndDate);
+
+        String endDateLabel = "End Date: " + dateEndString;
         JLabel endDate = new JLabel(endDateLabel, SwingConstants.CENTER);
+        this.endTime = endDate;
         JLabel yourPortfolio = new JLabel(completedContestViewModel.YOUR_PORTFOLIO);
         JLabel leaderboard = new JLabel(completedContestViewModel.LEADERBOARD_LABEL, SwingConstants.CENTER);
 
@@ -71,14 +90,8 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
 
         // Table Panel
         JPanel tablePanel = new JPanel(new BorderLayout());
-//        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
-
         // Column Names For Table
         String[] columns = {"Ticker", "Quantity", "Purchase Price", "End Price", "Value"};
-//        Object[][] data = {
-//                {"AAPL", "10", "150.00", "155.00", "1550.00"},
-//                {"MSFT", "10", "200.00", "210.00", "2100.00"}
-//        };
 
 
         HashMap<String, HashMap<String, String>> data = completedContestViewModel.portfolio;
@@ -98,20 +111,7 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         // Creating A List Panel for the leaderboard
         JPanel listPanel = new JPanel(new BorderLayout());
 
-        // Mock Data
-        // TODO: Replace with real data from firebase
-//        String[] usernames = {
-//                "StockMaster83",
-//                "BullishTrader",
-//                "MarketGuru007",
-//                "EquityExplorer",
-//                "PortfolioPro22",
-//                "TradeWhiz",
-//                "InvestNinja",
-//                "WealthHarbor",
-//                "StockSavvy2023",
-//                "FinanceWizardX"
-//        };
+        // Setting th leaderboard
         String[] usernames = completedContestViewModel.leaderboard;
         JList<String> leaderboardData = new JList<>(usernames);
 
@@ -121,15 +121,21 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         centerPanel.add(listPanel);
 
         // Creating Bottom Panel to Hold Profit and Placement
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JPanel bottomPanel = new JPanel(new GridLayout(2, 2, 10, 10));
 
-        String profitLabel = "Profit" + completedContestViewModel.profit;
+        String profitLabel = "Profit: " + completedContestViewModel.profit;
         String placementLabel = "Placement: " + completedContestViewModel.placement;
         JLabel profit = new JLabel(profitLabel);
         JLabel placement = new JLabel(placementLabel);
+        this.profit = profit;
+        this.placement = placement;
+        JLabel empty = new JLabel("");
+        JButton cancelButton = new JButton("Cancel");
 
         bottomPanel.add(profit);
         bottomPanel.add(placement);
+        bottomPanel.add(empty);
+        bottomPanel.add(cancelButton);
         bottomPanel.setBorder(new EmptyBorder(10, 10, 30, 10));
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
@@ -139,6 +145,44 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
         mainPanel.setPreferredSize(new Dimension(800, 600));
 
         this.add(mainPanel);
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
+
+    }
+
+
+    private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data) {
+
+        int length = data.size();
+        Object[][] arrayData = new Object[length][5];
+        int iteration = 0;
+        // iterates through every ticker
+        for (String ticker : data.keySet()) {
+            Object[] row = new Object[5];
+            row[0] = data.get(ticker).get("Ticker");
+            row[1] = data.get(ticker).get("Quantity");
+            row[2] = data.get(ticker).get("Purchase Price");
+            row[3] = data.get(ticker).get("End Price");
+            row[4] = data.get(ticker).get("Value");
+
+            arrayData[iteration] = row;
+            iteration += 1;
+        }
+
+        return arrayData;
+    }
+
+    private static String formatAsDateString(Date date) {
+        // Choose your desired date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Format the date as a string
+        return dateFormat.format(date);
     }
 
 
@@ -162,25 +206,68 @@ public class CompletedContestView extends JPanel implements ActionListener, Prop
     public void propertyChange(PropertyChangeEvent evt) {
 
     }
+//    private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data) {
+//
+//        int length = data.size();
+//        Object[][] arrayData = new Object[length][5];
+//        int iteration = 0;
+//        // iterates through every ticker
+//        for (String ticker : data.keySet()) {
+//            Object[] row = new Object[5];
+//            row[0] = data.get(ticker).get("Ticker");
+//            row[1] = data.get(ticker).get("Quantity");
+//            row[2] = data.get(ticker).get("Purchase Price");
+//            row[3] = data.get(ticker).get("End Price");
+//            row[4] = data.get(ticker).get("Value");
+//
+//            arrayData[iteration] = row;
+//            iteration += 1;
+//        }
+//
+//        return arrayData;
+//    }
 
-    private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data) {
+    public static void launch(CompletedContestView dialog) throws IOException {
+        dialog.setSize(new Dimension(600,800));
+        dialog.setVisible(true);
+       // System.exit(0);
+    }
 
-        int length = data.size();
-        Object[][] arrayData = new Object[length][5];
-        int iteration = 0;
-        // iterates through every ticker
-        for (String ticker : data.keySet()) {
-            Object[] row = new Object[5];
-            row[0] = data.get(ticker).get("Ticker");
-            row[1] = data.get(ticker).get("Quantity");
-            row[2] = data.get(ticker).get("Purchase Price");
-            row[3] = data.get(ticker).get("End Price");
-            row[4] = data.get(ticker).get("Value");
+    private void onOK() {
+        dispose();
+    }
 
-            arrayData[iteration] = row;
-            iteration += 1;
-        }
+    private void onCancel() {
+        // add your code here if necessary
+        dispose();
+    }
 
-        return arrayData;
+    public void forceDispose(){
+        dispose();
+    }
+
+    public JLabel getContestName() {
+        return contestName;
+    }
+
+    public JLabel getContestIndustry() {
+        return contestIndustry;
+    }
+
+    public JLabel getPlacement() {
+        return placement;
+    }
+
+    public JLabel getProfit() {
+        return profit;
+    }
+
+    public JLabel getStartTime() {
+        return startTime;
+    }
+
+    public JLabel getEndTime() {
+        return endTime;
     }
 }
+

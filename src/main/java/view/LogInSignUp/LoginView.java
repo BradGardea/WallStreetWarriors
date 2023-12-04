@@ -1,12 +1,13 @@
 package view.LogInSignUp;
 
-import FirebaseDataAccess.FirebaseDataAccess;
-import app.HomePageUseCaseFactory;
-import interface_adapters.HomePage.HomePageViewModel;
-import interface_adapters.SignUpLogIn.LoginController;
-import interface_adapters.SignUpLogIn.LoginState;
-import interface_adapters.SignUpLogIn.LoginViewModel;
-import interface_adapters.ViewModelManager;
+import firebaseDataAccess.FirebaseDataAccess;
+import app.MainNavigationFactory;
+import app.MainNavigationView;
+import interfaceAdapters.HomePage.HomePageViewModel;
+import interfaceAdapters.SignUpLogIn.LoginController;
+import interfaceAdapters.SignUpLogIn.LoginState;
+import interfaceAdapters.SignUpLogIn.LoginViewModel;
+import interfaceAdapters.ViewModelManager;
 import view.HomePage.HomePageView;
 
 import javax.swing.*;
@@ -18,9 +19,9 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
+public class LoginView extends JPanel implements ActionListener, PropertyChangeListener, MainNavigationView {
 
-    public final String viewName = "log in";
+    private final String viewName = "log in";
     private final LoginViewModel loginViewModel;
 
     /**
@@ -35,7 +36,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private final JLabel passwordErrorField = new JLabel();
 
     final JButton logIn;
-    final JButton cancel;
+    final JButton signup;
 
     private HomePageViewModel homepageViewModel;
     private ViewModelManager viewManagerModel;
@@ -65,8 +66,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         JPanel buttons = new JPanel();
         logIn = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
         buttons.add(logIn);
-        cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
-        buttons.add(cancel);
+        signup = new JButton(loginViewModel.SIGNUP_BUTTON_LABEL);
+        buttons.add(signup);
 
         logIn.addActionListener(                // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
@@ -78,9 +79,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                                     currentState.getUsername(),
                                     currentState.getPassword()
                             )){
-                                HomePageView homePageView = HomePageUseCaseFactory.create(viewManagerModel, homepageViewModel, FirebaseDataAccess.getInstance(), currentState.getUsername());
-                                views.add(homePageView, homePageView.viewName);
-                                viewManagerModel.setActiveView(homePageView.viewName);
+                                HomePageView homePageView = (HomePageView) MainNavigationFactory.createMainView("homepage view", viewManagerModel, homepageViewModel, null, loginViewModel, FirebaseDataAccess.getInstance(), currentState.getUsername());
+
+//                                        HomePageUseCaseFactory.create(viewManagerModel, homepageViewModel, FirebaseDataAccess.getInstance(), currentState.getUsername());
+                                views.add(homePageView, homePageView.getViewName());
+                                viewManagerModel.setActiveView(homePageView.getViewName());
                                 viewManagerModel.firePropertyChanged();
 //                                homePageView.launch();
                             }
@@ -88,7 +91,13 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 }
         );
-        cancel.addActionListener(this);
+        signup.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(signup)) {
+                    loginController.executeSwitchScreen();
+                }
+            }
+        });
 
         usernameInputField.addKeyListener(new KeyListener() {
             @Override
@@ -132,6 +141,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
+    }
+
+    @Override
+    public String getViewName(){
+        return this.viewName;
     }
 
     /**
