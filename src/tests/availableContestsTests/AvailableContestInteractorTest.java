@@ -1,4 +1,4 @@
-package availableContestsTests.CodeBehindTests;
+package availableContestsTests;
 
 import common.CreateContest;
 import common.CreatePortfolios;

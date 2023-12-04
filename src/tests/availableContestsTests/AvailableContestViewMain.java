@@ -1,4 +1,4 @@
-package availableContestsTests.ViewTests;
+package availableContestsTests;
 
 import common.CreateContest;
 import app.ContestUseCaseFactory;

@@ -21,37 +21,8 @@ import java.net.URL;
 
 public class Main{
     public static void main(String[] args){
-        Firestore db;
         //Initialization for firebase.
         try{
-//            URL url =  Main.class.getResource("/wallstreetwarriors-firebase-adminsdk-8g503-9cad46c515.json");
-//            File file = new File(url.getPath());
-//
-//            FileInputStream serviceAccount =
-//                    new FileInputStream(file);
-//
-//            FirebaseOptions options = new FirebaseOptions.Builder()
-//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//                    .build();
-//
-//            FirebaseApp.initializeApp(options);
-//
-//            db = FirestoreClient.getFirestore();
-//
-//            //"Initialize" singleton entity level data access factory
-//            var firebaseDataAccess = FirebaseDataAccess.getInstance();
-//            firebaseDataAccess.setFirestore(db);
-//
-//            firebaseDataAccess.getEntity(Message.class, "Messages", "123");
-//            HashMap hm = new HashMap<String, Object>();
-//            HashMap nested = new HashMap<String, Object>();
-//            nested.put("hello", "test");
-//            hm.put("foo", nested);
-//            var l = new ArrayList<String>();
-//            l.add("foo");
-//            Message m = new Message("test", "now", hm, l);
-//
-//            firebaseDataAccess.setOrUpdateEntity(m, "Messages", "1234");
             FirebaseInit();
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

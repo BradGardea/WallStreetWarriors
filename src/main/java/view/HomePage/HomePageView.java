@@ -45,6 +45,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
         // Header panel with title and sign-out button and welcome label
         JPanel headerPanel = new JPanel(new BorderLayout());
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
         JLabel title = new JLabel("Wall Street Warriors");
         title.setFont(new Font("Arial", Font.BOLD, 24));
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -53,6 +56,10 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
         JButton signOutButton = new JButton("Sign Out");
         signOutButton.setHorizontalAlignment(JLabel.RIGHT);
+
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.setHorizontalAlignment(JLabel.RIGHT);
+        refreshButton.setPreferredSize(new Dimension(50, 30));
 
         signOutButton.addActionListener(
                 new ActionListener() {
@@ -64,9 +71,29 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+        refreshButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(refreshButton)) {
+                            homepageController.execute();
+                        }
+                    }
+                }
+        );
+
+
+
+        buttonsPanel.add(signOutButton);
+        buttonsPanel.add(refreshButton);
+
         headerPanel.add(title, BorderLayout.WEST);
         headerPanel.add(welcomeLabel, BorderLayout.CENTER);
-        headerPanel.add(signOutButton, BorderLayout.EAST);
+
+        headerPanel.add(buttonsPanel, BorderLayout.EAST);
+
+//        headerPanel.add(signOutButton, BorderLayout.EAST);
+//        headerPanel.add(refreshButton, BorderLayout.CENTER);
+
 
         // Main content panel with scrollable lists
         // Add sub-panels to the main panel
