@@ -262,12 +262,5 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         return profit;
     }
 
-    public JLabel getStartTime() {
-        return startTime;
-    }
-
-    public JLabel getEndTime() {
-        return endTime;
-    }
 }
 

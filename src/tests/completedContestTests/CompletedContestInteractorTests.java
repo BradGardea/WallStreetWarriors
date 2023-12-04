@@ -70,7 +70,7 @@ public class CompletedContestInteractorTests {
     @org.junit.Test
     public void testExecute() {
         this.completedContestInteractor.execute();
-        assert(this.completedContestViewModel.getState() != null);
+        assert(this.completedContestViewModel.getState().contestName != null);
 
     }
 }
