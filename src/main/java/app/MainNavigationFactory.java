@@ -2,6 +2,7 @@ package app;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import useCase.HomePage.HomePageInputBoundary;
+import useCase.HomePage.HomePageInputData;
 import useCase.HomePage.HomePageInteractor;
 import useCase.HomePage.HomePageOutputBoundary;
 import useCase.Login.LoginInputBoundary;
@@ -104,7 +105,7 @@ public class MainNavigationFactory {
         // Notice how we pass this method's parameters to the Presenter.
         HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(homepageViewModel, viewManagerModel, new LoginViewModel());
 
-        HomePageInputBoundary userHomePageInteractor = new HomePageInteractor(userDataAccessObject, homePageOutputBoundary, username);
+        HomePageInputBoundary userHomePageInteractor = new HomePageInteractor(userDataAccessObject, homePageOutputBoundary,  new HomePageInputData(username));
 
         return new HomePageController(userHomePageInteractor);
     }
