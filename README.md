@@ -7,7 +7,7 @@ Similarly, the project can be launched as a standalone application with the incl
 
 
 ## Usage and test instructions:
-**To launch the application using the included .jar file, the following instructions explain how to:**
+### **To launch the application using the included .jar file, the following instructions explain how to:**
 
 0. Ensure openjdk version 17 is installed onto your local machine, this can be tested via `java --version` in your command prompt (cmd)/terminal
 1. Clone the repository onto your local device
@@ -15,7 +15,7 @@ Similarly, the project can be launched as a standalone application with the incl
 3. Run `java -jar WallStreetWarriors-1.0-Complete`
 4. A console should open as well as a JavaSwing dialogue, use the application as desired
 
-**To launch the application by building it:**
+### **To launch the application by building it:**
 
 0. Ensure openjdk version 17 is installed onto your local machine, this can be tested via `java --version` in your command prompt (cmd)/terminal
 1. Add the files `Credentials.java` file into the `api` package and the `.json` file into `resources` folder
@@ -25,3 +25,7 @@ Similarly, the project can be launched as a standalone application with the incl
 5. Open src/main/java/app and navigate to Main.java
 6. Launch the current file, a JavaSwing dialogue should open, use the application as desired
 7. In order to run the Tests, right click on the src/tests folder and go to More/Debug and click "Run with coverage" to view coverage for project
+
+
+###**A note about using the application**:
+The api we are using for stock market data "Finazon" only allows for ~100 API calls per minute, some components may not function as expected without access to the API, the interactions that use these API calls are: Refreshing, modifying portfolio selection in AvaialbleContestsView, viewing portfolio selection in EnrolledContestsView and terminating contests (happens automatically when time is up).
