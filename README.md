@@ -12,7 +12,7 @@ Similarly, the project can be launched as a standalone application with the incl
 0. Ensure openjdk version 17 is installed onto your local machine, this can be tested via `java --version` in your command prompt (cmd)/terminal
 1. Clone the repository onto your local device
 2. Open the folder containing the jar file in cmd/terminal
-3. Run `java -jar WallStreetWarriors-1.0-Complete`
+3. Run `java -jar WallStreetWarriors-1.0-Complete.jar`
 4. A console should open as well as a JavaSwing dialogue, use the application as desired
 
 ### **To launch the application by building it:**
