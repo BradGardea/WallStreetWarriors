@@ -27,5 +27,5 @@ Similarly, the project can be launched as a standalone application with the incl
 7. In order to run the Tests, right click on the src/tests folder and go to More/Debug and click "Run with coverage" to view coverage for project
 
 
-###**A note about using the application**:
+### **A note about using the application**:
 The api we are using for stock market data "Finazon" only allows for ~100 API calls per minute, some components may not function as expected without access to the API, the interactions that use these API calls are: Refreshing, modifying portfolio selection in AvaialbleContestsView, viewing portfolio selection in EnrolledContestsView and terminating contests (happens automatically when time is up).
