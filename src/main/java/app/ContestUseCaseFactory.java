@@ -36,7 +36,7 @@ public class ContestUseCaseFactory {
     }
     public static CompletedContestView createCompletedContestView(CompletedContestViewModel completedContestViewModel, FirebaseDataAccess dataAccessInterface, ViewModelManager viewModelManager, String contestId, String username){
         CompletedContestController completedContestController = createCompletedContestUseCase(completedContestViewModel, viewModelManager, contestId, dataAccessInterface, username);
-        return new CompletedContestView(completedContestController, completedContestViewModel);
+        return new CompletedContestView(completedContestController, completedContestViewModel, true);
 
     }
     private static AvailableContestsController createAvailableContestUseCase(AvailableContestsViewModel availableContestsViewModel, ViewModelManager viewModelManager, String contestId, String username){

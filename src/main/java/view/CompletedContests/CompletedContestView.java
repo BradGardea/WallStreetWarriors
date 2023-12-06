@@ -40,11 +40,11 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 
     private CompletedContestViewModel completedContestViewModel;
 
-    public CompletedContestView(CompletedContestController controller, CompletedContestViewModel viewModel) {
+    public CompletedContestView(CompletedContestController controller, CompletedContestViewModel viewModel, boolean setModal) {
         this.completedContestController = controller;
         this.completedContestViewModel = viewModel;
         this.completedContestViewModel.addPropertyChangeListener(this);
-        setModal(true);
+        setModal(setModal);
 
         // Java Swing Code
 
