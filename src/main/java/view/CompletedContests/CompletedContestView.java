@@ -5,6 +5,8 @@ import interfaceAdapters.CompletedContests.CompletedContestViewModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,8 +20,10 @@ import java.util.HashMap;
 
 public class CompletedContestView extends JDialog implements ActionListener, PropertyChangeListener {
     private JPanel mainPanel;
-    private JTable table1;
+    public JTable table1;
     private JList list1;
+
+    public DefaultTableModel model;
     private JLabel contestName;
     private JLabel contestIndustry;
     private JLabel placement;
@@ -36,11 +40,11 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
 
     private CompletedContestViewModel completedContestViewModel;
 
-    public CompletedContestView(CompletedContestController controller, CompletedContestViewModel viewModel) {
+    public CompletedContestView(CompletedContestController controller, CompletedContestViewModel viewModel, boolean setModal) {
         this.completedContestController = controller;
         this.completedContestViewModel = viewModel;
         this.completedContestViewModel.addPropertyChangeListener(this);
-        setModal(true);
+        setModal(setModal);
 
         // Java Swing Code
 
@@ -97,11 +101,12 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         HashMap<String, HashMap<String, String>> data = completedContestViewModel.portfolio;
 
         Object[][] dataArray = convertHashMapDataToArray(data);
-        DefaultTableModel model = new DefaultTableModel(dataArray, columns);
-        JTable table = new JTable(model);
+        model = new DefaultTableModel(dataArray, columns);
+//        JTable table = new JTable(model);
+        this.table1 = new JTable(model);
 
         // Adding the table to a scroll pane to allow for scroll functionality.
-        JScrollPane verticalScrollPane = new JScrollPane(table);
+        JScrollPane verticalScrollPane = new JScrollPane(table1);
         verticalScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         verticalScrollPane.setBorder(new EmptyBorder(0, 10, 10, 10));
         // adding the table panel to the bottom panel.
@@ -123,8 +128,8 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         // Creating Bottom Panel to Hold Profit and Placement
         JPanel bottomPanel = new JPanel(new GridLayout(2, 2, 10, 10));
 
-        String profitLabel = "Profit: " + completedContestViewModel.profit;
-        String placementLabel = "Placement: " + completedContestViewModel.placement;
+        String profitLabel = "Your Profit: " + completedContestViewModel.profit;
+        String placementLabel = "Your Placement: " + completedContestViewModel.placement;
         JLabel profit = new JLabel(profitLabel);
         JLabel placement = new JLabel(placementLabel);
         this.profit = profit;
@@ -153,6 +158,23 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
             }
         });
 
+        leaderboardData.addListSelectionListener(
+                new ListSelectionListener() {
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        var name = leaderboardData.getSelectedValue().toString();
+                        var portfolios = completedContestViewModel.getState().portfolios;
+                        var selectedPortfolio = portfolios.get(name);
+                        Object[][] newDataArray = convertHashMapDataToArray(selectedPortfolio);
+                        model = new DefaultTableModel(newDataArray, columns);
+                        table1.setModel(model);
+                        model.fireTableDataChanged();
+                        revalidate();
+                        repaint();
+                    }
+                }
+        );
+
     }
 
 
@@ -164,10 +186,10 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         // iterates through every ticker
         for (String ticker : data.keySet()) {
             Object[] row = new Object[5];
-            row[0] = data.get(ticker).get("Ticker");
+            row[0] = ticker;
             row[1] = data.get(ticker).get("Quantity");
             row[2] = data.get(ticker).get("Purchase Price");
-            row[3] = data.get(ticker).get("End Price");
+            row[3] = data.get(ticker).get("Close Price");
             row[4] = data.get(ticker).get("Value");
 
             arrayData[iteration] = row;
@@ -232,6 +254,8 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         dialog.setVisible(true);
        // System.exit(0);
     }
+
+
 
     private void onOK() {
         dispose();

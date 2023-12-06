@@ -1,7 +1,8 @@
-package LoginTests;
+package loginTests;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.HomePage.HomePageViewModel;
+import interfaceAdapters.SignUpLogIn.LoginController;
 import interfaceAdapters.SignUpLogIn.LoginPresenter;
 import interfaceAdapters.SignUpLogIn.LoginViewModel;
 import interfaceAdapters.SignUpLogIn.SignupViewModel;
@@ -9,6 +10,8 @@ import interfaceAdapters.ViewModelManager;
 import useCase.Login.LoginInputData;
 import useCase.Login.LoginInteractor;
 import app.Main;
+import view.HomePage.HomePageView;
+import view.LogInSignUp.LoginView;
 
 import java.io.IOException;
 
@@ -24,6 +27,8 @@ public class LoginInteractorTests {
     public ViewModelManager viewModelManager;
     public LoginInteractor loginInteractor;
 
+    public LoginController loginController;
+
     public LoginInteractorTests() throws IOException {
         Main.FirebaseInit();
         this.firebaseDataAccess = FirebaseDataAccess.getInstance();
@@ -34,11 +39,12 @@ public class LoginInteractorTests {
         this.loginPresenter = new LoginPresenter(this.viewModelManager, this.homePageViewModel, this.loginViewModel, this.signupViewModel);
         // hardcoded values for test purposes
         this.loginInteractor = new LoginInteractor(this.loginPresenter);
+        this.loginController = new LoginController(loginInteractor);
     }
 
     @org.junit.Test
     public void executeTest(){
-        this.loginInteractor.execute(new LoginInputData("a", "1"));
+        this.loginController.execute("a", "1");
         assert(this.viewModelManager.getActiveView() == "home page view");
     }
 
@@ -55,8 +61,14 @@ public class LoginInteractorTests {
     }
     @org.junit.Test
     public void executeSwitchScreenTest(){
-        this.loginInteractor.executeSwitchScreen();
+        this.loginController.executeSwitchScreen();
         assert(this.viewModelManager.getActiveView() == "sign up");
+    }
+
+    @org.junit.Test
+    public void construct(){
+        var view = new LoginView(this.loginViewModel, this.loginController, this.viewModelManager, this.homePageViewModel);
+        assert(view != null);
     }
 }
 

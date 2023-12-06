@@ -22,7 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class HomePageView extends JPanel implements ActionListener, PropertyChangeListener, MainNavigationView {
@@ -45,6 +47,9 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
         // Header panel with title and sign-out button and welcome label
         JPanel headerPanel = new JPanel(new BorderLayout());
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
         JLabel title = new JLabel("Wall Street Warriors");
         title.setFont(new Font("Arial", Font.BOLD, 24));
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -53,6 +58,10 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
 
         JButton signOutButton = new JButton("Sign Out");
         signOutButton.setHorizontalAlignment(JLabel.RIGHT);
+
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.setHorizontalAlignment(JLabel.RIGHT);
+        refreshButton.setPreferredSize(new Dimension(50, 30));
 
         signOutButton.addActionListener(
                 new ActionListener() {
@@ -64,9 +73,29 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
                 }
         );
 
+        refreshButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(refreshButton)) {
+                            homepageController.execute();
+                        }
+                    }
+                }
+        );
+
+
+
+        buttonsPanel.add(signOutButton);
+        buttonsPanel.add(refreshButton);
+
         headerPanel.add(title, BorderLayout.WEST);
         headerPanel.add(welcomeLabel, BorderLayout.CENTER);
-        headerPanel.add(signOutButton, BorderLayout.EAST);
+
+        headerPanel.add(buttonsPanel, BorderLayout.EAST);
+
+//        headerPanel.add(signOutButton, BorderLayout.EAST);
+//        headerPanel.add(refreshButton, BorderLayout.CENTER);
+
 
         // Main content panel with scrollable lists
         // Add sub-panels to the main panel
@@ -105,7 +134,7 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             add(this.contentPanel, BorderLayout.CENTER);
         }
 
-        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.getState().enrolledContests,  false);
+        enrolledScrollPane = createScrollablePanel("Enrolled", homepageViewModel.getState().enrolledContests,  true);
         completedScrollPane = createScrollablePanel("Completed", homepageViewModel.getState().completedContests, false);
         availableScrollPane = createScrollablePanel("Available", homepageViewModel.getState().availableContests, true);
 
@@ -163,9 +192,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
             }
         });
         if (showTimeLeft) {
-            JLabel timeLeftLabel = new JLabel(); // Time calculation should be done here
+            Date javaEndDate = contest.getEndTime().toDate();
+            String dateEndString = formatAsDateString(javaEndDate);
+            JLabel timeLeftLabel = new JLabel("End Time: " + dateEndString); // Time calculation should be done here
             timeLeftLabel.setHorizontalAlignment(JLabel.RIGHT);
-            contestPanel.add(timeLeftLabel, BorderLayout.WEST);
+            contestPanel.add(timeLeftLabel, BorderLayout.SOUTH);
         }
         contestPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         contestPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -231,4 +262,13 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
     public String getViewName() {
         return this.viewName;
     }
+
+    private static String formatAsDateString(Date date) {
+        // Choose your desired date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Format the date as a string
+        return dateFormat.format(date);
+    }
 }
+

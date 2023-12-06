@@ -20,17 +20,17 @@ public class LoginState {
         return username;
     }
 
-    public String getUsernameError() {
-        return usernameError;
-    }
+//    public String getUsernameError() {
+//        return usernameError;
+//    }
 
     public String getPassword() {
         return password;
     }
 
-    public String getPasswordError() {
-        return passwordError;
-    }
+//    public String getPasswordError() {
+//        return passwordError;
+//    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -44,7 +44,7 @@ public class LoginState {
         this.password = password;
     }
 
-    public void setPasswordError(String passwordError) {
-        this.passwordError = passwordError;
-    }
+//    public void setPasswordError(String passwordError) {
+//        this.passwordError = passwordError;
+//    }
 }

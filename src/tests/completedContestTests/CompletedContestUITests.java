@@ -2,6 +2,7 @@ package completedContestTests;
 
 import app.ContestUseCaseFactory;
 import app.Main;
+import common.CreateContest;
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.CompletedContests.CompletedContestController;
 import interfaceAdapters.CompletedContests.CompletedContestPresenter;
@@ -26,7 +27,7 @@ public class CompletedContestUITests {
     public CompletedContestController completedContestController;
 
     public CompletedContestUITests() throws IOException {
-        Main.FirebaseInit();
+        CreateContest.createContest(1);
         this.firebaseDataAccess = FirebaseDataAccess.getInstance();
         this.completedContestViewModel = new CompletedContestViewModel();
         this.viewModelManager = new ViewModelManager();
@@ -34,18 +35,20 @@ public class CompletedContestUITests {
         // hardcoded values for test purposes
         var completedContestInputData = new CompletedContestInputData("a", "CompletedTest");
         this.completedContestInteractor = new CompletedContestInteractor(this.firebaseDataAccess, this.completedContestPresenter, completedContestInputData);
+        this.completedContestController = new CompletedContestController(completedContestInteractor);
     }
 
     @org.junit.Test
     public void construct(){
-        CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel,firebaseDataAccess, viewModelManager, "CompletedTest", "a");
+        CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
+        completedContestView.forceDispose();
         assert(completedContestView != null);
     }
 
     @org.junit.Test
     public void launch(){
         try {
-            CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, "CompletedTest", "a");
+            CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
             CompletedContestView.launch(completedContestView);
             completedContestView.forceDispose();
             assert(true);
@@ -57,7 +60,7 @@ public class CompletedContestUITests {
 
     @org.junit.Test
     public void testUIFields(){
-        CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, "CompletedTest", "a");
+        CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
         System.out.println(completedContestView.getContestIndustry().getText());
         assert(Objects.equals(completedContestView.getContestName().getText(), "Test"));
         assert(Objects.equals(completedContestView.getContestIndustry().getText(), "Technology"));
@@ -65,11 +68,5 @@ public class CompletedContestUITests {
         assert(Objects.equals(completedContestView.getProfit().getText(), "Profit: 12000.0"));
 
     }
-
-
-
-
-
-
 
 }

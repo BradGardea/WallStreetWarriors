@@ -1,10 +1,8 @@
 package view.EnrolledContest;
 
-import api.Credentials;
 import interfaceAdapters.Enrolled.EnrolledController;
 import interfaceAdapters.Enrolled.EnrolledState;
 import interfaceAdapters.Enrolled.EnrolledViewModel;
-import api.ApiCall;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,11 +29,13 @@ import java.util.LinkedList;
  * @version 0.0
  */
 public class EnrolledView extends JDialog implements ActionListener, PropertyChangeListener {
+    public JPanel frame;
     public static final String viewName = "enrolledcontest";
 //    private final HomePageController homePageController;
     private final EnrolledController enrolledController;
     private final EnrolledViewModel enrolledViewModel;
     private EnrolledState enrolledState;
+    private static Timer timer;
 
     // Variables for timer usage
     private static JLabel timerLabel;
@@ -56,7 +56,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
 
         // THIS CODE IS FOR CREATING THE WINDOW - PASS THE ACTUAL FRAME LATER ON?
 //        JPanel frame = new JPanel(enrolledState.getTitle() + " Enrolled Contest ID: " + enrolledState.getContestId());
-        JPanel frame = new JPanel(new BorderLayout());
+        this.frame = new JPanel(new BorderLayout());
 //        frame.(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -101,8 +101,6 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         String username = enrolledState.getUsername();
         LinkedList<String> users = (LinkedList<String>) enrolledState.getOpponents(); // TODO Load in enemies
         users.add(0, username);
-
-        String apiKey = Credentials.apiKey;
 
         // Add a table for each user
         for (String user : users) {
@@ -170,14 +168,14 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         frame.add(horizontalScrollPane, BorderLayout.CENTER);
 //        JButton cancelButton = new JButton("Cancel");
 //        frame.add(cancelButton);
+        if (timer != null) {resetTimer();}
 
-        Timer timer = new Timer(1000, new ActionListener() {
+        timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (timeLeft > 0) {
                     timeLeft--;
                     timerLabel.setText("Time Remaining: " + formatTime(timeLeft));
                 } else {
-
                     frame.removeAll();
                     frame.setLayout(new BorderLayout());
                     frame.add(new JLabel("Time's up!", SwingConstants.CENTER), BorderLayout.CENTER);
@@ -188,7 +186,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
                     okButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            contestExpired = enrolledController.markContestCompleted();
+                            contestExpired = enrolledController.markContestCompleted(enrolledState.getUsername(), enrolledState.getContestId());
                             dispose();
                         }
 
@@ -258,7 +256,14 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
     public static void launch(EnrolledView dialog) throws IOException {
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
+//        resetTimer();
         // System.exit(0);
+    }
+
+    public static void resetTimer() {
+        if (timer.isRunning()) {
+            timer.stop();
+        }
     }
 
     private void onOK() {

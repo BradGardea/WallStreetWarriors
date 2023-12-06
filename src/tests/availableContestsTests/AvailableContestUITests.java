@@ -1,4 +1,4 @@
-package availableContestsTests.ViewTests;
+package availableContestsTests;
 
 import app.ContestUseCaseFactory;
 import common.CreateContest;
@@ -126,6 +126,57 @@ public class AvailableContestUITests {
         }
         catch (Exception ex){
             assert(false);
+        }
+    }
+    @org.junit.Test
+    public void testOkPress(){
+        try{
+            AvailableContestDetailView.launch(availableContestDetailView);
+            availableContestDetailView.getButtonOK().doClick();
+            availableContestDetailView.forceDispose();
+            assert(availableContestDetailView.enrollSuccess);
+        }
+        catch (Exception ex){
+            assert(false);
+        }
+    }
+    @org.junit.Test
+    public void testCancelPress(){
+        try{
+            AvailableContestDetailView.launch(availableContestDetailView);
+            availableContestDetailView.getButtonCancel().doClick();
+            availableContestDetailView.forceDispose();
+            assert(true);
+        }
+        catch (Exception ex){
+            assert(false);
+        }
+    }
+    @org.junit.Test
+    public void testSpinnerNegative(){
+        try{
+            AvailableContestDetailView.launch(availableContestDetailView);
+            availableContestDetailView.getStockChoicesList().setSelectedValue("AAPL", false);
+            availableContestDetailView.getStockQuantitySpinner().setValue(-1);
+            availableContestDetailView.forceDispose();
+            assert(Objects.equals(availableContestDetailView.getStockQuantitySpinner().getValue(), 0));
+        }
+        catch (Exception ex){
+            assert (false);
+        }
+    }
+    @org.junit.Test
+    public void testSpinnerChange(){
+        try{
+            AvailableContestDetailView.launch(availableContestDetailView);
+            availableContestDetailView.getStockChoicesList().setSelectedValue("AAPL", false);
+            availableContestDetailView.getStockQuantitySpinner().setValue(3); //tests initial put
+            availableContestDetailView.getStockQuantitySpinner().setValue(5); //tests existing access
+            availableContestDetailView.forceDispose();
+            assert(Objects.equals(availableContestDetailView.getCurrentPortfollio().get("AAPL").get("Quantity"), "5"));
+        }
+        catch (Exception ex){
+            assert (false);
         }
     }
 }

@@ -24,7 +24,8 @@ public class EnrolledController {
         EnrolledInputData enrolledInputData = new EnrolledInputData(username, contestId);
         enrolledUseCaseInteractor.execute(enrolledInputData);
     }
-    public boolean markContestCompleted(){
-        return enrolledUseCaseInteractor.markContestCompleted();
+    public boolean markContestCompleted(String username, String contestId){
+        EnrolledInputData enrolledInputData = new EnrolledInputData(username, contestId);
+        return enrolledUseCaseInteractor.markContestCompleted(enrolledInputData);
     }
 }

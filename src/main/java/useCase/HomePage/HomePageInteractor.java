@@ -1,5 +1,6 @@
 package useCase.HomePage;
 
+import com.google.cloud.Timestamp;
 import entity.Contest;
 import entity.User;
 
@@ -16,10 +17,10 @@ public class HomePageInteractor implements HomePageInputBoundary {
 
 
     public HomePageInteractor(FirebaseDataAccess homepageDataAccessObject,
-                              HomePageOutputBoundary homepagePresenter, String username) {
+                              HomePageOutputBoundary homepagePresenter, HomePageInputData homePageInputData) {
         this.homepageDataAccessObject = homepageDataAccessObject;
         this.homepagePresenter = homepagePresenter;
-        this.username = username;
+        this.username = homePageInputData.getUsername();
         execute();
     }
 

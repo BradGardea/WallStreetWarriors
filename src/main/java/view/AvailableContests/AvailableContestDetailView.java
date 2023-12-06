@@ -87,10 +87,6 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
                     var currentStock = stockChoicesList.getSelectedValue().toString();
                     var updatedCost = getUpdatedStockPrices(currentStock);
 
-//                    var totalPrice = Float.parseFloat(stockQuantitySpinner.getValue().toString()) * updatedCost;
-//                    if (totalPrice > Float.parseFloat(cashRemainingLabel.getText())){
-//                        stockQuantitySpinner.setValue(0);
-//                    }
                     updateCurrentPortfolio(currentStock, updatedCost);
                     checkNextPurchaseOverflow(updatedCost);
                     totalCostLabel.setText(String.valueOf(Float.parseFloat(stockQuantitySpinner.getValue().toString()) * updatedCost));
@@ -137,6 +133,20 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     public String getTotalCostLabel(){
         return this.totalCostLabel.getText();
     }
+    public JButton getButtonOK(){
+        return this.buttonOK;
+    }
+    public JButton getButtonCancel(){
+        return this.buttonOK;
+    }
+    public JSpinner getStockQuantitySpinner() {
+        return stockQuantitySpinner;
+    }
+
+    public HashMap<String, HashMap<String, String>> getCurrentPortfollio() {
+        return currentPortfollio;
+    }
+
     public String getStockNameLabel(){
         return this.stockNameLabel.getText();
     }

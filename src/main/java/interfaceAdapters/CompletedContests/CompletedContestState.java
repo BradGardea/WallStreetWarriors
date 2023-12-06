@@ -23,6 +23,10 @@ public class CompletedContestState {
 
     public String placement;
 
+    public HashMap<String, HashMap<String, HashMap<String, String>>> portfolios;
+
+
+
     public CompletedContestState(CompletedContestState copy){
         contestName = copy.contestName;
         startDate = copy.startDate;
@@ -32,12 +36,21 @@ public class CompletedContestState {
         leaderboard = copy.leaderboard;
         profit = copy.profit;
         placement = copy.placement;
+        portfolios = copy.portfolios;
     }
 
     // default constructor
     public CompletedContestState(){}
 
     // getters and setters
+
+    public HashMap<String, HashMap<String, HashMap<String, String>>> getPortfolios() {
+        return portfolios;
+    }
+
+    public void setPortfolios(HashMap<String, HashMap<String, HashMap<String, String>>> portfolios) {
+        this.portfolios = portfolios;
+    }
 
     public String getContestName() {
         return contestName;

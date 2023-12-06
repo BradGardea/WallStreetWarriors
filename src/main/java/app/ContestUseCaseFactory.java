@@ -36,7 +36,7 @@ public class ContestUseCaseFactory {
     }
     public static CompletedContestView createCompletedContestView(CompletedContestViewModel completedContestViewModel, FirebaseDataAccess dataAccessInterface, ViewModelManager viewModelManager, String contestId, String username){
         CompletedContestController completedContestController = createCompletedContestUseCase(completedContestViewModel, viewModelManager, contestId, dataAccessInterface, username);
-        return new CompletedContestView(completedContestController, completedContestViewModel);
+        return new CompletedContestView(completedContestController, completedContestViewModel, true);
 
     }
     private static AvailableContestsController createAvailableContestUseCase(AvailableContestsViewModel availableContestsViewModel, ViewModelManager viewModelManager, String contestId, String username){
@@ -58,15 +58,14 @@ public class ContestUseCaseFactory {
 
     public static EnrolledView createEnrolledView(EnrolledViewModel enrolledViewModel, FirebaseDataAccess firebaseDataAccess, ViewModelManager viewModelManager, String contestId, String username) {
         EnrolledController enrolledController = createEnrolledUseCase(enrolledViewModel, viewModelManager, contestId, firebaseDataAccess, username);
+        enrolledController.execute(username, contestId);
         return new EnrolledView(enrolledController, enrolledViewModel);
     }
 
     private static EnrolledController createEnrolledUseCase(EnrolledViewModel enrolledViewModel, ViewModelManager viewModelManager, String contestId, FirebaseDataAccess dataAccessInterface, String username){
         EnrolledOutputBoundary enrolledOutputBoundary = new EnrolledPresenter(enrolledViewModel, viewModelManager);
-        EnrolledInputData inputData = new EnrolledInputData(username, contestId);
         EnrolledInteractor enrolledInteractor = new EnrolledInteractor(dataAccessInterface, enrolledOutputBoundary);
 
-        enrolledInteractor.execute(inputData);
         return new EnrolledController(enrolledInteractor);
     }
 }
