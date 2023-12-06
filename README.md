@@ -7,7 +7,7 @@ Similarly, the project can be launched as a standalone application with the incl
 
 
 ## Usage and test instructions:
-### **To launch the application using the included .jar file, the following instructions explain how to:**
+### **To launch the application using the included .jar file:**
 
 0. Ensure openjdk version 17 is installed onto your local machine, this can be tested via `java --version` in your command prompt (cmd)/terminal
 1. Clone the repository onto your local device
@@ -28,4 +28,4 @@ Similarly, the project can be launched as a standalone application with the incl
 
 
 ### **A note about using the application**:
-The api we are using for stock market data "Finazon" only allows for ~100 API calls per minute, some components may not function as expected without access to the API, the interactions that use these API calls are: Refreshing, modifying portfolio selection in AvaialbleContestsView, viewing portfolio selection in EnrolledContestsView and terminating contests (happens automatically when time is up).
+The API we are using for stock market data "Finazon" only allows for ~100 API calls per minute, some components may not function as expected without access to the API, the interactions that use these API calls are: Refreshing, modifying portfolio selection in AvaialbleContestsView, viewing portfolio selection in EnrolledContestsView and terminating contests (happens automatically when time is up).
