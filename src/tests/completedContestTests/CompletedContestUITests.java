@@ -6,6 +6,7 @@ import common.CreateContest;
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.CompletedContests.CompletedContestController;
 import interfaceAdapters.CompletedContests.CompletedContestPresenter;
+import interfaceAdapters.CompletedContests.CompletedContestState;
 import interfaceAdapters.CompletedContests.CompletedContestViewModel;
 import interfaceAdapters.ViewModelManager;
 import useCase.CompletedContest.CompletedContestInputData;
@@ -26,6 +27,8 @@ public class CompletedContestUITests {
 
     public CompletedContestController completedContestController;
 
+    public CompletedContestView completedContestView;
+
     public CompletedContestUITests() throws IOException {
         CreateContest.createContest(1);
         this.firebaseDataAccess = FirebaseDataAccess.getInstance();
@@ -36,21 +39,24 @@ public class CompletedContestUITests {
         var completedContestInputData = new CompletedContestInputData("a", "CompletedTest");
         this.completedContestInteractor = new CompletedContestInteractor(this.firebaseDataAccess, this.completedContestPresenter, completedContestInputData);
         this.completedContestController = new CompletedContestController(completedContestInteractor);
+        this.completedContestController.execute();
+        this.completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
     }
 
     @org.junit.Test
     public void construct(){
-        CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
-        completedContestView.forceDispose();
+        //CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
+
+        this.completedContestView.forceDispose();
         assert(completedContestView != null);
     }
 
     @org.junit.Test
     public void launch(){
         try {
-            CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
-            CompletedContestView.launch(completedContestView);
-            completedContestView.forceDispose();
+            //CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
+            CompletedContestView.launch(this.completedContestView);
+            this.completedContestView.forceDispose();
             assert(true);
 
         } catch (Exception ex){
@@ -60,14 +66,11 @@ public class CompletedContestUITests {
 
     @org.junit.Test
     public void testUIFields(){
-        //CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
-
-        CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, "CompletedTest", "a");
-        System.out.println(completedContestView.getContestIndustry().getText());
-        assert(Objects.equals(completedContestView.getContestName().getText(), "Test"));
-        assert(Objects.equals(completedContestView.getContestIndustry().getText(), "Technology"));
-        assert(Objects.equals(completedContestView.getPlacement().getText(), "Your Placement: 1"));
-        assert(Objects.equals(completedContestView.getProfit().getText(), "Your Portfolio Value: 12000.0"));
+        System.out.println(this.completedContestView.getContestIndustry().getText());
+        assert(Objects.equals(this.completedContestView.getContestName().getText(), "Test"));
+        assert(Objects.equals(this.completedContestView.getContestIndustry().getText(), "Technology"));
+        assert(Objects.equals(this.completedContestView.getPlacement().getText(), "Your Placement: 1"));
+        assert(Objects.equals(this.completedContestView.getProfit().getText(), "Your Portfolio Value: 12000.0"));
 
     }
 
