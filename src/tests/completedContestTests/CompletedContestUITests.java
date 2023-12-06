@@ -60,12 +60,14 @@ public class CompletedContestUITests {
 
     @org.junit.Test
     public void testUIFields(){
-        CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
+        //CompletedContestView completedContestView = new CompletedContestView(completedContestController, completedContestViewModel, false);
+
+        CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, firebaseDataAccess, viewModelManager, "CompletedTest", "a");
         System.out.println(completedContestView.getContestIndustry().getText());
         assert(Objects.equals(completedContestView.getContestName().getText(), "Test"));
         assert(Objects.equals(completedContestView.getContestIndustry().getText(), "Technology"));
-        assert(Objects.equals(completedContestView.getPlacement().getText(), "Placement: 1"));
-        assert(Objects.equals(completedContestView.getProfit().getText(), "Profit: 12000.0"));
+        assert(Objects.equals(completedContestView.getPlacement().getText(), "Your Placement: 1"));
+        assert(Objects.equals(completedContestView.getProfit().getText(), "Your Portfolio Value: 12000.0"));
 
     }
 

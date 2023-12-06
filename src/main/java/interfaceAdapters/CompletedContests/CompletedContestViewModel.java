@@ -25,7 +25,7 @@ public class CompletedContestViewModel extends ViewModel {
 
     public static String[] leaderboard;
 
-    public static String profit;
+    public static String portfolioValue;
 
     public static String placement;
 
@@ -77,7 +77,7 @@ public class CompletedContestViewModel extends ViewModel {
         industry = state.getIndustry();
         portfolio = state.getPortfolio();
         leaderboard = state.getLeaderboard().toArray(new String[0]);
-        profit = state.getProfit();
+        portfolioValue = state.getPortfolioValue();
         placement = state.getPlacement();
 
     }

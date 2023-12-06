@@ -50,7 +50,7 @@ public class CompletedContestInteractorTests {
     }
 
     @org.junit.Test
-    public void getProfitTest() {
+    public void getPortfolioValueTest() {
         HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = CreatePortfolios.createPorfolios();
         for (String username : portfolios.keySet()) {
             HashMap<String, HashMap<String, String>> portfolio = portfolios.get(username);
@@ -61,7 +61,7 @@ public class CompletedContestInteractorTests {
                 profit += Float.parseFloat(value);
             }
 
-            assert (this.completedContestInteractor.getProfit(portfolio) == profit);
+            assert (this.completedContestInteractor.getPortfolioValue(portfolio) == profit);
 
         }
 

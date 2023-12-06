@@ -128,7 +128,7 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         // Creating Bottom Panel to Hold Profit and Placement
         JPanel bottomPanel = new JPanel(new GridLayout(2, 2, 10, 10));
 
-        String profitLabel = "Your Profit: " + completedContestViewModel.profit;
+        String profitLabel = "Your Portfolio Value: " + completedContestViewModel.portfolioValue;
         String placementLabel = "Your Placement: " + completedContestViewModel.placement;
         JLabel profit = new JLabel(profitLabel);
         JLabel placement = new JLabel(placementLabel);
