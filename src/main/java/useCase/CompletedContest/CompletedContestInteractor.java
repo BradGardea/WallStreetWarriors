@@ -33,10 +33,10 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
         var portfolios = contest.getPortfolios();
         // creating the leaderboard
         ArrayList<String> leaderboard = createLeaderboard(contest.getPortfolios());
-        String profit = Float.toString(getProfit(portfolio));
+        String portfolioValue = Float.toString(getPortfolioValue(portfolio));
         String placement = String.valueOf(leaderboard.indexOf(username) + 1);
 
-        CompletedContestOutputData completedContestOutputData = new CompletedContestOutputData(contest, portfolio, leaderboard, profit, placement, portfolios);
+        CompletedContestOutputData completedContestOutputData = new CompletedContestOutputData(contest, portfolio, leaderboard, portfolioValue, placement, portfolios);
         completedContestPresenter.prepareSuccessView(completedContestOutputData);
 
 
@@ -55,10 +55,10 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
         for (String username: data.keySet()){
             // iterates through each user's portfolio to get the total profit
             // calculating total profit passed over to helper function.
-            float user_profit = getProfit(data.get(username));
+            float porfolio_value = getPortfolioValue(data.get(username));
 
             // adding the username and thier profit to the LinkedHashMap
-            ordered_leaderboard.put(username, user_profit);
+            ordered_leaderboard.put(username, porfolio_value);
         }
 
         // by the end of this loop ordered_leaderboard will contain all usernames as keys
@@ -82,7 +82,7 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
     }
 
 
-    public float getProfit(HashMap<String, HashMap<String, String>> portfolio){
+    public float getPortfolioValue(HashMap<String, HashMap<String, String>> portfolio){
         /**
          * Calculates the total profit from a given portfolio.
          *
@@ -91,11 +91,11 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
          */
 
         // TODO: Ensure "Value" is correct in terms of capitalization once logic for setting portfiolio is implemented
-        float user_profit = 0;
+        float user_portfolio_value = 0;
         for (String ticker: portfolio.keySet()){
-            user_profit += Float.parseFloat(portfolio.get(ticker).get("Value"));
+            user_portfolio_value += Float.parseFloat(portfolio.get(ticker).get("Value"));
         }
 
-        return user_profit;
+        return user_portfolio_value;
     }
 }

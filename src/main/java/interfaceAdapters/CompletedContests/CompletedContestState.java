@@ -19,7 +19,7 @@ public class CompletedContestState {
 
     public ArrayList<String> leaderboard;
 
-    public String profit;
+    public String portfolioValue;
 
     public String placement;
 
@@ -34,7 +34,7 @@ public class CompletedContestState {
         endDate = copy.endDate;
         portfolio = copy.portfolio;
         leaderboard = copy.leaderboard;
-        profit = copy.profit;
+        portfolioValue = copy.portfolioValue;
         placement = copy.placement;
         portfolios = copy.portfolios;
     }
@@ -100,12 +100,12 @@ public class CompletedContestState {
         this.leaderboard = leaderboard;
     }
 
-    public String getProfit() {
-        return profit;
+    public String getPortfolioValue() {
+        return portfolioValue;
     }
 
-    public void setProfit(String profit) {
-        this.profit = profit;
+    public void setPortfolioValue(String portfolioValue) {
+        this.portfolioValue = portfolioValue;
     }
 
     public String getPlacement() {

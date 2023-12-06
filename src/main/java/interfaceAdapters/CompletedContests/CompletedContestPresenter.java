@@ -43,7 +43,7 @@ public class CompletedContestPresenter implements CompletedContestOutputBoundary
         state.setEndDate(response.endTime);
         state.setPortfolio(response.portfolio);
         state.setLeaderboard(response.leaderboard);
-        state.setProfit(response.profit);
+        state.setPortfolioValue(response.portfolioValue);
         state.setPlacement(response.placement);
         state.setPortfolios(response.portfolios);
     }
