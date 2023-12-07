@@ -129,7 +129,7 @@ public class CreateContest {
     }
     public static void main(String[] args) { //This code will have errors for larger inputs.
         try{
-            initDefaultContests(4);
+            initDefaultContests(5);
         }
         catch (Exception ex){
             System.out.println(ex);

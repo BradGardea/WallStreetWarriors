@@ -292,7 +292,6 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     /**
      * Sets the users portoflio and pushes the contest to enrolled.
      *
-     * @param  None
      * @return None
      */
     private void onOK() {
