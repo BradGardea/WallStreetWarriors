@@ -1,9 +1,18 @@
 # WallStreetWarriors
+Brad Gardea: PM, chief architect, API and software engineer 
+Dhruv Patel: Architect, API and software engineer
+Goncalo Ribeiro Mendes: UX and software engineer
+Mikhail Skazhenyuk: UX and software engineer
+
+**Wall Street Warriors** is an investing and financial literacy game designed to teach users about finance through gamifying investing.  ​
+The application consists of Trading Contests, where all users are given the same starting budget, and a list of stocks in one industry to build a portfolio from.​
+At the end of the contest time period, the user with the most valuable portfolio wins that contest.
+
 
 ## Auth and Release:
 
 Authorization and releases can only be made by owners of the registered project on GCP (WallStreetWarriors), the project requires an API key and credentials file for Firestore and Finazon in order to be built, respectivley. These will either be provided ahead of time via email or upon request. 
-Similarly, the project can be launched as a standalone application with the included jar file: WallStreeWarriors-1.0-Complete
+Similarly, the project can be launched as a standalone application with the included jar file: `WallStreeWarriors-1.0-Complete.jar`
 
 
 ## Usage and test instructions:
