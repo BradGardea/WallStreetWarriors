@@ -24,6 +24,14 @@ public class EnrolledController {
         EnrolledInputData enrolledInputData = new EnrolledInputData(username, contestId);
         enrolledUseCaseInteractor.execute(enrolledInputData);
     }
+
+    /**
+     * Marks the contest as completed.
+     *
+     * @param  username   the username of the user
+     * @param  contestId  the ID of the contest
+     * @return            true if the contest was successfully marked as completed, false otherwise
+     */
     public boolean markContestCompleted(String username, String contestId){
         EnrolledInputData enrolledInputData = new EnrolledInputData(username, contestId);
         return enrolledUseCaseInteractor.markContestCompleted(enrolledInputData);

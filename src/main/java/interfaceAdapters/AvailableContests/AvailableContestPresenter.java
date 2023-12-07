@@ -11,6 +11,12 @@ public class AvailableContestPresenter implements AvailableContestOutputBoundary
         this.availableContestsViewModel = availableContestsViewModel;
         this.viewModelManager = viewModelManager;
     }
+
+    /**
+     * Prepares the success response for the available contest.
+     *
+     * @param  finalizedContest  the finalized contest data
+     */
     public void prepareSuccess(AvailableContestOutputData finalizedContest){
         AvailableContestState state;
         if (availableContestsViewModel.getState() == null){

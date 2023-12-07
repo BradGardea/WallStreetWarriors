@@ -22,6 +22,11 @@ public class EnrolledPresenter implements EnrolledOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
+    /**
+     * Prepares the success view for the enrolled output data.
+     *
+     * @param  enrolledOutputData  the enrolled output data
+     */
     @Override
     public void prepareSuccessView(EnrolledOutputData enrolledOutputData) {
         EnrolledState enrolledState = enrolledViewModel.getState();

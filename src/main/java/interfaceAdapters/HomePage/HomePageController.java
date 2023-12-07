@@ -9,9 +9,16 @@ public class HomePageController {
         this.homepageUseCaseInteractor = homepageUseCaseInteractor;
     }
 
+    /**
+     * Executes the homepage use case.
+     */
     public void execute(){
         homepageUseCaseInteractor.execute();
     }
+
+    /**
+     * Executes the sign out process.
+     */
     public void executeSignOut(){
         homepageUseCaseInteractor.executeSignOut();
     }

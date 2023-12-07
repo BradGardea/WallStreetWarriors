@@ -204,15 +204,6 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         this.add(frame);
 
 
-//        cancelButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                onCancel();
-//            }
-//        });
-//        // Pack and show the frame
-//        frame.pack();
-//        frame.setVisible(true);
     }
 
     /**

@@ -25,7 +25,6 @@ public class Main{
         try{
             //Initialization for firebase.
             FirebaseInit();
-//            CreateContest.initDefaultContests(5);
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,8 +51,8 @@ public class Main{
             SignupView signupView = (SignupView) MainNavigationFactory.createMainView("sign up", viewModelManager, homepageViewModel, signupViewModel, loginViewModel, userDataAccessObject, null);
             views.add(signupView, signupView.getViewName());
 
-            //HomePageView homePageView = new HomePageView(homepageViewModel);
-            //views.add(homePageView, homePageView.viewName);
+            // HomePageView homePageView = new HomePageView(homepageViewModel);
+            // views.add(homePageView, homePageView.viewName);
 
             viewModelManager.setActiveView(signupView.getViewName());
             viewModelManager.firePropertyChanged();

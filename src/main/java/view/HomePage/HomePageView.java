@@ -146,6 +146,14 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         repaint();
     }
 
+    /**
+     * Creates a scrollable panel with a vertical BoxLayout to stack contest panels vertically.
+     *
+     * @param  title         the title of the panel
+     * @param  contests      the list of contests to be displayed in the panel
+     * @param  showTimeLeft  a flag indicating whether to display the time left for each contest
+     * @return               a JScrollPane containing the scrollable panel
+     */
     private JScrollPane createScrollablePanel(String title, ArrayList<Contest> contests, boolean showTimeLeft) {
         // Create a panel with a vertical BoxLayout to stack contest panels vertically
         JPanel panel = new JPanel();
@@ -164,6 +172,14 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         return scrollPane;
     }
+
+    /**
+     * Creates a JPanel for the given Contest with an optional time left display.
+     *
+     * @param  contest       the Contest object for which the panel is created
+     * @param  showTimeLeft  a boolean value indicating whether to display the time left
+     * @return               the created JPanel
+     */
     private JPanel createContestPanel(Contest contest, boolean showTimeLeft) {
         JPanel contestPanel = new JPanel(new BorderLayout());
 
@@ -204,6 +220,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         return contestPanel;
     }
 
+    /**
+     * Shows the available contest details screen.
+     *
+     * @param  contest	the contest object for which to show the details
+     */
     private void showAvailableContestDetailsScreen(Contest contest) {
         AvailableContestsViewModel availableContestsViewModel = new AvailableContestsViewModel();
         AvailableContestDetailView availableContestDetailView = ContestUseCaseFactory.createAvailableContestDetailView(availableContestsViewModel, viewModelManager, contest.getContestId(), homepageViewModel.username);
@@ -225,6 +246,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         }
     }
 
+    /**
+     * Shows the details screen of an enrolled contest.
+     *
+     * @param  contest    the contest object representing the enrolled contest
+     */
     private void showEnrolledContestDetailsScreen(Contest contest) {
         EnrolledViewModel enrolledViewModel = new EnrolledViewModel();
         EnrolledView enrolledView = ContestUseCaseFactory.createEnrolledView(enrolledViewModel, FirebaseDataAccess.getInstance(), viewModelManager, contest.getContestId(), homepageViewModel.username);
@@ -243,6 +269,11 @@ public class HomePageView extends JPanel implements ActionListener, PropertyChan
         }
     }
 
+    /**
+     * Shows the completed contest details screen.
+     *
+     * @param  contest    the contest object to display details for
+     */
     private void showCompletedContestDetailsScreen(Contest contest) {
         CompletedContestViewModel completedContestViewModel = new CompletedContestViewModel();
         CompletedContestView completedContestView = ContestUseCaseFactory.createCompletedContestView(completedContestViewModel, FirebaseDataAccess.getInstance(), viewModelManager, contest.getContestId(), homepageViewModel.username);
