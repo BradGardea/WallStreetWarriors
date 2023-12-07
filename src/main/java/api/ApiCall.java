@@ -36,7 +36,7 @@ public class ApiCall implements IApiCall {
                     return closePrice;
                 } else {
                     // Handle the error
-                    System.out.println("Error: " + response.code());
+                    System.out.println(String.format("Error %s: %s", ticker, response.code()));
                 }
 
             } catch (Exception e) {

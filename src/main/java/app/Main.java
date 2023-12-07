@@ -1,5 +1,6 @@
 package app;
 
+import common.CreateContest;
 import firebaseDataAccess.FirebaseDataAccess;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -17,11 +18,12 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+
 public class Main{
     public static void main(String[] args){
         //Initialization for firebase.
         try{
-            FirebaseInit();
+            CreateContest.initDefaultContests(5);
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

@@ -187,7 +187,13 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         var keyset = this.viewModel.getState().getContestDetails().getStockOptions();
         var model = new String[keyset.size()];
         for(var i = 0; i < keyset.size(); i++){
-            model[i] = keyset.get(i).toString();
+            try{
+                if (controller.getUpdatedStockPrice(keyset.get(i).toString()) > 0) //Go through the controller directly to avoid error label
+                    model[i] = keyset.get(i).toString();
+            }
+            catch (Exception ex){
+                System.out.println("Could not find stock: " + keyset.get(i).toString());
+            }
         }
         stockChoicesList.setListData(model);
     }
@@ -224,7 +230,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         else{
             this.stockQuantitySpinner.setValue(0);
         }
-        this.purchasePriceLabel.setText(Float.toString(controller.getUpdatedStockPrice(stockSelection))); //TODO: get stock cost here
+        this.purchasePriceLabel.setText(Float.toString(getUpdatedStockPrices(stockSelection)));
     }
     public void setDefaultStockSelectionUiValues(){
         this.stockNameLabel.setText("Select a stock");
@@ -258,7 +264,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         dispose();
     }
     public static void launch(AvailableContestDetailView dialog) throws IOException {
-        dialog.setSize(new Dimension(600,800));
+        dialog.setSize(new Dimension(600,1200));
         dialog.setVisible(true);
 //        System.exit(0);
     }
