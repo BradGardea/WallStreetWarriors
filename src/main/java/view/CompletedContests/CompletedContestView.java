@@ -271,8 +271,6 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
     /**
      * Forces the disposal of the JDialog view.
      *
-     * @param  None  This function does not take any parameters.
-     * @return       This function does not return any value.
      */
     public void forceDispose(){
         dispose();

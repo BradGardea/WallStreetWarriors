@@ -1,6 +1,5 @@
 package app;
 
-import common.CreateContest;
 import firebaseDataAccess.FirebaseDataAccess;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
