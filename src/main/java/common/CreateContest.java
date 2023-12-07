@@ -61,7 +61,7 @@ public class CreateContest {
             // Add 5 days to the current timestamp
             var endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
             if (i == 3 || i == 4){
-                endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(10 * 60).build()));
+                endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(6 * 60).build()));
             }
             new Contest("D" + String.valueOf(i), String.valueOf(i), "Open Contest for: " + tickerSymbolMap.keySet().toArray()[i].toString(),  members, tickerSymbolMap.keySet().toArray()[i].toString(), Timestamp.now(), endTime, tickerSymbolMap.get(tickerSymbolMap.keySet().toArray()[i]), porfolios);
         }
