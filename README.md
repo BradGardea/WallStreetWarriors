@@ -38,8 +38,12 @@ Similarly, the project can be launched as a standalone application with the incl
 
 
 ### **A note about using the application**:
-If the application is launched and there are no contests available, you need to run `src\main\java\common\CreateContest.java`, you may get errors in the console, these are due to errors with the API calling, the application will continue to execute, but some of the data for the "dummy" users may be incorrect. 
+If the application is launched and there are no contests available, you need to run `src\main\java\common\CreateContest.java`, you may get errors in the console, these are due to errors with the API calling, the application will continue to execute, but some of the data for the "dummy" users may be incorrect. (See APIs)
 
 Further, in order to test the Enrolled Contest to Completed Contest interaction, the 4th and 5th default contest's end time is set to 6 minutes after running the default contest initliaztion. 
 
-The API we are using for stock market data "Finazon" only allows for ~100 API calls per minute, some components may not function as expected without access to the API, the interactions that use these API calls are: Refreshing, modifying portfolio selection in AvaialbleContestsView, viewing portfolio selection in EnrolledContestsView and terminating contests (happens automatically when time is up).
+
+## **APIs**
+One of the API we are using for stock market data "Finazon" only allows for ~100 API calls per minute, some components may not function as expected without access to the API, the interactions that use these API calls are: Refreshing, modifying portfolio selection in AvaialbleContestsView, viewing portfolio selection in EnrolledContestsView and terminating contests (happens automatically when time is up).
+
+The other API being used is Firebase's Firestore to use document based storage for entities. The project implements generic CRUD for modification of POJOs in Firestore. To build the application, a JSON key is required, this can be provided upon request. Alternativley, the .jar file included can be used to execute the application as a standalone executable, but you will be unable to create new contests as these require access to the Firestore API key.
