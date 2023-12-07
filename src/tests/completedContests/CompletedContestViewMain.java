@@ -1,4 +1,4 @@
-package completedContestTests;
+package completedContests;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import app.ContestUseCaseFactory;

@@ -1,17 +1,14 @@
-package signupTests;
+package signup;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.SignUpLogIn.LoginViewModel;
 import interfaceAdapters.SignUpLogIn.SignupPresenter;
 import interfaceAdapters.SignUpLogIn.SignupViewModel;
-import interfaceAdapters.HomePage.HomePageViewModel;
 import interfaceAdapters.SignUpLogIn.*;
 import interfaceAdapters.ViewModelManager;
-import useCase.SignUp.SignupInputData;
 import useCase.SignUp.SignupInteractor;
 import app.Main;
 import entity.UserFactory;
-import view.LogInSignUp.LoginView;
 import view.LogInSignUp.SignupView;
 
 import java.io.IOException;

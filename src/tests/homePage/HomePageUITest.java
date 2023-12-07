@@ -1,4 +1,4 @@
-package homePageTests;
+package homePage;
 
 import app.Main;
 import firebaseDataAccess.FirebaseDataAccess;

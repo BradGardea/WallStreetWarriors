@@ -1,12 +1,9 @@
-package completedContestTests;
+package completedContests;
 
-import app.ContestUseCaseFactory;
-import app.Main;
 import common.CreateContest;
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.CompletedContests.CompletedContestController;
 import interfaceAdapters.CompletedContests.CompletedContestPresenter;
-import interfaceAdapters.CompletedContests.CompletedContestState;
 import interfaceAdapters.CompletedContests.CompletedContestViewModel;
 import interfaceAdapters.ViewModelManager;
 import useCase.CompletedContest.CompletedContestInputData;

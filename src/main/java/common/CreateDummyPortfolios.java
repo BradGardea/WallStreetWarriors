@@ -11,6 +11,14 @@ import java.util.Random;
 
 public class CreateDummyPortfolios {
 
+    /**
+     * Creates dummy portfolios for a specified amount of users.
+     *
+     * @param  amount   the number of portfolios to create (precondition: amount <= 30)
+     * @param  tickers  the list of stock tickers to choose from
+     * @param  budget   the budget for each portfolio
+     * @return          a HashMap containing the created portfolios for each user
+     */
     public static HashMap<String, HashMap<String, HashMap<String, String>>> createDummyPorfolios(int amount, List<String> tickers, Double budget){
         // Precondition amount <= 30
 
@@ -52,18 +60,29 @@ public class CreateDummyPortfolios {
                 }
                 String stock_price = ApiCall.getClosePrice(random_ticker, Credentials.apiKey);
 
-                HashMap<String, String> innerPorfolio = new HashMap<>();
-                innerPorfolio.put("Purchase Price", stock_price);
+                if (stock_price != null){
+                    HashMap<String, String> innerPorfolio = new HashMap<>();
+                    innerPorfolio.put("Purchase Price", stock_price);
 
 
-                Integer shares = 1;
-                while (shares * Float.parseFloat(stock_price) < (budget * 0.1)){
-                    shares += 1;
+                    Integer shares = 1;
+                    while (shares * Float.parseFloat(stock_price) < (budget * 0.1) ){
+                        shares += 1;
+                    }
+                    // calculating the cash remaining
+                    cashRemaining -= shares * Float.parseFloat(stock_price);
+
+                    // while loop to adjust shares if cash_remaining is negative
+                    while (cashRemaining < 0){
+                        shares -= 1;
+                        cashRemaining += Float.parseFloat(stock_price);
+                    }
+
+                    innerPorfolio.put("Quantity", shares.toString());
+                    portfolio.put(random_ticker, innerPorfolio);
+
                 }
-                innerPorfolio.put("Quantity", shares.toString());
-                portfolio.put(random_ticker, innerPorfolio);
-                cashRemaining -= shares * Float.parseFloat(stock_price);
-                }
+            }
             // adding the remaining cash to the porfolio
             HashMap<String, String> cashInner = new HashMap<>();
             cashInner.put("Purchase Price", "1");
@@ -77,15 +96,5 @@ public class CreateDummyPortfolios {
         return portfolios;
 
         }
-
-
-    public static void main(String[] args) {
-        List<String> techTickers = new ArrayList<>(Arrays.asList(
-                "AAPL", "MSFT", "GOOGL", "AMZN", "FB", "TSLA", "NVDA", "INTC", "CSCO", "IBM",
-                "ORCL", "ADBE", "CRM", "PYPL", "QCOM", "NFLX", "AMD", "UBER", "ZM", "SQ"
-        ));
-        System.out.println(createDummyPorfolios(2, techTickers, 10000.0));
-    }
-
 
     };

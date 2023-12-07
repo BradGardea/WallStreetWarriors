@@ -1,5 +1,6 @@
 package app;
 
+import common.CreateContest;
 import firebaseDataAccess.FirebaseDataAccess;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -17,10 +18,12 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+
 public class Main{
     public static void main(String[] args){
-        //Initialization for firebase.
+
         try{
+            //Initialization for firebase.
             FirebaseInit();
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -48,8 +51,8 @@ public class Main{
             SignupView signupView = (SignupView) MainNavigationFactory.createMainView("sign up", viewModelManager, homepageViewModel, signupViewModel, loginViewModel, userDataAccessObject, null);
             views.add(signupView, signupView.getViewName());
 
-            //HomePageView homePageView = new HomePageView(homepageViewModel);
-            //views.add(homePageView, homePageView.viewName);
+            // HomePageView homePageView = new HomePageView(homepageViewModel);
+            // views.add(homePageView, homePageView.viewName);
 
             viewModelManager.setActiveView(signupView.getViewName());
             viewModelManager.firePropertyChanged();

@@ -1,4 +1,4 @@
-package enrolledContestTests;
+package enrolledContest;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import useCase.EnrolledContest.EnrolledInputData;

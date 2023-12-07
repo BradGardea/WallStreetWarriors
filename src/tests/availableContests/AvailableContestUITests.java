@@ -1,6 +1,5 @@
-package availableContestsTests;
+package availableContests;
 
-import app.ContestUseCaseFactory;
 import common.CreateContest;
 import entity.Contest;
 import entity.User;

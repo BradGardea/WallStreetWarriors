@@ -24,6 +24,16 @@ public class HomePageInteractor implements HomePageInputBoundary {
         execute();
     }
 
+    /**
+     * Executes the function by performing the following steps:
+     *  1. Retrieves the user entity from the homepageDataAccessObject based on the given username.
+     *  2. Initializes the enrolledContests, completedContests, and availableContests lists.
+     *  3. If the user has enrolled contests, retrieves the Contest entities from the homepageDataAccessObject and adds them to the enrolledContests list.
+     *  4. If the user has completed contests, retrieves the Contest entities from the homepageDataAccessObject and adds them to the completedContests list.
+     *  5. Retrieves all Contest entities from the homepageDataAccessObject and adds those that the user has neither completed nor enrolled in to the availableContests list.
+     *  6. Creates a HomePageOutputData object with the username, enrolledContests, completedContests, and availableContests lists.
+     *  7. Calls the prepareSuccessView method of the homepagePresenter to prepare the success view with the homepageOutputData.
+     */
     @Override
     public void execute() {
         User user = homepageDataAccessObject.getEntity(User.class, "Users", username);
@@ -44,7 +54,7 @@ public class HomePageInteractor implements HomePageInputBoundary {
             }
         }
         for (var contest: homepageDataAccessObject.getEntities(Contest.class, "Contests")){
-            if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId())){
+            if (!user.getCompletedContests().contains(contest.getContestId()) && !user.getEnrolledContests().contains(contest.getContestId()) && Timestamp.now().compareTo(contest.getEndTime()) < 0){
                 availableContests.add(contest);
             }
         }
@@ -53,6 +63,10 @@ public class HomePageInteractor implements HomePageInputBoundary {
         homepagePresenter.prepareSuccessView(homepageOutputData);
     }
 
+    /**
+     * Executes the sign out action.
+     *
+     */
     @Override
     public void executeSignOut() {
         homepagePresenter.prepareSuccessViewSignOut();

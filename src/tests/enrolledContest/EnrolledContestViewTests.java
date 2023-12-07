@@ -1,4 +1,4 @@
-package enrolledContestTests;
+package enrolledContest;
 
 import api.ApiCall;
 import api.Credentials;

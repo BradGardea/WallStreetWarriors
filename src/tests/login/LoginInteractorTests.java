@@ -1,4 +1,4 @@
-package loginTests;
+package login;
 
 import firebaseDataAccess.FirebaseDataAccess;
 import interfaceAdapters.HomePage.HomePageViewModel;
@@ -10,7 +10,6 @@ import interfaceAdapters.ViewModelManager;
 import useCase.Login.LoginInputData;
 import useCase.Login.LoginInteractor;
 import app.Main;
-import view.HomePage.HomePageView;
 import view.LogInSignUp.LoginView;
 
 import java.io.IOException;

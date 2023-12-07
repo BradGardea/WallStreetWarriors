@@ -1,26 +1,17 @@
-package homePageTests;
+package homePage;
 
-import entity.Contest;
 import firebaseDataAccess.FirebaseDataAccess;
-import interfaceAdapters.AvailableContests.AvailableContestState;
 import interfaceAdapters.HomePage.HomePageController;
 import interfaceAdapters.HomePage.HomePagePresenter;
-import interfaceAdapters.HomePage.HomePageState;
 import interfaceAdapters.HomePage.HomePageViewModel;
 import interfaceAdapters.SignUpLogIn.LoginViewModel;
 import interfaceAdapters.ViewModelManager;
-import useCase.AvailableContest.AvailableContestOutputData;
-import useCase.HomePage.HomePageInputBoundary;
 import useCase.HomePage.HomePageInputData;
 import useCase.HomePage.HomePageInteractor;
 import app.Main;
-import useCase.HomePage.HomePageOutputData;
-import view.AvailableContests.AvailableContestDetailView;
 import view.HomePage.HomePageView;
 
-import java.beans.PropertyChangeEvent;
 import java.io.IOException;
-import java.util.Objects;
 
 public class HomePageInteractorTest {
     public FirebaseDataAccess firebaseDataAccess;

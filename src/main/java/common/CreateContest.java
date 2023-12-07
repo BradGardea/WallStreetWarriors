@@ -6,13 +6,15 @@ import com.google.cloud.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import entity.Contest;
 import entity.User;
+import firebaseDataAccess.FirebaseDataAccess;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class CreateContest {
-    public static void initDefaultContests() throws IOException {
+    public static void initDefaultContests(int size) throws IOException {
         Main.FirebaseInit();
         HashMap<String, ArrayList<String>> tickerSymbolMap = new HashMap<>();
 
@@ -29,41 +31,39 @@ public class CreateContest {
 
         addTickerSymbol(tickerSymbolMap, "Healthcare",
                 "JNJ", "PFE", "UNH", "MRK", "ABBV", "AMGN", "GILD", "CVS", "LLY", "BMY",
-                "MDT", "TMO", "ABT", "SYK", "CI", "ISRG", "ANTM", "VRTX", "DHR", "HUM",
-                "REGN", "BIIB", "CELG", "ZTS", "IDXX", "BAX", "EW", "BSX", "ALXN", "ALGN");
+                "MDT", "TMO", "ABT", "SYK", "CI", "ISRG", "VRTX", "DHR", "HUM",
+                "REGN", "BIIB", "ZTS", "IDXX", "BAX", "EW", "BSX", "ALGN");
 
         addTickerSymbol(tickerSymbolMap, "Energy",
-                "XOM", "CVX", "RDS.A", "TOT", "BP", "COP", "EOG", "SLB", "KMI", "PXD",
+                "XOM", "CVX", "BP", "COP", "EOG", "SLB", "KMI", "PXD",
                 "OXY", "HAL", "WMB", "VLO", "PSX", "MPC", "ET", "CHK", "HES", "DVN",
-                "APA", "NOV", "EOCC", "RRC", "COG", "CXO", "XEC", "MRO", "CLR", "HFC");
+                "APA", "NOV", "RRC", "MRO");
 
         addTickerSymbol(tickerSymbolMap, "Consumer Goods",
                 "PG", "KO", "PEP", "NKE", "MCD", "UL", "CL", "PM", "HD", "DIS",
-                "F", "GM", "FCAU", "TM", "HMC", "NSANY", "TSLA", "FORD", "RACE", "HOG",
+                "F", "GM", "TM", "HMC", "NSANY", "TSLA", "FORD", "RACE", "HOG",
                 "AAP", "AMZN", "WMT", "COST", "TGT", "SBUX", "MNST", "PEP", "KHC", "GIS");
 
-        var dummyEnrolled = new ArrayList<String>();
-        dummyEnrolled.add("0");
-        dummyEnrolled.add("1");
-        dummyEnrolled.add("2");
-        dummyEnrolled.add("3");
-        for (var i = 0; i < tickerSymbolMap.size() - 1; i++) {
+        if (size > tickerSymbolMap.size()) size = tickerSymbolMap.size();
+        for (var i = 0; i < size; i++) {
 
-//            var d1 = new User("dummy1", "1", new ArrayList<>(), dummyEnrolled);
-//            var d2 = new User("dummy2", "1", new ArrayList<>(), dummyEnrolled);
-//
-//            var members = new ArrayList<User>();
-//            members.add(d1);
-//            members.add(d2);
-
-            var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
+            var ammount = 3;
+            if (i % 2 == 0){
+                ammount = 2;
+            }
+            var porfolios = CreateDummyPortfolios.createDummyPorfolios(ammount, tickerSymbolMap.get(tickerSymbolMap.keySet().toArray()[i]), 10000.0);
+            var usernames = porfolios.keySet().toArray();
+            var members = new ArrayList<User>();
+            for (var username: usernames){
+                members.add(new User(username.toString(), "1",  new ArrayList<>(Arrays.asList("D" + String.valueOf(i))), new ArrayList<>()));
+            }
+            var currentTimestamp = Timestamp.now().toProto();
             // Add 5 days to the current timestamp
             var endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
-            if (i == 3){
-                endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(2 * 60 + 30).build()));
+            if (i == 3 || i == 4){
+                endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(10 * 60).build()));
             }
-            new Contest(String.valueOf(i), String.valueOf(i), "Default contest: " + String.valueOf(i),  new ArrayList<>(), tickerSymbolMap.keySet().toArray()[i].toString(), Timestamp.now(), endTime, tickerSymbolMap.get(tickerSymbolMap.keySet().toArray()[i]), new HashMap<String, HashMap<String, HashMap<String, String>>>());
-
+            new Contest("D" + String.valueOf(i), String.valueOf(i), "Open Contest for: " + tickerSymbolMap.keySet().toArray()[i].toString(),  members, tickerSymbolMap.keySet().toArray()[i].toString(), Timestamp.now(), endTime, tickerSymbolMap.get(tickerSymbolMap.keySet().toArray()[i]), porfolios);
         }
     }
 
@@ -116,7 +116,7 @@ public class CreateContest {
 
             portfolios.put("a", innerPortfolio1);
 
-            var cT = new Contest("CompletedTest", "Test", "CompletedTest", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
+            var cT = new Contest("CompletedTest", "Test", "CompletedTest", members, "Technology", Timestamp.now(), Timestamp.now(), stockOptions, portfolios);
             var eT = new Contest("EnrolledTest", "Test", "EnrolledTest", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
             a.addEnrolledContest(eT.getContestId());
             a.addCompletedContest(cT.getContestId());
@@ -127,10 +127,9 @@ public class CreateContest {
             System.out.println(ex);
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) { //This code will have errors for larger inputs.
         try{
-            initDefaultContests();
-            createContest(2);
+            initDefaultContests(4);
         }
         catch (Exception ex){
             System.out.println(ex);
