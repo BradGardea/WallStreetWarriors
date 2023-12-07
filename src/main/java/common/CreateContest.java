@@ -32,7 +32,7 @@ public class CreateContest {
         addTickerSymbol(tickerSymbolMap, "Healthcare",
                 "JNJ", "PFE", "UNH", "MRK", "ABBV", "AMGN", "GILD", "CVS", "LLY", "BMY",
                 "MDT", "TMO", "ABT", "SYK", "CI", "ISRG", "VRTX", "DHR", "HUM",
-                "REGN", "BIIB", "ZTS", "IDXX", "BAX", "EW", "BSX", "ALXN", "ALGN");
+                "REGN", "BIIB", "ZTS", "IDXX", "BAX", "EW", "BSX", "ALGN");
 
         addTickerSymbol(tickerSymbolMap, "Energy",
                 "XOM", "CVX", "BP", "COP", "EOG", "SLB", "KMI", "PXD",
@@ -57,7 +57,7 @@ public class CreateContest {
             for (var username: usernames){
                 members.add(new User(username.toString(), "1",  new ArrayList<>(Arrays.asList("D" + String.valueOf(i))), new ArrayList<>()));
             }
-            var currentTimestamp = Timestamps.fromMillis(System.currentTimeMillis());
+            var currentTimestamp = Timestamp.now().toProto();
             // Add 5 days to the current timestamp
             var endTime = Timestamp.fromProto(Timestamps.add(currentTimestamp, com.google.protobuf.Duration.newBuilder().setSeconds(5 * 24 * 60 * 60).build()));
             if (i == 3 || i == 4){
@@ -116,7 +116,7 @@ public class CreateContest {
 
             portfolios.put("a", innerPortfolio1);
 
-            var cT = new Contest("CompletedTest", "Test", "CompletedTest", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
+            var cT = new Contest("CompletedTest", "Test", "CompletedTest", members, "Technology", Timestamp.now(), Timestamp.now(), stockOptions, portfolios);
             var eT = new Contest("EnrolledTest", "Test", "EnrolledTest", members, "Technology", Timestamp.now(), fiveDays, stockOptions, portfolios);
             a.addEnrolledContest(eT.getContestId());
             a.addCompletedContest(cT.getContestId());
@@ -129,7 +129,7 @@ public class CreateContest {
     }
     public static void main(String[] args) { //This code will have errors for larger inputs.
         try{
-            initDefaultContests(1);
+            initDefaultContests(4);
         }
         catch (Exception ex){
             System.out.println(ex);

@@ -264,7 +264,7 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         dispose();
     }
     public static void launch(AvailableContestDetailView dialog) throws IOException {
-        dialog.setSize(new Dimension(600,1200));
+        dialog.setSize(new Dimension(600,1000));
         dialog.setVisible(true);
 //        System.exit(0);
     }

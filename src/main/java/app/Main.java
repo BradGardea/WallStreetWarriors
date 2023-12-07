@@ -21,9 +21,11 @@ import java.util.stream.Collectors;
 
 public class Main{
     public static void main(String[] args){
-        //Initialization for firebase.
+
         try{
-            CreateContest.initDefaultContests(5);
+            //Initialization for firebase.
+            FirebaseInit();
+//            CreateContest.initDefaultContests(5);
             JFrame app = new JFrame("Wall Street Warriors");
             app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
