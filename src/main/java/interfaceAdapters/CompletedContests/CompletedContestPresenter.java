@@ -49,7 +49,6 @@ public class CompletedContestPresenter implements CompletedContestOutputBoundary
     }
 
 
-    // TODO: Add Functionality to Show a message or something if there is an error.
     @Override
     public void prepareFailView() {
 

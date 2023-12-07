@@ -11,6 +11,14 @@ import java.util.Random;
 
 public class CreateDummyPortfolios {
 
+    /**
+     * Creates dummy portfolios for a specified amount of users.
+     *
+     * @param  amount   the number of portfolios to create (precondition: amount <= 30)
+     * @param  tickers  the list of stock tickers to choose from
+     * @param  budget   the budget for each portfolio
+     * @return          a HashMap containing the created portfolios for each user
+     */
     public static HashMap<String, HashMap<String, HashMap<String, String>>> createDummyPorfolios(int amount, List<String> tickers, Double budget){
         // Precondition amount <= 30
 

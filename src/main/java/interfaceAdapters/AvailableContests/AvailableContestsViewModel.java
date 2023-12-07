@@ -18,6 +18,7 @@ public class AvailableContestsViewModel extends ViewModel {
         this.state = state;
     }
 
+
     @Override
     public void firePropertyChanged() {
         support.firePropertyChange("state", null, this.state);

@@ -19,6 +19,11 @@ public class HomePagePresenter implements HomePageOutputBoundary {
     }
 
 
+    /**
+     * Prepare the success view.
+     *
+     * @param  response  the response data
+     */
     public void prepareSuccessView(HomePageOutputData response) {
         HomePageState state = homepageViewModel.getState();
         setStateFields(response, state); // sets fields in the state
@@ -28,6 +33,9 @@ public class HomePagePresenter implements HomePageOutputBoundary {
 
     }
 
+    /**
+     * Prepares the success view for signing out.
+     */
     public void prepareSuccessViewSignOut() {
         // switch to the login view when button is clicked
 

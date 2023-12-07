@@ -11,6 +11,12 @@ public class LoginInteractor implements LoginInputBoundary {
         this.loginPresenter = loginOutputBoundary;
     }
 
+    /**
+     * Executes the login process.
+     *
+     * @param  loginInputData   the input data for the login process
+     * @return                  true if the login is successful, false otherwise
+     */
     @Override
     public boolean execute(LoginInputData loginInputData) {
         String username = loginInputData.getUsername();
@@ -34,6 +40,10 @@ public class LoginInteractor implements LoginInputBoundary {
         }
     }
 
+    /**
+     * Switches the screen.
+     *
+     */
     @Override
     public void executeSwitchScreen() {
         loginPresenter.prepareSuccessViewButton();
