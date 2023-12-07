@@ -8,6 +8,13 @@ import okhttp3.Response;
 
 public class ApiCall implements IApiCall {
 
+    /**
+     * An API call to finazon to retrieve a price for a stock.
+     *
+     * @param ticker The ticker of the stock for which the price is retrieved.
+     * @param apiKey The private key used to access finazon API.
+     * @return Value of ticker.
+     */
     public static String getClosePrice(String ticker, String apiKey) {
 
             try {

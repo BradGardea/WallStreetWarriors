@@ -1,10 +1,10 @@
 package useCase.EnrolledContest;
 
 /**
- * Houses the UUID of a certain selected StockContest object from the user's page view.
+ * Houses the ID of a certain selected Contest object from the user's homepage view.
  *
  * @author Mikhail Skazhenyuk
- * @version 0.0
+ * @version 1.0
  */
 public class EnrolledInputData {
     final private String username;

@@ -8,24 +8,32 @@ import com.google.cloud.Timestamp;
 import entity.Contest;
 import entity.User;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
 /**
- * The Use Case Interactor for the Enrolled contest.
+ * The use case interactor for enrolled contests in the application.
+ * This class is responsible for handling the business logic associated with retrieving and processing
+ * information about contests in which a user is enrolled.
  *
- * Retrieves the enrolled contest necessary and sends it onto the view.
- *
- *
+ * The interactor retrieves contest data based on input, processes it, and forwards it to the enrolled presenter
+ * for display in the view. It also provides functionality to mark contests as completed for a user.
  *
  * @author Mikhail Skazhenyuk
- * @version 0.0
+ * @version 1.0
  */
 public class EnrolledInteractor implements EnrolledInputBoundary {
     final IDataAccess userDataAccessObject;
     final EnrolledOutputBoundary enrolledPresenter;
 
+    /**
+     * Constructs an EnrolledInteractor with specified data access object and presenter.
+     *
+     * @param userDataAccessInterface Data access object for retrieving and updating contest data.
+     * @param enrolledOutputBoundary Output boundary (presenter) to send the processed data to.
+     */
     public EnrolledInteractor(IDataAccess userDataAccessInterface,
                               EnrolledOutputBoundary enrolledOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
@@ -33,14 +41,10 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
     }
 
     /**
-     * Retrieves the StockContest by UUID from the enrolledInputData and passes it onto the Presenter through
-     * enrolledOutputData.
+     * Executes the use case logic for retrieving enrolled contest data.
+     * Retrieves data based on input, processes it, and forwards it to the presenter.
      *
-     * Assumes that the contest exists with the given UUID as it must've been displayed as an enrolled contest in
-     * the user's page view.
-     *
-     * @author Mikhail Skazhenyuk
-     * @version 0.0
+     * @param enrolledInputData Input data containing details necessary for retrieving contest data.
      */
     @Override
     public void execute(EnrolledInputData enrolledInputData) {
@@ -49,9 +53,11 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
 
     /**
      * Retrieves data from the specified EnrolledInputData object.
+     * This method processes the contest data and prepares it for presentation.
+     * Makes an ApiCall from finazon.
      *
-     * @param  enrolledInputData   the EnrolledInputData object containing the necessary data
-     * @return    the EnrolledOutputData object containing the retrieved data
+     * @param  enrolledInputData   The EnrolledInputData object containing the necessary data.
+     * @return                     The EnrolledOutputData object containing the retrieved and processed data.
      */
     public EnrolledOutputData retrieveData(EnrolledInputData enrolledInputData) {
 
@@ -80,6 +86,9 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         // Convert time to OutputData format
         LocalDateTime startDate = startTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime endDate = endTime.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        int timeLeft = (int) (endDate.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond()
+                - Instant.now().getEpochSecond());
 
         for (User u : members) {
             String user = u.getUsername();
@@ -114,14 +123,16 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
                 description,
                 enrolledInputData.getContestId(),
                 industry,
-                enrolledInputData.getUsername());
+                enrolledInputData.getUsername(),
+                timeLeft);
     }
 
     /**
      * Marks a contest as completed for a given enrolled user.
+     * This method updates the contest and user status in the storage to reflect completion.
      *
-     * @param  enrolledInputData  the input data for the enrolled contest
-     * @return                   true if the contest was marked as completed successfully, false otherwise
+     * @param  enrolledInputData  The input data for the enrolled contest.
+     * @return                    True if the contest was marked as completed successfully, false otherwise.
      */
     public boolean markContestCompleted(EnrolledInputData enrolledInputData) {
         var enrolledContest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", enrolledInputData.getContestId());

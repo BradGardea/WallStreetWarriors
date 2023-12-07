@@ -1,6 +1,7 @@
 package app;
 
 import firebaseDataAccess.FirebaseDataAccess;
+import firebaseDataAccess.IDataAccess;
 import useCase.AvailableContest.AvailableContestInputData;
 import useCase.AvailableContest.AvailableContestInteractor;
 import useCase.AvailableContest.AvailableContestOutputBoundary;
@@ -51,18 +52,27 @@ public class ContestUseCaseFactory {
         CompletedContestInputData completedContestInputData = new CompletedContestInputData(username, contestId);
         CompletedContestInteractor completedContestInteractor = new CompletedContestInteractor(dataAccessInterface, completedContestOutputBoundary, completedContestInputData);
 
-        // TODO: remove this method call once we have main view for calling the method.
         completedContestInteractor.execute();
         return new CompletedContestController(completedContestInteractor);
     }
 
-    public static EnrolledView createEnrolledView(EnrolledViewModel enrolledViewModel, FirebaseDataAccess firebaseDataAccess, ViewModelManager viewModelManager, String contestId, String username) {
-        EnrolledController enrolledController = createEnrolledUseCase(enrolledViewModel, viewModelManager, contestId, firebaseDataAccess, username);
+    /**
+     * Create a new EnrolledView object, also executes controller with given username and contestId.
+     *
+     * @param enrolledViewModel The enrolled view model needed for the view.
+     * @param firebaseDataAccess Reference to singleton data access object.
+     * @param viewModelManager Reference to view model manager object.
+     * @param contestId The id of the selected contest user wishes to be displayed.
+     * @param username The username of the user.
+     * @return A newly initialized EnrolledView object.
+     */
+    public static EnrolledView createEnrolledView(EnrolledViewModel enrolledViewModel, IDataAccess firebaseDataAccess, ViewModelManager viewModelManager, String contestId, String username) {
+        EnrolledController enrolledController = createEnrolledUseCase(enrolledViewModel, viewModelManager, firebaseDataAccess);
         enrolledController.execute(username, contestId);
         return new EnrolledView(enrolledController, enrolledViewModel);
     }
 
-    private static EnrolledController createEnrolledUseCase(EnrolledViewModel enrolledViewModel, ViewModelManager viewModelManager, String contestId, FirebaseDataAccess dataAccessInterface, String username){
+    private static EnrolledController createEnrolledUseCase(EnrolledViewModel enrolledViewModel, ViewModelManager viewModelManager, IDataAccess dataAccessInterface){
         EnrolledOutputBoundary enrolledOutputBoundary = new EnrolledPresenter(enrolledViewModel, viewModelManager);
         EnrolledInteractor enrolledInteractor = new EnrolledInteractor(dataAccessInterface, enrolledOutputBoundary);
 

@@ -5,7 +5,7 @@ package useCase.EnrolledContest;
  * execute method in UCI passing inputData.
  *
  * @author Mikhail Skazhenyuk
- * @version 0.0
+ * @version 1.0
  */
 public interface EnrolledInputBoundary {
     void execute(EnrolledInputData enrolledInputData);

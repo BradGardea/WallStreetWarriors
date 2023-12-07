@@ -13,7 +13,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+
 public class CreateContest {
+
+    /**
+     * Initializes default contests with a given size parameter.
+     *
+     * This method first invokes the Firebase initialization to set up the necessary Firebase
+     * environment. It then populates a HashMap with ticker symbols categorized by industry sectors
+     * such as Technology, Finance, Healthcare, Energy, and Consumer Goods.
+     *
+     * After the ticker symbols are added, the method proceeds to create dummy portfolios for a
+     * specified number of contests up to the provided 'size' parameter. Each contest is populated
+     * with a specific number of portfolios based on an alternating pattern (3 portfolios for odd
+     * indices and 2 for even indices). User objects are created and added to each contest, and a
+     * timestamp for contest duration is set.
+     *
+     * The method handles the creation of contests, assigning them unique identifiers, names, and
+     * member lists, along with start and end times.
+     *
+     * @param size The number of contests to initialize. It is bounded by the number of industries
+     *             provided in the tickerSymbolMap.
+     * @throws IOException If Firebase initialization encounters any IO problems.
+     */
     public static void initDefaultContests(int size) throws IOException {
         Main.FirebaseInit();
         HashMap<String, ArrayList<String>> tickerSymbolMap = new HashMap<>();
@@ -76,6 +98,26 @@ public class CreateContest {
             map.get(industry).add(ticker);
         }
     }
+
+    /**
+     * Creates a specified number of contests using predefined settings.
+     *
+     * This method initializes Firebase (if not already done) and creates a series of contests.
+     * It creates a user 'a' to add to these contests. For each contest, the method sets up a
+     * list of members (initially only containing 'a'), a timestamp for the current time, and
+     * an end time set to 5 days after the current time. It also pre-defines a list of stock
+     * options ('AAPL', 'MSFT', 'GOOG') for the contest participants.
+     *
+     * After creating the specified number of contests, it additionally creates two special
+     * contests: 'CompletedTest' and 'EnrolledTest'. These contests have similar settings but
+     * are distinguished by their names and the status of the user 'a' in relation to them.
+     * 'a' is marked as enrolled in 'EnrolledTest' and as having completed 'CompletedTest'.
+     *
+     * Each contest is instantiated with a unique identifier, name, member list, industry category,
+     * start and end times, stock options, and for the special contests, predefined portfolios.
+     *
+     * @param count The number of generic contests to create. Does not include the two special contests.
+     */
     public static void createContest(int count){
         try {
             Main.FirebaseInit();

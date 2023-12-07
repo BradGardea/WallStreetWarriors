@@ -1,15 +1,11 @@
 package useCase.EnrolledContest;
 
 /**
- *
- *
- *
+ *  Interface for a boundary between interactor and presenter.
  *
  * @author Mikhail Skazhenyuk
- * @version 0.0
+ * @version 1.0
  */
 public interface EnrolledOutputBoundary {
     void prepareSuccessView(EnrolledOutputData enrolledOutputData);
-
-    // void prepareFailView() TODO Incase maybe contest failed to retrieve?
 }

@@ -4,11 +4,16 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- * Object responsible to store some data for the View.
- * State of view is EnrolledState.
+ * Represents the state of an enrolled contest view in the application.
+ * This class encapsulates all the relevant data needed for displaying the details
+ * of an enrolled contest, including information about the contest, participants, and portfolios.
+ *
+ * The EnrolledState class holds data such as the contest title, description, start and end dates,
+ * user details, and portfolio information. It provides getters and setters for accessing and modifying
+ * these properties.
  *
  * @author Mikhail Skazhenyuk
- * @version 0.0
+ * @version 1.0
  */
 public class EnrolledState {
     private String username;
@@ -20,7 +25,13 @@ public class EnrolledState {
     private String description;
     private String contestId;
     private String industry;
+    private int timeLeft;
 
+    /**
+     * Constructs a copy of the given EnrolledState.
+     *
+     * @param copy The EnrolledState instance to copy.
+     */
     public EnrolledState(EnrolledState copy) {
         username = copy.username;
         opponents = copy.opponents;
@@ -31,13 +42,25 @@ public class EnrolledState {
         description = copy.description;
         contestId = copy.contestId;
         industry = copy.industry;
+        timeLeft = copy.timeLeft;
+    }
+
+    /**
+     * Default constructor for EnrolledState.
+     */
+    public EnrolledState() {}
+
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    public int getTimeLeft() {
+        return timeLeft;
     }
 
     public String getUsername() {
         return username;
     }
-
-    public EnrolledState() {}
 
     public String getTitle() {
         return title;

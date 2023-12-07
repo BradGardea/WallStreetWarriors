@@ -21,31 +21,42 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Tests for the Enrolled Contest view feature of the application.
+ * This test class is responsible for conducting end-to-end tests to verify the integration
+ * and correct functionality of the Enrolled Contest feature, including its controller, interactor,
+ * presenter, view model, and view components.
+ */
 public class EnrolledContestViewTests {
     private EnrolledView enrolledView;
     private EnrolledViewModel enrolledViewModel;
     private ViewModelManager viewModelManager;
     private IDataAccess firebaseDataAccess;
-    private String contestId;
-    private String username;
 
+    /**
+     * Performs an end-to-end test of the Enrolled Contest feature.
+     * This method initializes necessary components, sets up a test scenario for the Enrolled Contest view,
+     * and asserts that the view displays the correct information as expected.
+     * It simulates a complete flow from initializing Firebase, creating view and model components,
+     * executing controller logic, and finally validating the output on the view.
+     *
+     * @throws IOException If there is an error during the test execution.
+     */
     @org.junit.Test
     public void testEndToEnd() throws IOException {
 
         Main.FirebaseInit();
-        contestId = "EnrolledTest";
-        username = "a";
         this.firebaseDataAccess = FirebaseDataAccess.getInstance();
         this.viewModelManager = new ViewModelManager();
         this.enrolledViewModel = new EnrolledViewModel();
-        this.enrolledView = ContestUseCaseFactory.createEnrolledView(enrolledViewModel, (FirebaseDataAccess) firebaseDataAccess, viewModelManager, "EnrolledTest", "a");
+        this.enrolledView = ContestUseCaseFactory.createEnrolledView(enrolledViewModel, firebaseDataAccess, viewModelManager, "EnrolledTest", "a");
         EnrolledOutputBoundary enrolledOutputBoundary = new EnrolledPresenter(enrolledViewModel, viewModelManager);
         EnrolledInteractor enrolledInteractor = new EnrolledInteractor(firebaseDataAccess, enrolledOutputBoundary);
 
         EnrolledController enrolledController = new EnrolledController(enrolledInteractor);
         enrolledController.execute("a", "EnrolledTest");
 
-        Contest enrolledContest = firebaseDataAccess.getEntity(Contest.class, "Contests", contestId);
+        Contest enrolledContest = firebaseDataAccess.getEntity(Contest.class, "Contests", "EnrolledTest");
 
         ArrayList<User> members = enrolledContest.getMembers();
         HashMap<String, HashMap<String, HashMap<String, String>>> portfolios = enrolledContest.getPortfolios();

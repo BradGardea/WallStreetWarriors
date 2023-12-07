@@ -20,29 +20,38 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * View of a specific Enrolled StockContest object.
+ * The view class for displaying details of a specific enrolled stock contest.
  *
- * This class displays the features of a specific StockContest which the current logged in user is enrolled in
- * and has selected to be displayed.
+ * This class is responsible for rendering the user interface for a stock contest in which the current user
+ * is enrolled. It displays various details of the contest such as start and end dates, contest description,
+ * industry category, and detailed portfolio information.
+ *
+ * The view updates in response to changes in the state of the enrolled contest, and it handles user interactions
+ * such as timer countdown and contest expiration.
  *
  * @author Mikhail Skazhenyuk
- * @version 0.0
+ * @version 1.0
  */
 public class EnrolledView extends JDialog implements ActionListener, PropertyChangeListener {
     public JPanel frame;
     public static final String viewName = "enrolledcontest";
-//    private final HomePageController homePageController;
     private final EnrolledController enrolledController;
     private final EnrolledViewModel enrolledViewModel;
     private EnrolledState enrolledState;
     private static Timer timer;
+    private static int timeLeft;
 
     // Variables for timer usage
     private static JLabel timerLabel;
-    private static int timeLeft; // Seconds
 
     public boolean contestExpired;
 
+    /**
+     * Constructs an EnrolledView with a specific controller and view model.
+     *
+     * @param enrolledController The controller responsible for handling user interactions in this view.
+     * @param viewModel The view model providing the data to be displayed in this view.
+     */
     public EnrolledView(EnrolledController enrolledController, EnrolledViewModel viewModel) {
 //        this.homePageController = controller;
         this.enrolledViewModel = viewModel;
@@ -72,8 +81,7 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         JLabel industryLabel = new JLabel("Industry: " + enrolledState.getIndustry(), SwingConstants.CENTER);
 
         // Begin Timer stuff
-        timeLeft = (int) (enrolledState.getEndDate().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond()
-                        - Instant.now().getEpochSecond());
+        timeLeft = enrolledState.getTimeLeft();
         timerLabel = new JLabel("Time Remaining: " + formatTime(timeLeft), SwingConstants.CENTER);
         // End Timer Stuff
 
@@ -228,13 +236,10 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
     }
 
     /**
-     * Helper object for time.
+     * Formats the remaining time of the contest into a human-readable string.
      *
-     * Formats the time in a good manner (hours, mins, secs)
-     *
-     *
-     * @author Mikhail Skazhenyuk
-     * @version 0.0
+     * @param totalSecs The total seconds remaining in the contest.
+     * @return A formatted string representing the remaining time.
      */
     private static String formatTime(int totalSecs) {
         int days = totalSecs / 86400;
@@ -244,6 +249,12 @@ public class EnrolledView extends JDialog implements ActionListener, PropertyCha
         return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
     }
 
+    /**
+     * Launches the EnrolledView dialog.
+     *
+     * @param dialog The EnrolledView dialog to be displayed.
+     * @throws IOException if there is an error in displaying the dialog.
+     */
     public static void launch(EnrolledView dialog) throws IOException {
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
