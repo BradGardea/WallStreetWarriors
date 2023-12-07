@@ -59,7 +59,6 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         JLabel contestName = new JLabel(completedContestViewModel.contestName);
         this.contestName = contestName;
 
-        // TODO: Find a way to make the date only show the date and not time.
 
         Date javaStartDate = completedContestViewModel.startDate.toDate();
         String dateStartString = formatAsDateString(javaStartDate);
@@ -70,7 +69,6 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         JLabel contestIndustry = new JLabel(completedContestViewModel.industry);
         this.contestIndustry = contestIndustry;
 
-        // TODO: Same as above
         Date javaEndDate = completedContestViewModel.endDate.toDate();
         String dateEndString = formatAsDateString(javaEndDate);
 
@@ -178,6 +176,12 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
     }
 
 
+    /**
+     * Converts a HashMap of HashMaps into a 2D Object array to go into JTable.
+     *
+     * @param  data  a HashMap of HashMaps containing the data to be converted
+     * @return       a 2D Object array containing the converted data
+     */
     private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data) {
 
         int length = data.size();
@@ -199,6 +203,13 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         return arrayData;
     }
 
+
+    /**
+     * Formats the given date as a string in the format "yyyy-MM-dd HH:mm:ss".
+     *
+     * @param  date  the date to be formatted
+     * @return       the formatted date as a string
+     */
     private static String formatAsDateString(Date date) {
         // Choose your desired date format
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -228,27 +239,13 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
     public void propertyChange(PropertyChangeEvent evt) {
 
     }
-//    private Object[][] convertHashMapDataToArray(HashMap<String, HashMap<String, String>> data) {
-//
-//        int length = data.size();
-//        Object[][] arrayData = new Object[length][5];
-//        int iteration = 0;
-//        // iterates through every ticker
-//        for (String ticker : data.keySet()) {
-//            Object[] row = new Object[5];
-//            row[0] = data.get(ticker).get("Ticker");
-//            row[1] = data.get(ticker).get("Quantity");
-//            row[2] = data.get(ticker).get("Purchase Price");
-//            row[3] = data.get(ticker).get("End Price");
-//            row[4] = data.get(ticker).get("Value");
-//
-//            arrayData[iteration] = row;
-//            iteration += 1;
-//        }
-//
-//        return arrayData;
-//    }
 
+    /**
+     * Launches the CompletedContestView dialog.
+     *
+     * @param  dialog  the CompletedContestView dialog to be launched
+     * @throws IOException  if there is an input/output error
+     */
     public static void launch(CompletedContestView dialog) throws IOException {
         dialog.setSize(new Dimension(600,800));
         dialog.setVisible(true);
@@ -261,11 +258,22 @@ public class CompletedContestView extends JDialog implements ActionListener, Pro
         dispose();
     }
 
+
+    /**
+     * Disposes of the JDialog view.
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
 
+    /**
+     * Forces the disposal of the JDialog view.
+     *
+     * @param  None  This function does not take any parameters.
+     * @return       This function does not return any value.
+     */
     public void forceDispose(){
         dispose();
     }

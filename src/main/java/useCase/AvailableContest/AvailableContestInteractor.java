@@ -26,6 +26,13 @@ public class AvailableContestInteractor implements AvailableContestInputBoundary
             availableContestOutputBoundary.prepareSuccess(contestOutput);
         }
     }
+
+    /**
+     * Enrolls a user in a contest.
+     *
+     * @param  currentPortfolio  a map representing the current portfolio of the user
+     * @return                   true if the user is successfully enrolled in the contest, false otherwise
+     */
     public boolean enrollUserInContest(HashMap<String, HashMap<String, String>> currentPortfolio){
             var contest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", this.contestId);
             var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", this.username);

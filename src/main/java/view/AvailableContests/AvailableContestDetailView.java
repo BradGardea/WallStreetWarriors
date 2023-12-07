@@ -153,6 +153,13 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
     public AvailableContestsViewModel getViewModel(){
         return this.viewModel;
     }
+
+    /**
+     * Updates the current portfolio with the given stock and cost.
+     *
+     * @param  currentStock  the stock to be updated in the portfolio
+     * @param  updatedCost   the updated cost of the stock
+     */
     private void updateCurrentPortfolio(String currentStock, Float updatedCost){
         if (currentPortfollio.get(currentStock) != null){
             var currentStockMetaData = currentPortfollio.get(currentStock);
@@ -167,6 +174,11 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         }
     }
 
+    /**
+     * Check if the next purchase will cause an overflow in the cost.
+     *
+     * @param  updatedCost  the updated cost of the purchase
+     */
     private void checkNextPurchaseOverflow(Float updatedCost){
         if (calculateCashRemaining() < 0){
             this.stockQuantitySpinner.setValue(0);
@@ -174,6 +186,11 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         }
     }
 
+    /**
+     * Calculates the remaining cash by subtracting the total value of stocks from the initial cash amount.
+     *
+     * @return  the remaining cash after deducting the value of stocks
+     */
     private float calculateCashRemaining(){
         var cashRemaining = 10000;
         for (var stock : currentPortfollio.keySet()) {
@@ -183,15 +200,32 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         cashRemainingLabel.setText(String.valueOf(cashRemaining));
         return cashRemaining;
     }
+
+    /**
+     * Sets the values of the JList based on the stock options in the contest details.
+     *
+     */
     private void setListValues() {
         var keyset = this.viewModel.getState().getContestDetails().getStockOptions();
         var model = new String[keyset.size()];
         for(var i = 0; i < keyset.size(); i++){
-            model[i] = keyset.get(i).toString();
+            try{
+                if (controller.getUpdatedStockPrice(keyset.get(i).toString()) > 0) //Go through the controller directly to avoid error label
+                    model[i] = keyset.get(i).toString();
+            }
+            catch (Exception ex){
+                System.out.println("Could not find stock: " + keyset.get(i).toString());
+            }
         }
         stockChoicesList.setListData(model);
     }
 
+    /**
+     * Retrieves the updated stock prices for a given stock.
+     *
+     * @param  stockName  the name of the stock
+     * @return            the updated stock price as a float
+     */
     public float getUpdatedStockPrices(String stockName){
         try{
             ErrorLabel.setVisible(false);
@@ -203,6 +237,11 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
             return 0;
         }
     }
+
+    /**
+     * Set the UI values based on the contest configuration.
+     *
+     */
     public void setUiValues(){
         // Populate view with default params
         var contestConfig = this.viewModel.getState().getContestDetails();
@@ -216,6 +255,12 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         this.endTimeLabel.setText(endDateString);
     }
 
+    /**
+     * Updates the stock selection UI with the given stock selection.
+     *
+     * @param  stockSelection  the stock selection to update the UI with
+     * @throws Exception      if an error occurs during the update process
+     */
     public void updateStockSelectionUI(String stockSelection) throws Exception {
         this.stockNameLabel.setText(stockSelection);
         if (this.currentPortfollio != null && this.currentPortfollio.getOrDefault(stockSelection, null) != null){
@@ -224,8 +269,18 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         else{
             this.stockQuantitySpinner.setValue(0);
         }
-        this.purchasePriceLabel.setText(Float.toString(controller.getUpdatedStockPrice(stockSelection))); //TODO: get stock cost here
+        this.purchasePriceLabel.setText(Float.toString(getUpdatedStockPrices(stockSelection)));
     }
+
+    /**
+     * Sets the default values for the stock selection user interface.
+     *
+     * This function sets the text of the stockNameLabel to "Select a stock",
+     * sets the value of the stockQuantitySpinner to 0,
+     * sets the text of the purchasePriceLabel to "N/A",
+     * sets the text of the totalCostLabel to "N/A",
+     * and sets the text of the cashRemainingLabel to "10000".
+     */
     public void setDefaultStockSelectionUiValues(){
         this.stockNameLabel.setText("Select a stock");
         this.stockQuantitySpinner.setValue(0);
@@ -234,6 +289,12 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         this.cashRemainingLabel.setText("10000");
     }
 
+    /**
+     * Sets the users portoflio and pushes the contest to enrolled.
+     *
+     * @param  None
+     * @return None
+     */
     private void onOK() {
         var cashMap = new HashMap<String, String>();
         cashMap.put("Quantity", cashRemainingLabel.getText());
@@ -243,6 +304,10 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
         dispose();
     }
 
+    /**
+     * Disposes of the JDialog.
+     *
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();
@@ -254,15 +319,26 @@ public class AvailableContestDetailView extends JDialog implements PropertyChang
             setUiValues();
         }
     }
+
+    /**
+     * A description of the entire Java function.
+     *
+     */
     public void forceDispose(){
         dispose();
     }
     public static void launch(AvailableContestDetailView dialog) throws IOException {
-        dialog.setSize(new Dimension(600,800));
+        dialog.setSize(new Dimension(600,1000));
         dialog.setVisible(true);
 //        System.exit(0);
     }
 
+    /**
+     * Formats the given date as a string in the specified format.
+     *
+     * @param  date  the date to be formatted
+     * @return       the formatted date string
+     */
     private static String formatAsDateString(Date date) {
         // Choose your desired date format
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

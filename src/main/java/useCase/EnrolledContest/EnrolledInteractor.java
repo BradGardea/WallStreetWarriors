@@ -47,6 +47,12 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
         enrolledPresenter.prepareSuccessView(retrieveData(enrolledInputData));
     }
 
+    /**
+     * Retrieves data from the specified EnrolledInputData object.
+     *
+     * @param  enrolledInputData   the EnrolledInputData object containing the necessary data
+     * @return    the EnrolledOutputData object containing the retrieved data
+     */
     public EnrolledOutputData retrieveData(EnrolledInputData enrolledInputData) {
 
         // Get Contest object by ID
@@ -111,6 +117,12 @@ public class EnrolledInteractor implements EnrolledInputBoundary {
                 enrolledInputData.getUsername());
     }
 
+    /**
+     * Marks a contest as completed for a given enrolled user.
+     *
+     * @param  enrolledInputData  the input data for the enrolled contest
+     * @return                   true if the contest was marked as completed successfully, false otherwise
+     */
     public boolean markContestCompleted(EnrolledInputData enrolledInputData) {
         var enrolledContest = FirebaseDataAccess.getInstance().getEntity(Contest.class, "Contests", enrolledInputData.getContestId());
         var user = FirebaseDataAccess.getInstance().getEntity(User.class, "Users", enrolledInputData.getUsername());

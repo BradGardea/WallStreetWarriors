@@ -42,7 +42,12 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
     }
 
-
+    /**
+     * Generates a leaderboard based on the given data.
+     *
+     * @param  data  a HashMap containing the user stock data
+     * @return       an ArrayList of usernames in descending order of profit
+     */
     public ArrayList<String> createLeaderboard(HashMap<String, HashMap<String, HashMap<String, String>>> data){
         /**
          * Generates a leaderboard based on the given data.
@@ -81,7 +86,12 @@ public class CompletedContestInteractor implements CompletedContestInputBoundary
 
     }
 
-
+    /**
+     * Calculates the total profit from a given portfolio.
+     *
+     * @param  portfolio  a HashMap representing the user's portfolio, where the keys are tickers and the values are arrays of stock information
+     * @return            the total profit calculated from the portfolio
+     */
     public float getPortfolioValue(HashMap<String, HashMap<String, String>> portfolio){
         /**
          * Calculates the total profit from a given portfolio.

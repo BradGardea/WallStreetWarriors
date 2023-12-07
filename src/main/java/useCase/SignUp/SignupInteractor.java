@@ -19,6 +19,12 @@ public class SignupInteractor implements SignupInputBoundary {
         this.userFactory = userFactory;
     }
 
+    /**
+     * Executes the signup process for a user.
+     *
+     * @param  signupInputData  the input data for the signup process
+     * @return                  void
+     */
     @Override
     public void execute(SignupInputData signupInputData) {
         if (userDataAccessObject.getEntity(User.class, "Users", signupInputData.getUsername()) !=  null) {
@@ -36,6 +42,10 @@ public class SignupInteractor implements SignupInputBoundary {
         }
     }
 
+    /**
+     * Switches the screen.
+     *
+     */
     public void executeSwitchScreen(){
         userPresenter.prepareSuccessViewButton();
 
