@@ -20,6 +20,29 @@ public class Contest implements IContest, IUpdateableEntity {
 
 //    @Exclude
 //    private ArrayList<User> concreteMembers;
+
+    /**
+     * Constructs a new Contest instance with specified details.
+     *
+     * This constructor initializes a Contest object with a unique identifier, title, description,
+     * a list of members (users), industry category, start and end times, a list of stock options,
+     * and a nested HashMap representing portfolios for each member.
+     *
+     * After initializing the Contest object, it immediately updates the data in Firebase.
+     *
+     * Parameters:
+     * @param contestId Contest's Id.
+     * @param title The title of the contest.
+     * @param description Description of contest.
+     * @param members An ArrayList of User objects participating in the contest.
+     * @param industry The industry category to which the contest is related.
+     * @param startTime The start time of the contest, represented as a Timestamp.
+     * @param endTime The end time of the contest, also as a Timestamp.
+     * @param stockOptions An ArrayList of stock tickers that are options in the contest.
+     * @param portfolios A nested HashMap structure representing the portfolios of each user.
+     *                   Each portfolio includes details such as ticker and its respective purchase price,
+     *                   quantity, end price, and value.
+     */
     public Contest(String contestId, String title, String description, ArrayList<User> members,
                    String industry, Timestamp startTime, Timestamp endTime, ArrayList<String> stockOptions, HashMap<String, HashMap<String, HashMap<String, String>>> portfolios){
 

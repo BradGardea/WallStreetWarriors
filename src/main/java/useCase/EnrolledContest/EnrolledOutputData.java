@@ -4,12 +4,16 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- * Responsible in handling any data outputted from the Enrolled Use Case Interactor.
+ * Encapsulates the output data from the Enrolled Use Case Interactor.
+ * This class is responsible for holding the data related to enrolled contests that will be displayed to the user.
+ * It contains detailed information about each contest, including participant details, portfolio information,
+ * and contest specifics such as title, description, start and end dates, industry category, and time left.
  *
- * Specifically, this would be the contest details which will be displayed by the view to the user.
+ * The data contained in this class is typically used to update the view layer of the application, providing
+ * users with up-to-date information about contests they are enrolled in.
  *
  * @author Mikhail Skazhenyuk
- * @version 0.0
+ * @version 1.0
  */
 public class EnrolledOutputData {
     private final List<String> opponents;
@@ -21,7 +25,22 @@ public class EnrolledOutputData {
     private final String contestId;
     private final String industry;
     private final String username;
+    private final int timeLeft;
 
+    /**
+     * Constructs an EnrolledOutputData object with specific details of an enrolled contest.
+     *
+     * @param opponents The list of opponents in the contest.
+     * @param portfolios A complex HashMap representing the portfolios of each contestant.
+     * @param startDate The start date of the contest.
+     * @param endDate The end date of the contest.
+     * @param title The title of the contest.
+     * @param description The description of the contest.
+     * @param contestId The unique identifier for the contest.
+     * @param industry The industry category of the contest.
+     * @param username The username of the current user.
+     * @param timeLeft The time remaining for the contest.
+     */
     public EnrolledOutputData(List<String> opponents,
                               HashMap<String, HashMap<String, HashMap<String, String>>> portfolios,
                               LocalDateTime startDate,
@@ -30,7 +49,8 @@ public class EnrolledOutputData {
                               String description,
                               String contestId,
                               String industry,
-                              String username) {
+                              String username,
+                              int timeLeft) {
         this.opponents = opponents;
         this.portfolios = portfolios;
         this.startDate = startDate;
@@ -40,6 +60,7 @@ public class EnrolledOutputData {
         this.contestId = contestId;
         this.industry = industry;
         this.username = username;
+        this.timeLeft = timeLeft;
     }
 
     // Getters
@@ -78,5 +99,9 @@ public class EnrolledOutputData {
 
     public String getIndustry() {
         return industry;
+    }
+
+    public int getTimeLeft() {
+        return timeLeft;
     }
 }

@@ -63,6 +63,24 @@ public class Main{
             System.out.println("Unable to load Firebase data, app will have limited functionality." + ex);
         }
     }
+
+    /**
+     * Initializes Firebase using the Firebase SDK.
+     *
+     * This method loads a Firebase configuration file, sets up credentials, and initializes
+     * the Firebase application. It checks if a Firebase app has already been initialized to avoid
+     * reinitialization. If not initialized, it sets up the Firebase app with the provided credentials.
+     *
+     * Additionally, this method retrieves an instance of Firestore and sets it in a singleton data
+     * access object for future use.
+     *
+     * Note:
+     * - The configuration file should be in JSON format and located in the main\resources folder.
+     * - The file name is 'wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json'.
+     * - It prints a confirmation message to the console upon successful initialization.
+     *
+     * @throws IOException If there is an error reading the Firebase configuration file or initializing Firebase.
+     */
     public static void FirebaseInit() throws IOException {
         var stream = Main.class.getClassLoader().getResourceAsStream("wallstreetwarriors-firebase-adminsdk-8g503-275acc4c97.json");
         String text = new BufferedReader(
